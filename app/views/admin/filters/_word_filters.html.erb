@@ -1,0 +1,40 @@
+<%= semantic_form_for :answer_details, url: word_answers_path, method: :get, html: { class: 'filter_form' } do |f| %>
+    <div class="filter_form_field filter_string select_and_search">
+    <%= f.label 'country' %>
+    <%= f.select 'country', options_for_select(@filters["countries"], @filter_params["country"]), :include_blank => true %>
+  </div>
+  <div class="filter_form_field filter_string select_and_search">
+    <%= f.label 'state' %>
+    <%= f.select 'state', options_for_select(@filters["states"], @filter_params["state"]) , :include_blank => true%>
+  </div>
+  <div class="filter_form_field filter_string select_and_search">
+    <%= f.label 'city' %>
+    <%= f.select 'city', options_for_select(@filters["cities"], @filter_params["city"]), :include_blank => true %>
+  </div>
+  <div class="filter_form_field filter_string select_and_search">
+    <%= f.label 'gender' %>
+    <%= f.select 'gender', options_for_select(@filters["genders"], @filter_params["gender"]), :include_blank => true %>
+  </div>
+        <div class="filter_form_field filter_string select_and_search">
+    <%= f.label 'provider' %>
+    <%= f.select 'provider_name', options_for_select(@filters["providers"], @filter_params["provider_name"]), :include_blank => true %>
+  </div>
+    <div class="filter_form_field filter_string select_and_search">
+      <%= f.label 'custom field' %>
+      <%= f.select 'custom_field', options_for_select(@filters["custom_field"], @filter_params["custom_field"]), :include_blank => true %>
+    </div>
+   <%= hidden_field_tag 'option',"#{params[:option]}"%>
+    <%= hidden_field_tag 'slug',"#{params[:slug]}"%>
+     <!--<div class="filter_form_field filter_date_range"><label class="label">Responded at</label>
+<input class="datepicker" id="q_responded_at_gteq" max="10" name="q[responded_at_gteq]" size="12" type="text" value="">
+<span class="seperator">-</span>
+<input class="datepicker" id="q_responded_at_lteq" max="10" name="q[responded_at_lteq]" size="12" type="text" value=""></div>-->
+    <%= hidden_field_tag 'order', params[:order] %>
+
+  <div class="buttons">
+    <%= f.submit 'Filter' %>
+    <%link ="/word/answers?option=#{params[:option]}&slug=#{params[:slug]}"%>
+    <a href="<%=link%>">Clear Filters</a>
+  </div>
+<% end %>
+

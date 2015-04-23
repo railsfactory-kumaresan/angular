@@ -1,0 +1,4 @@
+jQuery("#share-email-partial").html("<%= escape_javascript(render(:partial=>'share/email'))%>");
+$('#email_text_area').each(function(){ CKEDITOR.replace( $(this).attr('id') ); });
+<% content_text = h (email_content_trim(h @email_content)).gsub("\"", "'").to_s.html_safe%>
+email_body_append_editor('<%= content_text %>');

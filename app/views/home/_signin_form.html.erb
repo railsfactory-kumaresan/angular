@@ -1,0 +1,93 @@
+<%if params["role"].present?%>
+    <div class="row" id="home_page_content" style="margin-left: 219px !important;">
+  <%else%>
+    <div class="row" id="home_page_content">
+    <%end%>
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="sign-form-wrap">
+      <div class="login-title"> SIGN IN</div>
+      <%= form_tag("/users/login", :name =>"login-form-submit",  method: "post", class: "signin_form", :format => :json, :id => "login-form-submit" ) do %>
+
+          <div class="form-group error-field">
+            <div class="error" style="display: none;">Invalid email or password.</div>
+          </div>
+
+          <div class="form-group">
+            <input name="user[email]" type="email" class="form-control" id="exampleInputEmail2" placeholder="Email Address" value ="<%= @email.present? ? @email : ""%>">
+
+          </div>
+          <input type="hidden" name="user[token]" />
+
+          <div class="form-group">
+            <input name="user[password]" type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" value ="<%= @pass.present? ? @pass : ""%>">
+
+          </div>
+
+          <div class="chech-remember clearfix">
+            <div class="che-box"><input name="user[remember_me]" type="checkbox" class="redio-sp" id = "user_remember_me" checked = checked>Remember me</div>
+          </div>
+
+
+          <div class="pwd-wrap">
+            <div class="pwd-btn"><button type="submit" id="login_btn" class="btn btn-default login-btn signin_submit">Login</button></div>
+            <div class="forgot-pwd"><a style="cursor: pointer;" onClick="render_forgot_password_form();">Forgot password ?</a></div>
+          </div>
+
+
+
+      <% end%>
+
+    </div>
+  </div>
+  <%=render :partial=>"/home/plans_social",:locals=>{:link=>"signup"}%>
+</div>
+
+<script>
+    // Sign in submit action
+    jQuery("#login_btn").click(function(){
+        jQuery(".loading").show();
+        var email = jQuery("#exampleInputEmail2").val();
+        var password = jQuery("#exampleInputPassword2").val();
+        var remember_me;
+        if(jQuery("#user_remember_me").is(":checked")){remember_me = 1}else{remember_me = 0}
+        var login_form_params = { user: {email: email, password: password,remember_me: remember_me} }
+        jQuery.ajax({
+            type: "POST",
+            url: "/users/login",
+            data: login_form_params,
+            success: function(data){
+                jQuery(".loading").css('display','block');
+                if (data.header.status == 200)
+                {
+                    if (data.body.role == true)
+                    {
+                        jQuery(".signin_form .form-group.error-field").children().hide();
+                        window.location.href = "/admin/pricing_plans";
+                    }
+                    else
+                    {
+                        jQuery(".signin_form .form-group.error-field").children().hide();
+                        window.location.href = "/dashboard";
+                    }
+                }
+                else
+                {
+                    jQuery(".loading").css('display','none');
+                    $("#exampleInputEmail2").focus();
+                    jQuery(".signin_form .form-group.error-field").children().show();
+                    jQuery(".signin_form .form-group.error-field").html('<div class=error>'+data.body.errors+'</div>')
+                }
+            },
+            error: function(data){
+                $("#exampleInputEmail2").focus();
+                jQuery(".loading").hide();
+                jQuery("#exampleInputEmail2").focus();
+                jQuery(".signin_form .form-group.error-field").children().show();
+            }
+        });
+        return false;
+    });
+
+
+
+</script>

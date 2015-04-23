@@ -1,0 +1,28 @@
+<h1>Roles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Role name</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @roles.each do |role| %>
+      <tr>
+        <td><%= role.name %></td>
+        <td><%= link_to 'Edit', edit_admin_permission_path(role) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>
+
+<br>
+      <div class="row">
+    <div class="pull-right">
+
+     <%= will_paginate @roles, renderer: BootstrapPagination::Rails %>
+     </div>
+     </div>
+

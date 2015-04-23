@@ -1,0 +1,43 @@
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Account</h2>
+      </div>
+      <div class="wrap-box-cont">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="white-box-wrapper">
+              <div class="box-head clearfix">
+                <h3><span class="glyphicon glyphicon-cog"></span>Settings</h3>
+              </div>
+              <div class="white-box">
+                <!-- Offline payment -->
+                 <div class="link-downgrade">
+                    <div class="btn-wrap">
+                      <%=account_subscription(current_user) %>
+                    </div>
+                  </div>
+									<!-- Offline payment -->
+                  <!-- Nav tabs -->
+                  <% benchmark '##Render account setting header in company settings' do %>
+                  <%= render "account_settings_header", :business_type => @user_business_id, :subscribe => @subscribe %>
+                  <% end %>
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="company_settings">
+                     <div class="tab-wrapper">
+                       <div class="row">
+                          <%= render :partial => '/account/csv_file_upload'%>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--//. recent activity -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

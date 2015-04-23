@@ -1,0 +1,61 @@
+<% recent_activity = recent_activity_value["recent_activity_#{@category_types.first.category_name}"] %>
+<div class="activity-wrap">
+  <% if recent_activity.present? %>
+    <% recent_activity.each_with_index do |recent, i| %>
+      <div class="activity-row clearfix">
+        <div class="count-box">
+          <span class="rdbox"><%= @count %></span>
+        </div>
+        <div class="ques-box">
+          <div class="ques-box-wrap">
+            <div class="row">
+              <div class="col-lg-7">
+								 <p><a href="/question/<%=recent[1]["slug"]%>" onclick="loading_img();"><%=recent[1]["question"]%></a></p>
+                <!--<span class="ans">C. Yes</span>-->
+              </div>
+              <div class="col-lg-5">
+                <ul class="response-count text-right">
+
+                  <li>
+                    <span class="glyphicon glyphicon-stats"></span>
+                    <span class="count-txt"><%= get_view_percentage(recent[1]["response"] , recent[1]["view"]) %>%</span>
+                  </li>
+                  <li>
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                    <span class="count-txt"><%= recent[1]["view"] ? recent[1]["view"] : 0%></span>
+                  </li>
+                  <li>
+                    <span class="glyphicon glyphicon-envelope"></span>
+                    <span class="count-txt"><%=recent[1]["response"] ? recent[1]["response"] : 0%></span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+	 <% @count= @count+1%>
+    <% end %>
+  <% else %>
+  <div class="alert alert-info">
+    <strong>There are no more records</strong>
+  </div>
+<% end %>
+</div>
+<% @off_limit = (recent_activity_value["count"].to_i - recent_activity_value["offset"].to_i  )%>
+  <div class="bottom-link clearfix" style="display:block">
+	<%if recent_activity.present?%>
+      <span style="<%= (recent_activity_value["offset"].to_i < 0 ?  'display:none'  :  (@off_limit > 3 ? 'display:block' : 'display:none'))%>" id="next">
+        <a href="javascript:void(0);" class="pull-right" id="step_marketing" onclick="trigger_question_list('<%= recent_activity_value["offset"].to_i + 3%>','<%= recent_activity_value["limit"]%>', '<%= @category_types.first.id%>','<%= @count%>')">Next
+          <span class="glyphicon glyphicon-circle-arrow-right"></span>
+        </a>
+      </span>
+			<%end%>
+      <%if recent_activity_value["offset"] != 0 %>
+      <span style="<%= recent_activity_value["offset"] == 0 ? 'display:none' : 'display:block'%>" id="prev">
+        <a href="javascript:void(0);" class="pull-right" id="step_marketing" onclick="trigger_question_list(<%= recent_activity_value["offset"].to_i - 3%>,<%= recent_activity_value["limit"]%>, <%= @category_types.first.id%>,'<%= previous_count(@count)%>')">
+        <span class="glyphicon glyphicon-circle-arrow-left"></span>Prev
+       </a>
+      </span>
+      <%end%>
+  </div>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if gt IE 9]> <html> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+  <% facebook_sharing_url%>
+  <meta charset="utf-8" />
+  <title>Inquirly</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="discription" content="">
+  <meta name="keywords" content="">
+  <!-- rails4_image_tag_impact -->
+  <%= favicon_link_tag 'responsive/favicon.ico', rel: 'shortcut icon', type: 'image/x-icon'%>
+  <%= favicon_link_tag 'responsive/favicon.ico', rel: 'icon', type: 'image/x-icon'%>
+  <!--IE Support-->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <%= favicon_link_tag 'responsive/favicon.ico', rel: 'shortcut icon'%>
+  <%= stylesheet_link_tag    "response", :media => "all" %>
+  <%= javascript_include_tag "responsive/config", "responsive/quill" %>
+  <%= yield :page_specific_head_content %>
+  <%= csrf_meta_tag %>
+</head>
+<body class="response-page">
+    <%= yield %>
+    <%= javascript_include_tag "responsive/jquery" %>
+    <script type='text/javascript'>
+        $(document).ready(function(){
+            $.getScript("<%= asset_path('response') %>");
+        });
+    </script>
+    <script type="text/javascript" src="//use.typekit.net/ltc1ytn.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+     <!--[if lt IE 9]>
+     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+     <![endif]-->
+</body>
+</html>

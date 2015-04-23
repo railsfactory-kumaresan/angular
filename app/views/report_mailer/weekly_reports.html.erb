@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Inquirly Reports</title>
+	</head>
+	<body>
+		<p>Hey <%= @email%>,</p>
+		<h5>Inquirly weekly reports status</h5>
+		<h1> Top Three Questions</h1>
+		<% @top_three_questions.each do |q| %>
+		<h2><%= q.id %></h2>
+		<% end %>
+		<h1> Top Three Questions</h1>
+		<% @top_three_questions.each do |q| %>
+		<h2><%= q.id %></h2>
+		<% end %>
+		<h2> Feed back questions count</h2>
+		<p> <%= @Feedback_qustions %></p>
+		<h2> Marketting questions count</h2>
+		<p> <%= @Marketing_qustions %></p>
+		<h2> Innovation questions count</h2>
+		<p> <%= @Innovation_qustions %></p>
+
+	</body>
+</html>

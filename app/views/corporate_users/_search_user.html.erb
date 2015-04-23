@@ -1,0 +1,182 @@
+<div id="msg_container" style="color:red;text-align:center;"></div>
+<%if @users.present? %>
+    <div class="table-responsive">
+      <table class="table-bordered table-striped table-condensed cf">
+        <thead class="cf">
+        <tr>
+          <th class="quescol">Email</th>
+          <th class="text-center">First Name
+            <a href="javascript:void(0);">
+              <span class="glyphicon"></span>
+            </a>
+          </th>
+          <th>Last Name
+            <a href="javascript:void(0);">
+              <span class="glyphicon"></span>
+            </a>
+          </th>
+          <!--<th>Tenant Name
+            <a href="javascript:void(0);">
+              <span class="glyphicon"></span>
+            </a>
+          <th>Role Name
+            <a href="javascript:void(0);">
+              <span class="glyphicon"></span>
+            </a>-->
+        </tr>
+        </thead>
+        <tbody>
+        <%# @users.each do |user| %>
+            <tr>
+              <td class="quescol">
+                <%= @users.email%>
+              </td>
+              <td class="text-center">
+                <span class="glyphicon"></span>
+                <%= @users.first_name %>
+              </td>
+
+              <td>
+                <span class="glyphicon"></span>
+                <%= @users.last_name %>
+              </td>
+              <!--<td>
+                <span class="glyphicon"></span>
+                <%#= @users.tenant_name %>
+              </td>
+              <td>
+                <%# if user.role_id.present? %>
+                <span class="glyphicon"> <%#= find_role_name(user.role_id)%></span>
+                <%# end %>
+              </td-->
+            </tr>
+        <%# end %>
+        </tbody>
+      </table>
+    </div>
+    <br/>
+    <br/>
+    <%if @tenants.present? %>
+        <%= form_tag("/corporate_users/update_tenant_users", method: "put",id:"new_form") do %>
+            <%=hidden_field_tag "user_id",@users.id%>
+            <div class="table-responsive">
+              <table class="table-bordered table-striped table-condensed cf">
+                <thead class="cf">
+                <tr>
+                  <th>
+                    <input type="checkbox" name="user[id][]" class="user_ids"></th>
+                  <th class="quescol">Name</th>
+                  <th class="text-center">Address
+                    <a href="javascript:void(0);">
+                      <span class="glyphicon"></span>
+                    </a>
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                <% @tenants.each do |user| %>
+                    <tr>
+                      <td>
+                        <%checked = @mapped_details.include?(user.id)%>
+                        <%if checked %>
+                        <input type="checkbox" name="user_ids[]" class="user_id" value="<%= user.id%>" checked >
+                        <%else%> <input type="checkbox" name="user_ids[]" class="user_id" value="<%= user.id%>"><%end%></td>
+                      <td class="quescol">
+                        <%= truncate(user.name, length: 40) %>
+                      </td>
+                      <td class="text-center">
+                        <span class="glyphicon"></span>
+                        <%= truncate(user.address, length: 40) %>
+                      </td>
+                    </tr>
+                <% end %>
+                </tbody>
+              </table>
+            </div>
+            <!--//. end question list -->
+            <div class="row">
+              <div class="pull-right">
+                <%#= will_paginate @corporate_users, renderer: BootstrapPagination::Rails %>
+              </div>
+            </div>
+            <%# if is_permission_view("corporate_users","update_tenant_users",current_user,session[:user_permissions]) %>
+            <div class="btn-wrap text-center btn-update-info">
+              <input type="button" id="update_user_tenant" class="button medium orange" value="Update" />
+            </div>
+        <%end%>
+    <%else%>
+        <div class="table-responsive">
+          <table class="table-bordered table-striped table-condensed cf no-data">
+            <thead class="cf">
+            <tr>
+              <th class="quescol"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>No Users found!</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+    <% end %>
+    <%else%>
+    <div class="table-responsive">
+      <table class="table-bordered table-striped table-condensed cf no-data">
+        <thead class="cf">
+        <tr>
+          <th class="quescol"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>No Users found!</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <%end%>
+
+<script>
+
+    jQuery("#update_user_tenant").click(function(){
+        $.ajax(
+                {
+                    url : "update_tenant_users",
+                    type: "PUT",
+                    data : jQuery("#new_form").serialize() ,
+                    dataType: "script",
+                    success:function(data)
+                    {
+                        <%if @mapped_details.count > 0 %>
+                         $("#flash_message").remove();
+                         $("#flash-message").append('<div id="flash_message" class="flash-message"><div class="alert alert-warning fade in"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button><strong><span id="msg_container">Tenants are mapped Successfully</span></strong></div></div>').show();
+                         setTimeout(function() { $("#flash-message").hide(); }, 5000);
+                        <% end %>
+                    }
+
+                });
+    })
+
+    /* Checkbox Select */
+    $('.user_ids').click(function () {
+        if($(".user_ids").is(':checked')){
+            $('.user_id').prop('checked', true);
+        }else{
+            $('.user_id').prop('checked', false);
+        }
+    });
+    $('.user_id').click(function () {
+        if ($('.user_id').length == $('.user_id:checked').length){
+            $(".user_ids").prop('checked', true);
+        }else{
+            $(".user_ids").prop('checked', false);
+        }
+    });
+
+    if (jQuery('input[type="checkbox"]:checked').length == jQuery('input[type="checkbox"]').length - 1)
+    {
+        $(".user_ids").prop('checked', true);
+    }
+ </script>

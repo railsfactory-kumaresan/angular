@@ -1,0 +1,23 @@
+<% if keywords.present?%>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Keywords</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% keywords.each_pair do |key,value|%>
+      <tr>
+        <td><%= key %></td>
+        <td><%= value %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else%>
+  <div class="alert alert-info">
+    <strong>No Keywords Available.</strong>
+  </div>
+<% end %>
+</div>

@@ -1,0 +1,251 @@
+<% content_for :title, "Question Show" %>
+<% content_for :page_specific_head_content do%>
+  <%= javascript_include_tag "responsive/page_loaders/dashboard","responsive/page_loaders/word_cloud"%>
+  <%= stylesheet_link_tag "responsive/jq_cloud" %>
+  <%= javascript_include_tag "responsive/jq_cloud" %>
+<%end%>
+<%= stylesheet_link_tag "animation/pie-chart-animation" %>
+<!--<link rel="stylesheet" href="/assets/animation/pie-chart-animation.css"/>-->
+<%= javascript_include_tag "responsive/tag_canvas"%>
+<%= javascript_include_tag "responsive/animation/easypiechart","responsive/animation/excanvas"%>
+
+
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Questions</h2>
+      </div>
+      <div class="wrap-box-cont">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="white-box-wrapper">
+              <div class="box-head clearfix">
+                <h3><span class="glyphicon glyphicon-list"></span>Question Type</h3>
+              </div>
+              <div class="white-box">
+                <div class="question-wrapper">
+                  <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                      <div class="questions">
+                        <div class="quest-category">
+                          <span class="label label-primary"><%= @question.category_type.category_name%></span>
+                          <% lable_class = @question.status == "Closed" ? "label-closed" : (@question.status  == "Inactive" ? "label-inactive" :  "label-success")%>
+                          <span class="label <%= lable_class%>"><%= @question.status %></span>
+                        </div>
+                        <div class="title-ques">
+                          <%= @question.question%>
+                        </div>
+                        <div class="queslink">
+                          <a href="<%= (@custom_url.present? ? @custom_url : 'javascript:void(0);') %>" target="_blank"><%= (@custom_url.present? ? "Preview" : 'No URL') %></a>
+                        </div>
+                      </div>
+                      <ul class="ques-actions clearfix">
+                        <% if @question.status  != "Closed" %>
+                          <li>
+                            <a href="<%= share_path(@question.slug)%>" onclick="loading_img();" title= "<%='Share Question' %>" data-toggle="tooltip">
+                              <span class="glyphicon glyphicon-share-alt"></span>
+                            </a>
+                          </li>
+                        <%end%>
+                        <%if @question.status != "Active" && @question.status != "Closed"%>
+                          <li>
+                            <a href="<%= edit_question_path(@question.slug)%>" onclick="loading_img();" title="Edit Question" data-toggle="tooltip">
+                              <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                          </li>
+                        <%end%>
+                      </ul>
+                    </div>
+                    <% if @question.status == "Active" %>
+                      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="progress-block">
+                          <div class="valid-for text-center">Valid for</div>
+                          <span class="chart" data-percent="<%=@remaining_days == 0 ? 1 : @remaining_days%>">
+                            <span class="remaining_days"><%=@valid_days%></span>
+                          </span>
+                        </div>
+                        <%if @question.status != "Closed"%>
+                          <% if @question.status == "Active"  && @question.status != "Closed"%>
+                            <ul class="ques-actions text-center">
+                              <li>
+                                <a href="<%=question_deactivate_path(@question.slug)%>" id="question_deactivate" title="Deactivate" data-toggle="tooltip" class="deactivate">
+                                  <span class="glyphicon glyphicon-ban-circle"></span>
+                                </a>
+                              </li>
+                            </ul>
+                          <%end%>
+                        <%end%>
+                      </div>
+                    <% end%>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- question type -->
+        <% #benchmark '##Render filter form' do %>
+          <%#= render :partial => 'dashboard/filter_report', :locals => {:question_id => @question.id, :path => question_path, :category_type_id => @question.category_type_id } %>
+        <%# end %>
+
+
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="white-box-wrapper">
+              <div class="box-head clearfix">
+                <h3><span class="glyphicon glyphicon-user"></span>Views &amp; Responses</h3>
+              </div>
+              <div class="white-box">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                     <%=render "/shared/total_count", :params => params%>
+                  </div>
+                  <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <%=render "/shared/high_chart_display"%>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+         <%=render :partial=>"/shared/providers",:locals=>{views: @views,responses: @responses}%>
+         <%=render :partial=>"/shared/show_wordcloud"%>
+
+        </div>
+        <!--//. row 1 -->
+         <% benchmark '##Render demographic form' do %>
+          <%= render "shared/demographics", :age_wise_view_count => @age_wise_view_count, :age_wise_response_count => @age_wise_response_count%>
+          <%=render "/shared/location", :params => params%>
+        <% end %>
+
+        <!--//. locations -->
+      </div>
+      <!--//. row 3 -->
+    </div>
+  </div>
+</div>
+</div>
+<!--Modal window for sentimental analysis -->
+<!--Modal window code moved to shared/_modal_sentimental_analysis.html.erb, common for dashboard and show pages-->
+<% benchmark '##Render analysis form' do %>
+  <%= render :partial => "shared/modal_sentimental_analysis", :locals => { :status => "show", :keywords => @keywords, :comments => @comments} %>
+<% end %>
+<!-- Alert message -->
+<a data-toggle="modal" href="#alert_msg" class="button large orange" style="display:none"></a>
+<div class="modal fade" id="alert_msg" style="display:none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &nbsp;
+        </button>
+        <h4 class="modal-title text-center">Deactivate this Question?</h4>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">
+          <button type="button" class="button orange" id="modal-submit">YES</button>
+          <button type="button" class="btn btn-link" data-dismiss="modal">NO</button>
+        </div>
+        <br />
+        <p class="warning text-center">Question cannot be reactivated after this action.</p>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+ <script>
+  $(function() {
+    $('.chart').easyPieChart({
+      size: 125,
+      lineWidth: 15,
+      trackColor: '#DFDDDD',
+      barColor: '#EB9408',
+      scaleColor: false
+    });
+  });
+</script>
+<script>
+
+  $("#link-advance-filter").on("click", function () {
+    if($(".adv-filter-options").is(":visible"))
+      $(".adv-filter-options").slideUp();
+    else
+      $(".adv-filter-options").slideDown();
+  });
+</script>
+<script>
+
+
+
+$(function () {
+  $('#recent_activity a:first').tab('show')
+})
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+  // drawTimer(total_days,$('input[type=text]#percent').val());
+  $('#accordion').on('show.bs.collapse', function() {
+    var check = $(".panel-collapse").siblings(".panel-heading").children("h4").children("a").children("span");
+    if (check.hasClass("arrow-down")) {
+      check.removeClass("arrow-down").addClass("arrow-right");
+    }
+  });
+
+  $('#accordion').on('shown.bs.collapse', function() {
+    var active_check = $(".panel-collapse.in").siblings(".panel-heading").children("h4").children("a").children("span");
+    active_check.toggleClass("arrow-right arrow-down");
+  });
+
+  //Date picker from date
+  var user_created_at = '<%= current_user.present? ? current_user.created_at : Date.now%>';
+  jQuery("#from_date").datepicker({
+      showOn : "button",
+      buttonImage : "/assets/responsive/calendar.png",
+      buttonImageOnly : true,
+      dateFormat : 'yy/mm/dd',
+      minDate: new Date(user_created_at.split(' ')[0].split('-')[0],user_created_at.split(' ')[0].split('-')[1] -1,user_created_at.split(' ')[0].split('-')[2]),
+      maxDate: new Date()
+  });
+
+  //Date picker to date
+  jQuery("#to_date").datepicker({
+      showOn : "button",
+      buttonImage : "/assets/responsive/calendar.png",
+      buttonImageOnly : true,
+      dateFormat : 'yy/mm/dd',
+      minDate: new Date(user_created_at.split(' ')[0].split('-')[0],user_created_at.split(' ')[0].split('-')[1] -1,user_created_at.split(' ')[0].split('-')[2]),
+      maxDate: new Date()
+  });
+
+});
+</script>
+<script>
+//Sentimental analysis script - dont delete this code
+jQuery(document).ready(function(){
+  window.question_id = <%= @question.id %>;
+  $('#question_share_id').focus();
+  // Function present in below
+  alert_modal_window_show_hide(); // Function call for modal window hide show
+});
+
+
+// Alert window open when click the deactivate link
+function alert_modal_window_show_hide(){
+  // Click event to trigger the modal window
+  $('#question_deactivate').click(function(){
+    $('#alert_msg').modal('show');
+    return false;
+  });
+  // click close button to hide the modal window
+  //~ $('#alert_msg').on('hidden.bs.modal', function () {
+    //~ return false;
+  //~ });
+  // click the submit button to trigger the a href to deavtivate the account
+  $('#modal-submit').click(function(){
+    window.location.href=$('#question_deactivate').attr('href')
+    return true;
+  });
+}
+wordcloud_data_load("<%=@question.slug%>");
+</script>

@@ -1,0 +1,3 @@
+ jQuery(".loading").css('display','none');
+<%if params[:status] == "true"%>jQuery('.saved-listens').html("<%= escape_javascript(render(:partial => 'saved_listener')) %>");<%end%>
+jQuery('#live_listeni').append("<%= escape_javascript(render(:partial => 'live_data')) %>");

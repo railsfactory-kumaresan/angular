@@ -1,0 +1,20 @@
+<%if !@wordcloud.blank?%>
+<table class="table buzzwords-table" style="font-size: 13px !important;">
+  <thead>
+  <tr>
+    <th> Buzzwords</th>
+    <th> Relevance</th>
+  </tr>
+  </thead>
+  <tbody id="wordCloud">
+  <%@wordcloud.each do |i|%>
+  <tr>
+    <td class="buzzword"><%= i.keys[0] %></td>
+    <td class="relevance"><%= i.values[0] %></td>
+  </tr>
+      <%end%>
+  </tbody>
+</table>
+<%else%>
+Start searching to see keyword suggestions
+<%end%>

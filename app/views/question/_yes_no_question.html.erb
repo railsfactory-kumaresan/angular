@@ -1,0 +1,39 @@
+<div class="tab-pane-inner" id="yes_no_tap_question">
+  <div class="row">
+    <div class="col-lg-12">
+      <h4>User will be able to select either yes or no of the following answers.</h4>
+    </div>
+  </div>
+  <div class="row">
+  <div class="col-lg-10 col-md-9 col-sm-9">
+    <div class="form-group">
+      <label class="sr-only" for="InputAnswer1">Answer</label>
+      <input type="hidden" class="form-control input-medium" id="" name="ans[0]" value="Yes" placeholder="Answer">
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-10 col-md-9 col-sm-9">
+    <div class="form-group">
+      <label class="sr-only" for="InputAnswer2">Answer</label>
+      <input type="hidden" class="form-control input-medium" id="" name="ans[1]" value="No" placeholder="Answer">
+    </div>
+  </div>
+</div>
+  <div class="row">
+    <div class="col-lg-10 col-md-10 col-sm-10">
+      <div class="form-group">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="question[include_other]" id="question_include_other" <%if question.present? && question.include_other %> checked <%end%> />Include Other
+            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="question[include_text]" id="question_include_text"  <%if question.present? && question.include_text %> checked <%end%> />Include free text option
+            </label>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<% content_for :title, "Account" %>
+<%= stylesheet_link_tag    "/lightbox/osx.css", :media => "all" %>
+<%= javascript_include_tag  "/lightbox/jquery.simplemodal","/lightbox/osx" %>
+<div id="page">
+    	<div class="site_wrapper question-new clearfix">
+            <h2 class="header small-text">Account</h2>
+			<div class="question_form_header clearfix">
+			           <% benchmark '##Render  account setting header in index' do %>
+                 <%= render "account_settings_header", :business_type => @business_type, :subscribe => @subscribe %>
+                 <% end %>
+				   </div>
+      	</div><!--site wrapper-->
+	</div><!--page-->

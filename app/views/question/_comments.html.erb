@@ -1,0 +1,28 @@
+<% if comments.present?%>
+  <table class="list-comments">
+  <tr>
+  <th>All Comments </th>
+  <th>Response</th>
+  </th>
+  <% comments.each_pair do |key,value|%>
+  <tr>
+  <td class="keyword-label fl"><%=key%></td>
+  <td class="keyword-count fr"><%=value%></td>
+  </tr>
+  <%end%>
+  </table>
+  <!--<ul class="list-comments">
+    <# comments.each do |key|%>
+      <li>
+        <div class="keyword-label fl">
+          <%#=key[:value]%>
+        </div>
+        <div class="keyword-count fr">
+          <%#=key[:count]%>
+        </div>
+      </li>
+    <%# end %>
+  </ul>-->
+<% else%>
+  <p>No Comments Available</p>
+<% end %>

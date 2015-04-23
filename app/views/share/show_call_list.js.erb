@@ -1,0 +1,2 @@
+jQuery("#share-maka-call-ajax-update").html("<%= escape_javascript(render(:partial=>'share/voice', :locals => {:voice_msg => @voice_msg ,:question_id => params["question_id"],:question_slug=>@question.slug }))%>");
+

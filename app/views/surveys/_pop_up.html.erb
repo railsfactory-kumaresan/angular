@@ -1,0 +1,43 @@
+  <div class="question-dialog-box-wrap">
+    <div class="question-dialog-box" id="success_msg">
+      <!-- rails4_image_tag_impact --><%= image_tag("thank-u.png", alt: "", class: "fl") %>
+      <!-- <img src="/assets/thank-u.png" alt="" class="fl" > -->
+      <div class="box-info">
+<!--         <h4></h4>
+        <p id="success"></p> -->
+        <h2 class="thankyou-msg">
+          <span class="glyphicon glyphicon-ok-circle"></span>
+          <span class="thankmsg" id="success"></span>
+        </h2>
+      </div>
+    </div>
+    <br>
+    <div class="question-dialog-box answered-msg" id="failure_msg">
+      <span class="glyphicon glyphicon-ban-circle"></span>
+      <span class="answered">You've already answered this question.
+       Your feedback is important to us.Thanks for responding.</span>
+     </div>
+
+   </div>
+   <div id="form_container">
+    <h2 class="header small-text">Fill In Your Email Address</h2>
+    <%= form_tag response_email_verify_survey_path, :remote => true ,:id=>"response_email_verify_path" do %>
+    <div class="frm-email-field">
+      <input type="hidden" value="<%= @cookie_uuid %>" name="cookie_token_value"/>
+      <input type="text" name="email" id="email" style="background-color: #F6F6F6;border: 1px solid #AEAEAE;border-radius: 3px 3px 3px 3px;color: #181818;font-size: 14px;font-weight: 700;margin-right: 11px;outline: 0 none;padding: 7px;width: 300px;" placeholder="Enter Your Email" value="<%= params[:email].present? ? params[:email] : ''%>"/>
+      <p><span class="error" id='email_error' style='display:none;'></span></p>
+      <input type="hidden" value="<%= question_slug %>" name="question_id"/>
+      <input type="hidden" value="<%= answer_id %>" id="answer_id_new" name="answer_id"/>
+      <input type="hidden" value="<%= provider %>" id="provider" name="provider"/>
+    </div>
+    <div class="clearfix submit-btn">
+      <input class="btn rc_5" id="email_verify" type="submit" value="Submit" name="commit" style="width:125px;"/>
+    </div>
+    <% end %>
+  </div>
+  <script type="text/javascript">
+        jQuery("#submit1").val('Submit');
+        jQuery("#email_verify").click(function(){
+            jQuery(this).val('Please wait...');
+        });
+  </script>

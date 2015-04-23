@@ -1,0 +1,182 @@
+
+<%= javascript_include_tag  "/upload/ajaxupload.3.5"%>
+<div style="text-align:center;display:none;" class="error make_sms_error"></div>
+<div class="tab-wrapper">
+  <div class="form-head clearfix">
+	<div class="msgppl-success"></div>
+    <%#= form_tag share_sms_share_path(@question.slug), :method => :post, :multipart => true ,:id =>'sms_frm', :remote => true do%>
+	 <div class="row">
+      <div class="col-lg-8">
+        <div class="clearfix">
+          <label>To</label>
+          <span class="link-add-email">
+            <% if is_sso %>
+             <a href="javascript:void(0);" id="mobile-add-number" onclick="share_grid_request('sms')">Add mobile numbers from a list</a>
+            <% else %>
+             <a href="javascript:void(0);" id="sms-addnum" onclick="share_email_popup_load('sms_count')">Add mobile numbers from a list</a>
+            <% end %>
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="InputTo" class="sr-only">Click to add mobile numbers</label>
+          <input type="text" name="phone_number_sms" id="phone_number_sms" name="to" class="form-control input-medium" value="Click to add mobile numbers" onFocus="if (this.value == 'Click to add mobile numbers') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Click to add mobile numbers';}"  tabindex="1"autofocus="true" readonly/>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label>Body</label>
+            <%default_sms = current_user.sms_content.blank? ? ("Hi this is Inquirly Question url link" +"  "+"<survey link>") : (current_user.sms_content.to_s.include?("<survey link>")?  current_user.sms_content.to_s : current_user.sms_content.to_s + "<survey link>")%>
+            <textarea class="form-control" id="sms_preview_value" maxlength="148" name="message" rows="3"><%= default_sms %></textarea>
+            <%#= text_area_tag :message, default_sms,:rows => 3, :class => "form-control" ,:id=> "sms_preview_value", :maxlength=>"160"%>
+            <div class="char-count text-right">
+              <span class="req" id="smsCharCount"> </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+        <div class="btn-wrap">
+          <button id="sms_btn" class="button medium orange" type="submit" data-disable-with="sending....">Send SMS</button>
+          <input type="hidden" name="question_id" value="<%=@question.slug%>"/>
+          <input type="hidden" id="biz_cus_ids" name="customer_ids" class="form-control input-medium"/>
+          <input type="hidden" id="unchecked_ids" name="unchecked_cus_ids" class="form-control input-medium"/>
+          <input type="hidden" id="selected_customers" value="">
+          <input type="hidden" id="unselected_customers" value="">
+          <input type="hidden" id="select-all" value="">
+          <a href="javascript:void(0);" id="sms_preview"  class="btn btn-link">Preview</a>
+        </div>
+    </div>
+    <input type="hidden" value="<%= form_authenticity_token%>" id="auth_token"/>
+  <%#end%>
+</div>
+<!--End wrapper-->
+<div class="modal" id="userinfo-sms-share" style="width:auto !important;">
+  <div class="modal-dialog">
+    <%#= stylesheet_link_tag    "kendoui/kendo.common-bootstrap.min", "kendoui/kendo.bootstrap.min"%>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close close-cus-info-popup-sms" data-dismiss="modal" aria-hidden="true">&nbsp;</button>
+        <h4 class="modal-title">Add Phone Numbers</h4>
+      </div>
+			<!-- start kendo grid -->
+				<div id="email-template-grid-sms-share">
+				</div>
+				<!-- end grid -->
+          </div>
+        </div>
+      </div>
+<% benchmark '##Render Email preview in email' do %>
+    <%= render :partial => "share/sms_preview", :locals => { :question => @question }%>
+<% end %>
+<%= render :partial => 'json_grid', :locals => {:type => 'sms'} %>
+<script style="text/javascript">
+    $("#preview_sms").css("display","none");
+      jQuery(document).ready(function(){
+          var sms_body_count = jQuery("#sms_preview_value").val().length - "<survey link>".length
+          jQuery("#smsCharCount").html(134 - sms_body_count);
+          function updateCount ()
+          {
+              var _content = jQuery("#sms_preview_value").val();
+              var preview_content = _content.replace("<survey link>","");
+              if(preview_content.length < 134) {
+                  jQuery("#smsCharCount").html(134 - preview_content.length);
+              } else {
+                  jQuery("#smsCharCount").html(0);
+                  if(_content.match(/<survey link>/g) == null){
+                    jQuery("#sms_preview_value").val(_content.substring(0,134));
+                    jQuery("#sms_preview_value").val(jQuery("#sms_preview_value").val()+"<survey link>");
+                  }else{
+                    jQuery("#sms_preview_value").val(_content.substring(0,147));
+                  }
+              }
+          }
+          $("#sms_preview_value").keyup(function () {
+              updateCount();
+          });
+          $("#sms_preview_value").keypress(function () {
+              updateCount();
+          });
+          jQuery("#sms_preview_value").keydown(function () {
+              updateCount();
+          });
+          jQuery("#sms-addnum").click(function(){
+            jQuery("#userinfo-sms-share").dialog({modal: false});
+          });
+          jQuery("#mobile-add-number").click(function(){
+            jQuery("#customer_list_sms").modal();
+          });
+		   jQuery(".close-cus-info-popup-sms").click(function(){
+		   jQuery("#userinfo-sms-share").dialog("close");
+    });
+    });
+
+  jQuery("#sms_btn").click(function () {
+      /* SSO share data */
+      var selectedCustomers = jQuery("#selected_customers").val();
+      var unselectedCustomers = jQuery("#unselected_customers").val();
+      var is_select_all = jQuery("#select-all").val();
+    jQuery.ajax({
+        type: 'POST',
+        url: '/share/<%= @question.slug %>/share_sms',
+        data :{
+            phone_number_sms:  jQuery("#phone_number_sms").val(),
+            message: jQuery('#sms_preview_value').val(),
+            customer_ids: jQuery("#biz_cus_ids").val(),
+            unchecked_ids: jQuery("#unchecked_ids").val(),
+            selected_customers: selectedCustomers,
+            unselected_customers: unselectedCustomers,
+            is_select_all: is_select_all
+        },
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('X-CSRF-Token', jQuery('meta[name="csrf-token"]').attr('content'));
+            var phone_number = jQuery("#phone_number_sms").val();
+            var sms_body = jQuery("#sms_preview_value").val();
+            if (phone_number  == "Click to add mobile numbers" || phone_number.length < 10)
+            {
+                jQuery(".make_sms_error").text('<%= APP_MSG["sms"]["phone_blank"]%>');
+                jQuery(".make_sms_error").show();
+                jQuery(".make_sms_error").fadeOut(5000);
+                return false;
+            }else if(sms_body.indexOf("<survey link>") == -1){
+                var pattern_error = escapeHtml('<%= APP_MSG["sms"]["survey_removed"]%>');
+                jQuery(".make_sms_error").text(pattern_error);
+                jQuery(".make_sms_error").show();
+                jQuery(".make_sms_error").fadeOut(5000);
+                return false;
+            }else if(sms_body.match(/<survey link>/g) != null && sms_body.match(/<survey link>/g).length > 1){
+                var copy_error = escapeHtml('<%= APP_MSG["sms"]["multiple_survey"]%>');
+                jQuery(".make_sms_error").text(copy_error);
+                jQuery(".make_sms_error").show();
+                jQuery(".make_sms_error").fadeOut(5000);
+                return false;
+            }
+            jQuery("#sms_btn").text('Sending...').attr('disabled',true).css("cursor","not-allowed");
+        },
+        success: function(data,status, xhr){
+            jQuery("#sms_btn").text('Send SMS').removeAttr('disabled').css("cursor","pointer");
+            if(status == "success"){
+                jQuery(".make_sms_error").hide();
+                $(".msgppl-success").html("<div class='alert alert-warning fade in'><button type='button' class='close' data-dismiss='alert'>&times;</button>Message successfully shared through SMS</div>");
+            }else{
+                $(".msgppl-success").html("<div class='alert alert-warning fade in'><button type='button' class='close' data-dismiss='alert'>&times;</button>No customer Details are uploaded</div>");
+            }
+        }
+    });
+     return false;
+  });
+
+    function escapeHtml(unsafe) {
+        return unsafe
+                .replace("&amp;","&")
+                .replace("&lt;","<")
+                .replace("&gt;",">")
+                .replace("&quot;",'"')
+                .replace(/&#39;/g,"'");
+    }
+  $("#sms_preview").click(function(){
+     var text_area_value = jQuery("#sms_preview_value").val();
+     text_area_value = text_area_value != "" ? (text_area_value.indexOf('<survey link>') > -1 ? text_area_value.replace('<survey link>','Click here to respond'): text_area_value +'Click here to respond'): 'Click here to respond'
+     $("#preview_sms").css("display","block");
+     $("#sms_content").html(text_area_value);
+     $("#preview_sms").modal();
+  });
+</script>

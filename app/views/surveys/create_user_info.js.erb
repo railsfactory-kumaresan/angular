@@ -1,0 +1,59 @@
+var delay = (function () {
+        var timer = 0;
+        return function (callback, ms) {
+            clearTimeout(timer);
+            timer = setTimeout(callback, ms);
+        };
+    })();
+<% if @errors%>
+<%if @errors && @errors[:customer_name]%>
+	jQuery('#error_fname').show();
+	jQuery('#error_fname').html("<%=escape_javascript(@errors[:customer_name][0])%>");
+	<% end%>
+	<%if @errors && @errors[:mobile]%>
+	jQuery('#error_mobile').show();
+	jQuery('#error_mobile').html("<%=escape_javascript(@errors[:mobile][0])%>");
+    jQuery('#submit_form').attr('disabled', false);
+    jQuery('#submit_form').css( 'cursor', 'pointer' );
+	<% end%>
+	<%if @errors && @errors[:age]%>
+	jQuery('#error_age').show();
+	jQuery('#error_age').html("<%=escape_javascript(@errors[:age][0])%>");
+	<% end%>
+	<%if @errors && @errors[:gender]%>
+	jQuery('#error_gender').show();
+	jQuery('#error_gender').html("<%=escape_javascript(@errors[:gender][0])%>");
+	<% end%>
+	<%if @errors && @errors[:country]%>
+	jQuery('#error_country').show();
+	jQuery('#error_country').html("<%=escape_javascript(@errors[:country][0])%>");
+	<% end%>
+<% else%>
+jQuery('#response_user').hide();
+//jQuery.isLoading( "hide" );
+<%if params[:provider] !="embed"%>
+jQuery("#success_msg1").css("margin-right","100px");
+jQuery('#submit_form').attr('disabled', true);
+jQuery('#submit_form').css( 'cursor', 'not-allowed');
+<%end%>
+  <%if params["country"].present? && params[:provider] == "embed"%>
+      jQuery(".modal-content").css("top","163px");
+  <%end%>
+jQuery('#success_msg1').show();
+thanks_msg = '<%=escape_javascript(@question.thanks_response.gsub("\r\n","!-!-!-!"))%>';
+jQuery("#sucess_new").html(GetWrapedText(thanks_msg.replace(/(!-!-!-!)/gm,'<br/>'),40));
+<%if params[:provider] !="embed"%>
+  jQuery("#response-container").css("height","200px");
+  <%end%>
+  <%if params[:provider] !="embed"%>
+
+delay(function(){
+     $("#response_email_modal").hide();
+    $(".modal-backdrop").remove();
+    window.location.href = "<%=user_redirect_url%>";
+   },5000);
+  <%end%>
+
+<%end%>
+
+

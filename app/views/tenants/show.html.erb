@@ -1,0 +1,58 @@
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix"><h2>Account</h2></div>
+      <div class="wrap-box-cont">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="white-box-wrapper">
+              <div class="box-head clearfix">
+                <h3><span class="glyphicon glyphicon-cog"></span>Settings</h3>
+              </div>
+              <div class="white-box">
+                <!-- Offline payment -->
+                <div class="link-downgrade">
+                </div>
+                <!-- Offline payment -->
+                <!-- Nav tabs -->
+                <!-- Nav tabs -->
+                <%= render "shared/admin_menus_header"%>
+                <div class="tab-content">
+                  <div class="tab-wrapper">
+                    <div class="row">
+                      <div class="col-lg-4 col-sm-6 col-md-12 col-xs-12">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <label>Name</label>
+                            <div class="form-group">
+                              <label class="sr-only" for="InputName">Name</label>
+                              <%= @tenant.name %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <label>Address</label>
+                            <div class="form-group">
+                              <label class="sr-only" for="InputName">Address</label>
+                              <%= @tenant.address %>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--//. recent activity -->
+                  <div class="btn-wrap text-center btn-update-info">
+                    <a href="/tenants/<%= @tenant.id %>/edit" class="article" id="back_to_users">Edit</a>
+                    <a href="/tenants" class="article" id="back_to_users">Back</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> <!-- Wrap-bo -->
+        </div> <!-- Container -->
+      </div>
+    </div>
+  </div>
+</div>

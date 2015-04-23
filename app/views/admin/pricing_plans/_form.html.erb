@@ -1,0 +1,129 @@
+<%= form_for [:admin, @pricing_plan] do |f| %>
+  <% if @pricing_plan.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@pricing_plan.errors.count, "error") %> prohibited this pricing_plan from being saved:</h2>
+
+      <ul>
+      <% @pricing_plan.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :plan_name %><br>
+    <%= f.text_field :plan_name %>
+  </div>
+  <!--<div class="field">
+    <%#= f.label :business_type_id %><br>
+    <%#= f.number_field :business_type_id %>
+  </div>-->
+  <%unless @pricing_plan.business_type_id%>
+  <input type='hidden' name='pricing_plan[business_type_id]' value='1'/>
+  <%end%>
+  <div class="field">
+    <%= f.label :tenant_count %><br>
+    <%= f.number_field :tenant_count %>
+  </div>
+  <div class="field">
+    <%= f.label :customer_records_count %><br>
+    <%= f.number_field :customer_records_count %>
+  </div>
+  <div class="field">
+    <%= f.label :category_type_id %><br>
+    <%#= f.text_field :category_type_ids %>
+   <%=select_tag 'pricing_plan[category_type_ids][]', options_for_select(
+@category_types.map {|category| [category.category_name,category.id]}), :multiple => true%>
+  </div>
+
+  <div class="field">
+    <%= f.label :language_count %><br>
+    <%= f.number_field :language_count %>
+  </div>
+
+    <div class="field">
+    <%= f.label :questions_count %><br>
+    <%= f.number_field :questions_count %>
+  </div>
+    <div class="field">
+    <%= f.label :video_photo_count %><br>
+    <%= f.number_field :video_photo_count %>
+  </div>
+
+     <div class="field">
+    <%= f.label :email_count %><br>
+    <%= f.number_field :email_count %>
+  </div>
+       <div class="field">
+    <%= f.label :sms_count %><br>
+    <%= f.number_field :sms_count %>
+  </div>
+       <div class="field">
+    <%= f.label :call_count %><br>
+    <%= f.number_field :call_count %>
+  </div>
+   <div class="field">
+     <%= f.label :question_suggestions %><br>
+     <%=f.check_box :question_suggestions%>
+  </div>
+     <div class="field">
+     <%= f.label :qr_share %><br>
+     <%=f.check_box :qr_share%>
+  </div>
+     <div class="field">
+     <%= f.label :social_share %><br>
+     <%=f.check_box :social_share%>
+  </div>
+  <div class="field">
+     <%= f.label :embed_share %><br>
+     <%=f.check_box :embed_share%>
+  </div>
+	  <div class="field">
+     <%= f.label :amount %><br>
+     <%=f.text_field :amount%>
+    </div>
+    <div class="field">
+     <%= f.label :listener %><br>
+     <%=f.check_box :listener%>
+  </div>
+    <div class="field">
+      <%= f.label :redirect_url %><br>
+      <%=f.check_box :redirect_url%>
+    </div>
+    <div class="field">
+      <%= f.label :from_number %><br>
+      <%=f.check_box :from_number%>
+    </div>
+    <div class="field">
+      <%= f.label :listener_slots %><br>
+      <%=f.text_field :listener_slots%>
+    </div>
+    <div class="field">
+      <%= f.label :crawler_slots %><br>
+      <%=f.text_field :crawler_slots%>
+    </div>
+    <div class="field">
+      <%= f.label :email_alerts %><br>
+      <%=f.check_box :email_alerts%>
+    </div>
+  <div class="field">
+     <%= f.label :expired_date %><br>
+     Note: set the expiry date if you deactivate the plan
+            <div class="date-picker">
+     <%=f.text_field :expired_date,:class=>"form-control date datepicker fliter-from-date",:id=>"expired_date",:readonly=>true,:value=>""%>
+   </div>
+  </div>
+   <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+<script type="text/javascript">
+ $("#expired_date").datepicker({
+      showOn : "button",
+      buttonImage : "/assets/responsive/calendar.png",
+      buttonImageOnly : true,
+      dateFormat : 'yy/mm/dd',
+    minDate: new Date()
+});
+</script>

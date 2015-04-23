@@ -1,0 +1,49 @@
+<style>
+    #mask {
+        display: none;
+    }
+    #mask.loading {
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 1000;
+        background-image: url('http://startific.com/images/loading_icon_photo.gif');
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .main-content .pagination{
+        margin: 0px !important;
+    }
+</style>
+<div class="modal-body customer-info-lb">
+  <div class="kendo-wrapper">
+    <div id="filter-criteria">
+      <div id="filter-search">
+        <form id="customer-list">
+          <%= grid_filter_condition(filter) %>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div id="mask"></div>
+      <div id="json-grid-<%= type %>" data-role="grid" class="k-grid k-widget k-secondary">
+
+      </div>
+      <div class="k-pager-wrap k-grid-pager k-widget" data-role="pager">
+        <%= will_paginate customers, renderer: BootstrapPagination::Rails %>
+        <span style="float:right;"><%= page_entries_info(customers, {:model => "Customers"})%></span>
+      </div>
+    </div>
+  </div>
+  <h3 class="error chk-prse-error" style="display:none;text-align:center;"><%= share_error_msg type %></h3>
+  <div class="grid-btn-wrap clearfix">
+    <div class="append-template-chk-button pull-left">
+      <input type="button" id="reset-grid" onclick="share_grid_request('<%= type %>');" class="btn btn-link select-btn" value="Reset Grid">
+    </div>
+    <div class="append-template-reset-grid-button pull-left">
+      <input type="button" id="share-question-<%= type %>" class="button orange select-btn btn-small" value="<%= share_button_value(type) %>">
+    </div>
+  </div>
+</div>
+</div>

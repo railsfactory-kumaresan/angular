@@ -1,0 +1,299 @@
+<% content_for :title, "Weekly Reports" %>
+<div class="wrap-box-head clearfix">
+  <h2>Weekly Reports</h2>
+</div>
+<div class="wrap-box-cont">
+  <div class="white-box-wrapper">
+    <div class="box-head clearfix">
+      <h3><span class="glyphicon glyphicon-star"></span>Top 3 Questions</h3>
+    </div>
+    <div class="white-box">
+      <%#= @todays_sign_ins.inspect %>
+      <%if @top_three_questions.present? %>
+      <div class="form-head clearfix">
+        <div class="pull-right">
+          <%= link_to '<span class="glyphicon  glyphicon-circle-arrow-down"></span> Download top 3 Questions CSV'.html_safe, weekly_report_admin_reports_path(:csv=>true, :top_three_questions_csv => @top_three_questions), :confirm => "Are you want to download?", :title => "Download report as CSV" %>
+        </div>
+      </div>
+      <% end %>
+      <div class="question-table user-list created-quest-list" id="flip-scroll">
+        <table class="table-bordered table-striped table-condensed cf">
+          <thead class="cf">
+            <tr>
+              <th class="cl1">
+                <div class="qcatg">
+                  <span class="glyphicon glyphicon-question-sign"></span>
+                </div>
+              </th>
+              <th class="cl2">Questions</th>
+              <th class="cl3">User Name</th>
+              <th class="cl4">Views<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></th>
+              <th class="cl5">Response<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%if @top_three_questions_hash.present? %>
+            <% @top_three_questions_hash.each do |q| %>
+            <tr>
+              <td class="td-cat">
+                <div class="qcatg">
+                   <span class="glyphicon glyphicon-bullhorn"></span>
+                </div>
+              </td>
+              <td class="col-name">
+                <%if  q["question"].present? %>
+                <%= q["question"] %>
+                <%else%>
+                <span class="no-data">No question</span>
+                <% end %>
+              </td>
+              <td class="col-name">
+                <%= q["user_name"] %>
+              </td>
+              <td>
+                <span class="glyphicon glyphicon-eye-open"></span><%= q["view_count"] %>
+              </td>
+              <td>
+                <span class="glyphicon glyphicon-comment"></span><%= q["responce_count"]%>
+              </td>
+            </tr>
+            <% end %>
+            <% else %>
+            <tr>
+              <td colspan="5">
+                <div class="alert">
+                  <strong>No questions were created</strong>
+                </div>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--// end. top 3 questions -->
+
+  <div class="white-box-wrapper">
+    <div class="box-head clearfix">
+      <h3><span class="glyphicon glyphicon-star"></span>Top 3 Companies</h3>
+    </div>
+    <div class="white-box">
+      <%#= @todays_sign_ins.inspect %>
+      <%if @top_companies.present? %>
+      <div class="form-head clearfix">
+        <div class="pull-right">
+          <%= link_to '<span class="glyphicon  glyphicon-circle-arrow-down"></span> Download top 3 Companies CSV'.html_safe, weekly_report_admin_reports_path(:csv=>true, :top_three_companies_csv => @top_companies), :confirm => "Are you want to download?", :title => "Download report as CSV" %>
+        </div>
+      </div>
+      <% end %>
+      <%#= @top_companies_details.inspect %>
+      <div class="question-table user-list created-quest-list" id="flip-scroll">
+        <table class="table-bordered table-striped table-condensed cf">
+          <thead class="cf">
+            <tr>
+              <th class="cl1">
+                <div class="qcatg">
+                  <span class="glyphicon glyphicon-question-sign"></span>
+                </div>
+              </th>
+              <th class="cl2">Questions</th>
+              <th class="cl3">Company Name</th>
+              <th class="cl4">Views<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></th>
+              <th class="cl5">Response<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%if @top_companies.present? %>
+            <% @top_companies.each do |v| %>
+            <tr>
+              <td class="td-cat">
+                <div class="qcatg">
+                   <span class="glyphicon glyphicon-bullhorn"></span>
+                </div>
+              </td>
+              <td class="col-name">
+                <%if v["company_name"].present? %>
+                <%= v["company_name"] %>
+                <%else%>
+                <span class="no-data">No Company Name</span>
+                <% end %>
+              </td>
+              <td class="col-name">
+                <%= v["question"] %>
+              </td>
+              <td>
+                <span class="glyphicon glyphicon-eye-open"></span><%= v["view_count"] %>
+              </td>
+              <td>
+                <span class="glyphicon glyphicon-comment"></span><%= v["responce_count"] %>
+              </td>
+            </tr>
+            <% end %>
+            <% else %>
+            <tr>
+              <td colspan="5">
+                <div class="alert">
+                  <strong>No questions were created</strong>
+                </div>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--// top 3 companies -->
+  <div class="white-box-wrapper">
+    <div class="box-head clearfix">
+      <h3><span class="glyphicon glyphicon-signal"></span>Break down Structure for Question types</h3>
+    </div>
+    <div class="white-box">
+      <script src="/assets/responsive/highcharts.js" type="text/javascript"></script>
+      <script src="/assets/responsive/exporting.js" type="text/javascript"></script>
+      <div id="container"></div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function () {
+                  var a = <%= @Feedback_qustions %>
+                  var b = <%= @Marketing_qustions %>
+                  var c = <%= @Innovation_qustions %>
+      var chart;
+      $(document).ready(function() {
+          chart = new Highcharts.Chart({
+              chart: {
+                  renderTo: 'container',
+                  type: 'column',
+                  margin: [ 50, 50, 100, 80]
+              },
+              title: {
+                  text: ''
+              },
+              xAxis: {
+                                                           categories: ['Feedback', 'Marketing', 'Innovation'
+
+                  ],
+                  labels: {
+                      rotation: 0,
+                      style: {
+                          fontSize: '13px',
+                          fontFamily: 'Verdana, sans-serif'
+                      }
+                  }
+              },
+              yAxis: {
+                  min: 0,
+                  title: {
+                      text: 'Count'
+                  }
+              },
+              legend: {
+                  enabled: false
+              },
+              tooltip: {
+                  formatter: function() {
+                      return '<b>'+ this.x +'</b><br/>'+
+                           Highcharts.numberFormat(this.y, 1);
+                  }
+              },
+              series: [{
+                  name: 'Population',
+                  data: [a,b,c],
+                  dataLabels: {
+                      enabled: false,
+                      rotation: 0,
+                      color: '#FFFFFF',
+                      align: 'right',
+                      x: 4,
+                      y: 10,
+                      style: {
+                          fontSize: '13px',
+                          fontFamily: 'Verdana, sans-serif'
+                      }
+                  }
+              }]
+          });
+      });
+
+  });
+
+  function back_user_link()
+  {
+  window.location.href="/report";
+  }
+</script>
+<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto">
+</div>
+<script type="text/javascript">
+        $(function () {
+        		var a = <%= @Feedback_qustions %>
+        		var b = <%= @Marketing_qustions %>
+        		var c = <%= @Innovation_qustions %>
+            var chart;
+            $(document).ready(function() {
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'container',
+                        type: 'column',
+                        margin: [ 50, 50, 100, 80]
+                    },
+                    title: {
+                        text: ''
+                    },
+                    xAxis: {
+        							 categories: ['Feedback', 'Marketing', 'Innovation'
+
+                        ],
+                        labels: {
+                            rotation: 0,
+                            style: {
+                                fontSize: '13px',
+                                fontFamily: 'Verdana, sans-serif'
+                            }
+                        }
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Count'
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        formatter: function() {
+                            return '<b>'+ this.x +'</b><br/>'+
+                                 Highcharts.numberFormat(this.y, 1);
+                        }
+                    },
+                    series: [{
+                        name: 'Population',
+                        data: [a,b,c],
+                        dataLabels: {
+                            enabled: false,
+                            rotation: 0,
+                            color: '#FFFFFF',
+                            align: 'right',
+                            x: 4,
+                            y: 10,
+                            style: {
+                                fontSize: '13px',
+                                fontFamily: 'Verdana, sans-serif'
+                            }
+                        }
+                    }]
+                });
+            });
+
+        });
+
+        function back_user_link()
+        {
+        window.location.href="/report";
+        }
+
+</script>

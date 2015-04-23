@@ -1,0 +1,6 @@
+jQuery('.saved-listens').html("<%= escape_javascript(render(:partial => 'saved_listener')) %>");
+keywords = JSON.parse("<%= @keywords%>".replace(/&quot;/g, '"'));
+post_per_day = JSON.parse("<%= @post_per_day%>".replace(/&quot;/g, '"'));
+$('#trends_chart').html("");
+$('#trends_keywords').html("");
+var t = new TrendsChart($('#trends_chart'), $('#trends_keywords'), keywords, post_per_day)

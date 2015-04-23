@@ -1,0 +1,81 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="sub-title col-lg-12 col-md-12"> Saved Listens </div>
+  </div>
+  <div class="row">
+    <!--<input class="form-control search-listens col-lg-12 col-md-12" type="text" placeholder="Search saved listens" />-->
+  </div>
+<%if !@saved_listener.blank? %>
+  <%@saved_listener.each do |i|%>
+  <div class="row">
+    <div class="slot-container col-lg-12 col-md-12">
+      <div class="slot">
+        <div class="slot-text list_all"><span title="Show messages" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis; display: block;width: 135px;" class= "<%=i["user_id"]%>" id="<%=i["id"]%>tab_<%=i["tenant_id"] %>" onclick="add_tab(this.id,false,0)"><%= i["keyword"]%></span><span title="Remove Keyword" class="glyphicon glyphicon-remove remove_keyword <%=i["id"]%>tab_<%=i["tenant_id"]%>_class" id="<%=i["id"]%>tab_<%=i["tenant_id"]%>" style="float:right;display: none;margin: -35px 5px"></span>
+          <span title="Bookmark" class= "bookmark_keyword <%=i["user_id"]%> <%=i["id"]%>tab_<%=i["tenant_id"]%>_book" id="<%=i["id"]%>tab_<%=i["tenant_id"] %>" onclick="add_tab(this.id,false,1)" style="float:right;display: none;margin: -25px 7px;"><i class="fa fa-bookmark-o"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+ <%end%>
+      <%end%>
+<% tot_count = !@saved_listener.blank? ? @saved_listener.count : 0 %>
+  <%#if !@saved_listener.blank? && tot_count <= 10 && params[:search] != "true"%>
+      <% for i in 1..10 - tot_count %>
+  <div class="row">
+    <div class="slot-container col-lg-12 col-md-12">
+      <div class="slot empty-slot">
+        <div class="slot-text remove_href"> Empty Slot </div>
+      </div>
+    </div>
+  </div>
+     <%#end%>
+    <%end%>
+  <div class="row">
+    <!--<a href="#" class="btn slot-container add-slot-btn"> Add Listening Slots</a>-->
+    <a href= "#" class="btn slot-container add-slot-btn" data-toggle="modal" data-target="#share_detaill">Add Listening Slots</a>
+  </div>
+</div>
+
+<script>
+    jQuery(".remove_href").css("cursor", "default")
+    $(document).ready( function() {
+//        $('.scroll_saved_new').enscroll({
+//            showOnHover: true,
+//            verticalTrackClass: 'track3',
+//            verticalHandleClass: 'handle3'
+//        });
+        $(".search-listens").bind("keyup", function( e ) {
+            var term = jQuery(".search-listens").val();
+            $.ajax(
+                    {
+                        url : "/admin/listeners/search_keywords",
+                        type: "get",
+                        data : {term :term,search :true},
+                        dataType: "script",
+                        success:function(data)
+                        {
+                        }
+                    });
+        });
+        $(".remove_keyword").click(function() {
+            var term = jQuery(this).attr("id");
+            var tid = term.split("_")[1];
+            var uid = jQuery("#"+term+"").attr("class").split(" ")[0]
+						 jQuery(".loading").css('display','block');
+            if (confirm("Are you sure you want to delete") == true) {
+            $.ajax(
+                    {
+                        url : "/admin/listeners/"+term.replace("tab",'').split("_")[0]+"/remove_keyword",
+                        type: "post",
+                        data : {tenant_id: tid,user_id: uid},
+                        dataType: "script",
+                        success:function(data)
+                        {
+                            var id_c = jQuery("#link"+term+"").children()[1];
+                            close_tab(id_c)
+                        }
+                    });}
+            else{  jQuery(".loading").css('display','none');  }
+        });
+    });
+</script>

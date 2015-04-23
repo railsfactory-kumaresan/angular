@@ -1,0 +1,171 @@
+<div class="tab-wrapper">
+  <div class="row">
+    <div class="col-lg-8">
+      <h3>Embed Questions</h3>
+      <p>To embed the Inquirly.com widget into your own site simply copy and paste the code below.</p>
+      <br />
+      <div class="form-group">
+        <label for="InputTo" class="sr-only">Embed Questions</label>
+        <textarea class="form-control" rows="4" id="select_default" onclick="call_click();" rows="4" cols="60"><iframe allowTransparency='true' width='100%' height='1050' scrolling='no' frameborder='0' style='position:absolute; left:0px; top:0px; z-index:1;' id='inquirly-widget' src='<%= root_url %>surveys/<%= question.slug %>/embed_survey' tabindex='1'></iframe></textarea>
+        <textarea style="display: none;" id="select_default_embed"><iframe allowTransparency='true' width='100%' height='1050' scrolling='no' frameborder='0' style='position:absolute; left:0px; top:0px; z-index:1;' id='inquirly-widget' src='<%= root_url %>surveys/<%= question.slug %>/embed_survey' tabindex='1'></iframe></textarea>
+      </div> <!-- div end -->
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="btn-wrap">
+            <a href="javascript:void(0);" id="copy_clipboard"  class="button medium orange" data-clipboard-content="embed" data-clipboard-text="<iframe allowTransparency='true' width='100%' height='1050' scrolling='no' frameborder='0' style='position:absolute; left:0px; top:0px; z-index:1;' id='inquirly-widget' src='<%= root_url %>surveys/<%= question.slug %>/embed_survey' tabindex='1'></iframe>" title="Click to copy to clipboard." >
+              Copy Embed Code
+            </a>
+            <a href="#embed_share_pop_up" title="Map the Question" data-toggle="modal" id="Activate_question" class="button medium orange" >Map the Question</a>
+          </div>
+        </div><!-- div end -->
+      </div><!-- div end -->
+    </div><!-- div end col-lg-8 -->
+    <div class="col-lg-4">
+      <div class="response-question">
+        <h3>Preview</h3>
+        <div class="question-title">
+          <h4><%= question.question %></h4>
+        </div>
+        <div class="answers-options">
+          <% QuestionOption.options_without_other(question.id).each do |question_option|%>
+            <% if question.question_type_id == 1  || question.question_type_id == 3  %>
+              <div class="radio">
+                <label>
+                  <%= radio_button_tag 'answer_option',question_option.option,false %>
+                  <%= question_option.option %>
+                </label>
+              </div><!-- answer options -->
+            <% end %>
+            <% if question.question_type_id == 2 %>
+              <div class="clearfix qa-wrap">
+                <input class="fl" id="answer" name="answer" type="checkbox" value=""><label class="q-type" for="answer-one" style="font-weight:normal!important"><%= question_option.option%></label>
+              </div>
+            <% end %>
+          <% end %>
+          <% if question.question_type_id == 4 %>
+            <div class="clearfix qa-wrap">
+              <%= text_area_tag "answer", "",:class => "fl" %><label class="fl q-type" for="answer-one"></label>
+            </div>
+          <% end %>
+
+          <div class="clearfix qa-wrap">
+            <%if question.include_other %>
+              <% if question.question_type_id == 2 %>
+                <input class="fl" id="include_other" name="include_other" type="checkbox" value=""/>Others
+              <% else %>
+                <div class="qa-wrap">
+                  <label>
+                    <%= radio_button_tag "answer_option","include_other",false,:class=>"fl" %>
+                  </label> Others
+                </div><!-- Radio-->
+              <% end %>
+
+            <% end %>
+          </div> <!-- class: clearfix qa-wrap -->
+
+          <div class="row others-field">
+            <%if question.include_text %>
+              <% if question.question_type_id == 2%>
+                <!--<input class="fl" id="include_text" name="include_text" type="checkbox" value=""/>-->
+              <% else %>
+                <%#= radio_button_tag "answer_option","include_text",false,:class=>"fl" %>
+              <% end %>
+                <label class="fl q-type">Comments</label>
+              <%#= radio_button_tag "answer_option","include_text",false,:class=>"fl" %>
+              <%= text_area_tag "include_text",'', :class => "form-control input-small"%>
+            <% end %>
+          </div><!-- others-field- -->
+        </div><!-- div end answers-options -->
+      </div><!-- div end -->
+    </div><!-- div end -->
+  </div><!-- div end -->
+</div> <!-- div end -->
+
+<div class="modal fade" id="embed_share_pop_up" aria-hidden="true">
+  <div class="modal-dialog signup" id="question_list">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&nbsp;</button>
+        <h4 class="modal-title">Question List</h4>
+      </div>
+      <div class="modal-body question-suggestion-lb" style="height:400px;overflow:auto;">
+        <div id="success_msg" class="alert alert-success" style="dispaly:none;">Selected question mapped to Embed successfully.</div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="img-responsive">
+              <ul class="list-group">
+                <% @all_questions.each do |q| %>
+                    <li class="list-group-item group-item row" <% if q.embed_status %> style="background-color: #D8D9DA !important;" <%end%>>
+                      <div class="col-lg-10"><div class="qr_status"><%= q.question %></div>  <%if q.embed_status && q.status.downcase == "closed" %> <div class="qr_status red-color"> (Question expired/closed)</div><% end %></div>
+                     <span class="badge col-lg-2">
+                        <input type="radio" name ="embed_question" id="<%=q.id%>" value="<%=q.id%>" <%if q.embed_status %> checked <% end %>/>
+                     </span>
+                    </li>
+                <%end%>
+              </ul>
+              <input type="button" class="button medium orange" id="activate_embed" onclick="map_question_to_embed()" value="Activate" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script>
+  $(document).ready(function(){
+      var active_question = '<%= embed_active_question %>';
+      jQuery("#activate_embed").prop('disabled',true).css('cursor','not-allowed');
+      jQuery("input:radio[name=embed_question]").click(function(){
+          if($(this).val() == '<%= @question.id %>'){
+              jQuery("#activate_embed").prop('disabled',false).css('cursor','pointer');
+          }else if($(this).val() == active_question ){
+              jQuery("#activate_embed").prop('disabled',true).css('cursor','not-allowed');
+          }else{
+              jQuery("#activate_embed").prop('disabled',false).css('cursor','pointer');
+          }
+      });
+
+  });
+      function active_embed_code_current_question(id)
+      {
+          jQuery.ajax({
+              type: 'GET',
+              url: '/share/'+ id +'/show_embed_code',
+              success: function(data){
+                  var status = jQuery('#inactive_status').text();
+                  if(status != 'Active'){
+                      question_active_share_page();
+                  }
+              }
+          });
+      }
+
+      function question_active_share_page(){
+          jQuery('#inactive_status').text('');
+          jQuery('#activate_status').removeClass('label-info');
+          jQuery("#activate_status").addClass('label-success')
+          jQuery("#activate_status").text("Active");
+          jQuery('#compose_qst').attr('href','javascript:void(0)');
+          jQuery('#download_qr').show();
+          jQuery('#compose_qst').css('cursor','default');
+      }
+     function map_question_to_embed()
+     {
+        var id = document.querySelector('input[name="embed_question"]:checked').value;
+        jQuery.ajax({
+            type: 'GET',
+            url: '/surveys/update_embed_status?q_id='+id,
+            success: function(data){
+                if(data['status'] == 200){
+                        jQuery("#success_msg").show();
+                        active_embed_code_current_question(id)
+                        setTimeout(function() {
+                            jQuery("#success_msg").hide();
+                            $("#embed_share_pop_up").modal("hide");
+                        }, 5000);
+                    }
+                }
+        });
+     }
+</script>

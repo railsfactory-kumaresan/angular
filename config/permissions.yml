@@ -1,0 +1,139 @@
+# Individual:
+#  downloads:
+#   download_csv: 1
+#  account:
+#   company_settings: 1
+#   transaction_history: 1
+#   account_attachment: 1
+#  users/omniauth_callbacks:
+#   users/omniauth_callbacks: 1
+#   linkedin: 1
+#   facebook: 1
+#   twitter: 1
+#  users/registrations:
+#   edit: 1
+#   update: 1
+#  imports:
+#   csv_template: 1
+#   create_customer_info: 1
+#  question:
+#   index: 1
+#   new: 1
+#   create: 1
+#   edit: 1
+#   show: 1
+#   update: 1
+#   preview: 1
+#   upload_logo: 1
+#   deactivate: 1
+#  payments:
+#   merchant_test: 1
+#   transaction: 1
+#  share:
+#   show: 1
+#   listeners_page: 1
+#  dashboard:
+#   index: 1
+# Corp-Admin:
+#  downloads:
+#   download_csv: 1
+#  account:
+#   company_settings: 1
+#   transaction_history: 1
+#   account_attachment: 1
+#  users/omniauth_callbacks:
+#   users/omniauth_callbacks: 1
+#   linkedin: 1
+#   facebook: 1
+#   twitter: 1
+#  users/registrations:
+#   edit: 1
+#   update: 1
+#  imports:
+#   csv_template: 1
+#   create_customer_info: 1
+#  question:
+#   index: 1
+#   new: 1
+#   create: 1
+#   edit: 1
+#   show: 1
+#   update: 1
+#   preview: 1
+#   upload_logo: 1
+#   deactivate: 1
+#  payments:
+#   merchant_test: 1
+#   transaction: 1
+#  share:
+#   show: 1
+#   listeners_page: 1
+#  dashboard:
+#   index: 1
+#  admin/listeners:
+#   request_listener: 1
+# Tenant-Admin:
+#  downloads:
+#   download_csv: 1
+#  account:
+#   company_settings: 1
+#   transaction_history: 0
+#   account_attachment: 0
+#  users/omniauth_callbacks:
+#   linkedin: 0
+#   facebook: 0
+#   twitter: 0
+#  users/registrations:
+#   edit: 1
+#   update: 0
+#  imports:
+#   csv_template: 1
+#   create_customer_info: 0
+#  question:
+#   index: 1
+#   new: 1
+#   create: 0
+#   edit: 1
+#   show: 1
+#   update: 1
+#   preview: 1
+#   upload_logo: 0
+#   deactivate: 0
+#  payments:
+#   merchant_test: 0
+#   transaction: 0
+#  share:
+#   show: 0
+#   listeners_page: 1
+#  dashboard:
+#   index: 1
+Inquirly-Admin:
+ admin/pricing_plans:
+  new: 1
+  create: 1
+  update: 1
+  index: 1
+  show: 1
+  edit: 1
+ admin/listeners:
+  index: 1
+  activate_listener: 1
+ admin/permissions:
+  index: 1
+  edit: 1
+  update: 1
+Inquirly-Analyst:
+ admin/pricing_plans:
+  new: 0
+  create: 0
+  update: 0
+  index: 1
+  show: 1
+  edit: 1
+ admin/listeners:
+  index: 1
+  activate_listener: 1
+ admin/permissions:
+  index: 1
+  edit: 1
+  update: 1

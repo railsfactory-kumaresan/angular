@@ -1,0 +1,244 @@
+<div>
+  <%= render :partial=> "/payments/billing_info_details" %>
+</div>
+<div class="row" id="home_page_content" style="margin-left: 219px !important;">
+
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+    <div class="sign-form-wrap">
+      <div class="login-title">SIGN UP</div>
+      <%= form_tag("/users", :name =>"signup-form-submit",  method: "post", :format => :json, :id => "signup-form-submit") do %>
+          <div class="form-group">
+            <div class="radio-wrap clearfix">
+
+              <%if params[:role] != "Trial"%>
+              <%@plans.each do |plan|%>
+                  <div class="radio-btn">
+                    <%if plan.plan_name != "Trial"%>
+                    <%if plan.plan_name == params[:role]%>
+                    <input name="user[business_type_id]" value=<%=plan.business_type_id%> checked class="radio-sp" type="radio" name="plan_options" id="plan_individual">
+                    <%else%>
+                        <input name="user[business_type_id]" value=<%=plan.business_type_id%> class="radio-sp" type="radio" name="plan_options" id="plan_individual">
+                     <%end%>
+                    <div class="radio-label"><%=plan.plan_name%></div>
+                     <%end%>
+                  </div>
+              <%end%>
+                  <%else%>
+                  <input name="user[business_type_id]" value=<%=PricingPlan.find_by_plan_name(params["role"]).id%> checked class="radio-sp" type="radio" name="plan_options" id="plan_individual" style="display:none">
+            <%end%>
+
+              <!--
+
+                                 <div class="radio-btn"><input name="user[business_type_id]" value="1" class="radio-sp" type="radio" name="plan_options" id="plan_individual">
+                                  <div class="radio-label">I'm an Individual User </div>
+                                 </div>
+
+                                 <div class="radio-btn"><input name="user[business_type_id]" class="radio-sp" value="2"  type="radio" name="plan_options" <%#if params[:email].present?%> disabled="true" <%#end%> id="plan_business"/>
+                                  <div class="radio-label">I'm a Business User </div>
+                                 </div>
+              -->
+
+            </div>
+            <div class="error" id="error_business_type_id"></div>
+          </div>
+
+
+          <div class="form-group">
+            <input name="user[company_name]" type="text" class="form-control" id="InputCompanyName" placeholder="Company Name">
+            <div class="error" id="error_company_name"></div>
+          </div>
+          <div class="form-group">
+            <input name="user[first_name]" type="text" class="form-control" id="InputFirstName" placeholder="First Name">
+            <div class="error" id="error_first_name"></div>
+          </div>
+          <div class="form-group">
+            <input name="user[last_name]" type="text" class="form-control" id="InputLastName" placeholder="Last Name">
+            <div class="error" id="error_last_name"></div>
+
+          </div>
+          <div class="form-group">
+
+            <input name="user[email]" type="email" <%if params[:email].present?%> value="<%=params[:email]%>" <%end%> class="form-control" id="InputEmailAddress" placeholder="Email Address">
+
+            <div class="error" style="display: none;"></div>
+            <input name="user[parent_id]" id="parent_id" type="hidden" value="<% if params[:parent_id].present? %><%=params[:parent_id]%><%end%>"/>
+            <input name="user[role]" type="hidden" id="role" value="<% if params[:role].present? %><%=params[:role]%><%end%>"  />
+            <div class="error" id="error_email_new"></div>
+
+          </div>
+          <div class="form-group">
+            <input name="user[password]" type="password" class="form-control" id="InputPassword" placeholder="Password">
+            <div class="error" id="error_password"></div>
+          </div>
+          <div class="form-group">
+            <input name="user[password_confirmation]" type="password" class="form-control" id="InputConfirmPassword" placeholder="Confirm Password">
+            <div class="error" id="error_password_confirmation"></div>
+          </div>
+          <div class="pwd-wrap clearfix">
+            <div class="pwd-btn">
+              <button type="submit" id='signup_btn' class="btn btn-default login-btn signup_submit">Signup</button>
+            </div>
+
+          </div>
+
+      <%end%>
+
+    </div>
+  </div>
+  <%=render :partial=>"/home/plans_social",:locals=>{:link=>"signin"}%>
+
+</div>
+
+<a data-toggle="modal" href="#successful_msg" class="button large orange" style="display:none"></a>
+<div class="modal fade" id="successful_msg" style="display:none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &nbsp;
+        </button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <p></p>
+      </div>
+      <!--<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>-->
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+
+  <script>
+
+//      jQuery("#signup_btn").click(function(){
+//          jQuery('#signup_btn').css("cursor","not-allowed");
+//          jQuery(".loading").show();
+//          var params, email, c_name, f_name, l_name, pass, cnf_pass, token, biz_type, parentId, role;
+//          email = jQuery("#InputEmailAddress").val();
+//          pass = jQuery("#InputPassword").val();
+//          cnf_pass =  jQuery("#InputConfirmPassword").val();
+//          c_name = jQuery("#InputCompanyName").val();
+//          f_name = jQuery("#InputFirstName").val();
+//          l_name = jQuery("#InputLastName").val();
+//          parentId = jQuery("#parent_id").val();
+//          Role = jQuery("#role").val();
+//          var trial ="<%=params[:role]%>"
+//          biz_type = jQuery("input[name='user[business_type_id]']:checked").val();
+//          params = { user:{ email: email, password: pass, password_confirmation: cnf_pass, company_name: c_name, first_name: f_name, last_name: l_name, business_type_id: biz_type, parent_id: parentId, role: Role },save_status: false }
+//          var login_form_params = { user: {email: email, password: pass} }
+//          jQuery.ajax({
+//              type: "POST",
+//              url: "/users",
+//              data:   params,
+//              dataType: "json",
+//              success: function(data){
+//                  jQuery('#signup_btn').removeAttr('disabled').css("cursor","pointer");
+//                  if (data.header.status == 400)
+//                  {
+//                      var errors = data.body.resource
+//                      $(".error").hide();
+//                      for (x in errors)
+//                          $('#error_'+x).html(errors[x][0]).show();
+//                  }
+//                  if(data.header.status == 200){
+//                      jQuery(".error").hide();
+//                      document.getElementById("signup-form-submit").reset();
+//                      jQuery("button[data-dismiss='modal']:visible").click();
+//                      jQuery("#successful_msg .modal-title").text("Successful Registration");
+//                      jQuery(".loading").show();                      ;
+//                 if(trial != 'Trial'){
+//                 jQuery.ajax({
+//                      type: "GET",
+//                      url: "/users/confirmation",
+//                      data: {confirmation_token: ""+data.body.confirmation_token+""},
+//                     success: function(data)
+//                     {
+//                         jQuery(".loading").show();
+//                     }
+//                     });
+//                      jQuery.ajax({
+//                          type: "POST",
+//                          url: "/users/login",
+//                          data: login_form_params,
+//                          dataType: "HTML",
+//                          success: function(data)
+//                          {
+//                              window.location.href= "/dashboard?pay=true"
+//
+//                          }
+//                      });
+//                 }
+//                      else{
+//                      jQuery("#successful_msg .modal-body p").text("A message with a confirmation link has been sent to your email address. Please click the link to activate your account.");
+//                      jQuery("#successful_msg").modal();
+//                 }
+//                  }
+//                  jQuery(".loading").hide();
+//
+//              },
+//              error: function(data){
+//                  jQuery(".loading").hide();
+//                  jQuery('#signup_btn').removeAttr('disabled').css("cursor","pointer");
+//                  jQuery(".signin_form .form-group.error-field").children().show();
+//              }
+//          });
+//          return false;
+//      });
+
+jQuery("#signup_btn").click(function(){
+    jQuery(".loading").show();
+    jQuery('#signup_btn').css("cursor","not-allowed");
+    var params, email, c_name, f_name, l_name, pass, cnf_pass, token, biz_type, parentId, role;
+    email = jQuery("#InputEmailAddress").val();
+    pass = jQuery("#InputPassword").val();
+    cnf_pass =  jQuery("#InputConfirmPassword").val();
+    c_name = jQuery("#InputCompanyName").val();
+    f_name = jQuery("#InputFirstName").val();
+    l_name = jQuery("#InputLastName").val();
+    parentId = jQuery("#parent_id").val();
+    Role = jQuery("#role").val();
+    biz_type = jQuery("input[name='user[business_type_id]']:checked").val();
+    params = { user:{ email: email, password: pass, password_confirmation: cnf_pass, company_name: c_name, first_name: f_name, last_name: l_name, business_type_id: biz_type, parent_id: parentId, role: Role } }
+    jQuery (".loading").show();
+    jQuery.ajax({
+        type: "POST",
+        url: "/users",
+        data:   params,
+        dataType: "json",
+        success: function(data){
+            console.log(data)
+            jQuery('#signup_btn').removeAttr('disabled').css("cursor","pointer");
+            if (data.header.status == 400)
+            {
+                var errors = data.body.resource
+                $(".error").hide();
+                for (x in errors){
+                    $('#error_'+x).html(errors[x][0]).show();
+                if('#error_'+x == '#error_email')
+                {
+                    $('#error_email_new').html(errors[x][0]).show();
+                }}
+            }
+            jQuery(".loading").hide();
+            if(data.header.status == 200){
+                jQuery(".error").hide();
+                document.getElementById("signup-form-submit").reset();
+                jQuery("button[data-dismiss='modal']:visible").click();
+                jQuery("#successful_msg .modal-title").text("Successful Registration");
+                jQuery("#successful_msg .modal-body p").text("A message with a confirmation link has been sent to your email address. Please click the link to activate your account.");
+                jQuery("#successful_msg").modal();
+            }
+
+        },
+        error: function(data){
+            jQuery(".loading").hide();
+            jQuery('#signup_btn').removeAttr('disabled').css("cursor","pointer");
+            jQuery(".signin_form .form-group.error-field").children().show();
+        }
+    });
+    return false;
+});
+
+  </script>

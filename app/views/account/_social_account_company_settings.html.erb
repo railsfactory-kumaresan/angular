@@ -1,0 +1,317 @@
+<div class="row">
+  <div class="col-lg-4 col-sm-4 col-xs-12" id="facebook">
+    <div class="box-main-wrap clearfix">
+      <div class="box-main-head-wrap">
+        <div class="ac-count pull-right">
+          <span class="glyphicon glyphicon-user"></span>
+          <span class="counts"><%=ShareQuestion.shared_users_count(current_user,'facebook')%></span>
+        </div>
+      </div>
+      <div class="box-main-inner">
+		     <% if share_info[:fb].present? %>
+          <div class="social-icon">
+						<a href="/users/auth/facebook">
+						 <%= image_tag("responsive/icon-fb-medium.png", alt: "facebook")%>
+						 <!-- rails4_image_tag_impact -->
+							<!--<img src="/assets/responsive/icon-fb-medium.png" alt="facebook"/>-->
+						</a>
+          </div>
+          <div class="make-switch" >
+            <div id="fb_on_off_switch" style="width:87px;margin-left:auto;margin-right:auto;"></div>
+          </div>
+        <%else %>
+				<div class="social-icon">
+					<a href="/users/auth/facebook">
+					<%= image_tag("responsive/icon-fb-medium-grey.png", alt: "facebook")%>
+					<!-- rails4_image_tag_impact -->
+						<!--<img src="/assets/responsive/icon-fb-medium-grey.png" alt="facebook"/>-->
+					</a>
+				</div>
+        <div class="make-switch" data-on="primary" data-off="info" style="border-style:none;" >&nbsp;</div>
+        <%end%>
+        <div class="btn-wrap">
+          <button type="button" class="btn btn-link" onclick="window.location='/users/auth/facebook' " tabindex="9"><span class="glyphicon glyphicon-plus-sign"></span>Add another account</button>
+        </div>
+      </div>
+    </div>
+    <% if share_info[:fb].present? %>
+		<div class="box-inner-bottom">
+      <div class="connected-users">
+        <ul class="social_account_list">
+          <% share_info[:fb].each do |share|%>
+            <li class="<%= (share.present? && share.active == true) ? "select active" : ''%> "  id="div_<%= share.id %>"  >
+	    <%= image_tag("#{share.user_profile_image.present? ? share.user_profile_image : 'no_image.jpg'}", height: '32', width: '32', alt: "")%>
+	    <!-- rails4_image_tag_impact -->
+              <!--<img width="32" height="32" src="<%#= share.user_profile_image.present? ? share.user_profile_image : 'no_image.jpg' %>" alt="">-->
+              <p><%= share.user_name.present? ? share.user_name : "Facebook Account Name"%></p>
+              <div class="checkbox_container">
+                <% if (share.present? && share.active == true)%>
+                  <%= check_box_tag "share_click_#{share.id}", '1', true, :class => 'fl share_chk chk_share', :onclick => "Share('#{share.id}')"%>
+                <%else%>
+                  <%= check_box_tag "share_click_#{share.id}", '1', false, :class => 'fl share_chk chk_share', :onclick => "Share('#{share.id}')"%>
+                <%end%>
+              </div>
+              <span class="glyphicon glyphicon-minus-sign"></span>
+            </li>
+          <%end%>
+        </ul>
+      </div>
+		</div>
+    <%end%>
+  </div>
+  <!--// .share facebook -->
+  <div class="col-lg-4 col-sm-4 col-xs-12" id="twitter">
+    <div class="box-main-wrap clearfix">
+      <div class="box-main-head-wrap">
+        <div class="ac-count pull-right">
+          <span class="glyphicon glyphicon-user"></span>
+          <span class="counts"><%=ShareQuestion.shared_users_count(current_user,'twitter')%></span>
+        </div>
+      </div>
+      <div class="box-main-inner">
+        <% if share_info[:twitter].present? %>
+						<div class="social-icon">
+						<!-- rails4_image_tag_impact --><!--<img src="/assets/responsive/icon-twiter-medium.png" alt="twitter"/>-->
+							<a href="/users/auth/twitter"> <%= image_tag("responsive/icon-twiter-medium.png", alt: "twitter")%></a>
+						</div>
+          <div class="make-switch"  id="fb_on_off_twitter" >
+            <div id="twitter_on_off_switch" style="width:87px;margin-left:auto;margin-right:auto;"></div>
+          </div>
+        <%else %>
+						<div class="social-icon">
+							<a href="/users/auth/twitter"><%= image_tag("responsive/icon-twiter-medium-grey.png", alt: "twitter")%><!-- rails4_image_tag_impact --><!--<img src="/assets/responsive/icon-twiter-medium-grey.png" alt="twitter"/>--></a>
+						</div>
+          <div class="make-switch" data-on="primary" data-off="info" style="border-style:none;" >&nbsp;</div>
+        <%end%>
+        <div class="btn-wrap">
+             <button type="button" class="btn btn-link" onclick="window.location='/users/auth/twitter' " tabindex="10">
+              <span class="glyphicon glyphicon-plus-sign"></span>
+              Add another account
+            </button>
+          </div>
+      </div>
+    </div>
+         <% if share_info[:twitter].present?%>
+				 <div class="box-inner-bottom">
+					<div class="connected-users">
+            <ul class="social_account_list">
+              <% share_info[:twitter].each do |share|%>
+                <li class="<%= (share.present? && share.active == true) ? "select active" : ''%>"  id="div_<%= share.id %>" >
+		<%= image_tag("#{share.user_profile_image.present? ? share.user_profile_image : '/assets/no_image.jpg' }", lat: "")%>
+		<!-- rails4_image_tag_impact --><!--
+                  <img width="32" height="32" src="<%#= share.user_profile_image.present? ? share.user_profile_image : '/assets/no_image.jpg' %>" alt="">-->
+                  <p><%= share.user_name.present? ? share.user_name : "Facebook Account Name"%></p>
+                  <div class="checkbox_container">
+                    <% if (share.present? && share.active == true)%>
+                      <%= check_box_tag "share_click_#{share.id}", '1', true, :class => 'fl share_chk chk_share', :onclick => "Share('#{share.id}')"%>
+                    <%else%>
+                      <%= check_box_tag "share_click_#{share.id}", '1', false, :class => 'fl share_chk chk_share', :onclick => "Share('#{share.id}')"%>
+                    <%end%>
+                  </div>
+                </li>
+              <%end%>
+            </ul>
+					</div>
+				</div>
+			<%end%>
+  </div>
+  <!--// .share twitter -->
+  <div class="col-lg-4 col-sm-4 col-xs-12"  id="linked_in">
+    <div class="box-main-wrap clearfix">
+      <div class="box-main-head-wrap">
+        <div class="ac-count pull-right">
+          <span class="glyphicon glyphicon-user"></span>
+          <span class="counts"><%=ShareQuestion.shared_users_count(current_user,'linkedin')%></span>
+        </div>
+      </div>
+      <div class="box-main-inner">
+        <% if share_info[:linkedin].present? %>
+				<div class="social-icon"><a href="/users/auth/linkedin"><%=image_tag("responsive/icon-linkedin-medium.png",alt: "linkedin")%><!--<img src="/assets/responsive/icon-linkedin-medium.png" alt="linkedin">--></a></div>
+          <div class="make-switch">
+            <div id="linkedin_on_off_switch" style="width:87px;margin-left:auto;margin-right:auto;"></div>
+          </div>
+        <%else %>
+					<div class="social-icon">
+						<a href="/users/auth/linkedin"><%=image_tag("responsive/icon-linkedin-medium-grey.png",alt: "linkedin")%><!--<img src="/assets/responsive/icon-linkedin-medium-grey.png" alt="linkedin">--></a>
+					</div>
+          <div class="make-switch" data-on="primary" data-off="info" style="border-style:none;" >&nbsp;</div>
+        <%end%>
+        <div class="btn-wrap">
+            <button type="button" id ="linked_btn" class="btn btn-link" onclick="window.location='/users/auth/linkedin' " tabindex="11">
+              <span class="glyphicon glyphicon-plus-sign"></span>
+              Add another account
+            </button>
+       </div>
+      </div>
+    </div>
+			<% if share_info[:linkedin].present? %>
+			<div class="box-inner-bottom">
+				<div class="connected-users">
+          <ul class="social_account_list">
+            <% share_info[:linkedin].each do |share|%>
+              <li class="<%= (share.present? && share.active == true) ? "select active" : ''%>"  id="div_<%= share.id %>" >
+	      <%= image_tag("#{share.user_profile_image.present? ? share.user_profile_image : 'no_image.jpg' }", alt: "")%>
+                <!--<img width="32" height="32" src="<%#= share.user_profile_image.present? ? share.user_profile_image : '/assets/no_image.jpg' %>" alt="">-->
+                <p><%= share.user_name.present? ? share.user_name : "Linkedin Account Name"%></p>
+                <div class="checkbox_container">
+                  <% if (share.present? && share.active == true)%>
+                    <%= check_box_tag "share_click_#{share.id}", '1', true, :class => 'fl share_chk chk_share', :onclick => "Share('#{share.id}')"%>
+                  <%else%>
+                    <%= check_box_tag "share_click_#{share.id}", '1', false, :class => 'fl share_chk chk_share', :onclick => "Share('#{share.id}')"%>
+                  <%end%>
+                </div>
+              </li>
+            <%end%>
+          </ul>
+			 </div>
+		  </div>
+        <%end%>
+  </div>
+  <!--// .share linked in -->
+  </div>
+
+<script type="text/javascript">
+  jQuery('#fb_on_off_switch').iphoneSwitch("<%=status && status[:fb] == "true" ? "on" : "off" %>",
+  function() {
+    jQuery.ajax({
+      type: 'GET',
+      url: '/share/social_status_change?provider=fb&status=on',
+      data: {},
+      success: function(data){
+        jQuery("#facebook :input").attr("disabled", false);
+        jQuery("#facebook").find("a").attr("href", "/users/auth/facebook");
+      }
+    });
+     check_check();
+   },
+  function() {
+    jQuery.ajax({
+      type: 'GET',
+      url: '/share/social_status_change?provider=fb&status=off',
+      data: {},
+      success: function(data){
+        jQuery("#facebook :input").attr("disabled", true);
+        jQuery("#facebook").find("a").removeAttr("href");
+      }
+    });
+    check_check();
+  },
+  { switch_on_container_path: "<%= asset_path 'iphone_switch_container_off.png' %>" });
+
+  jQuery('#twitter_on_off_switch').iphoneSwitch("<%=status && status[:twitter] =="true" ? "on" : "off" %>",
+  function() {
+    jQuery.ajax({
+      type: 'GET',
+      url: '/share/social_status_change?provider=twitter&status=on',
+      data: {},
+      success: function(data){
+        jQuery("#twitter :input").attr("disabled", false);
+        jQuery("#twitter").find("a").attr("href", "/users/auth/twitter");
+
+      }
+    });
+     check_check();
+
+  },
+  function() {
+    jQuery.ajax({
+      type: 'GET',
+      url: '/share/social_status_change?provider=twitter&status=off',
+      data: {},
+      success: function(data){
+        jQuery("#twitter :input").attr("disabled", true);
+        jQuery("#twitter").find("a").removeAttr("href");
+
+      }
+    });
+     check_check();
+  },
+  { switch_on_container_path: "<%= asset_path 'iphone_switch_container_off.png' %>" });
+
+  jQuery('#linkedin_on_off_switch').iphoneSwitch("<%=status && status[:linkedin] =="true" ? "on" : "off" %>",
+  function() {
+    jQuery.ajax({
+      type: 'GET',
+      url: '/share/social_status_change?provider=linkedin&status=on',
+      data: {},
+      success: function(data){
+        jQuery("#linked_in :input").attr("disabled", false);
+        jQuery("#linked_in #inside-linkedin").find("a").attr("href", "/users/auth/linkedin");
+
+      }
+    });
+    check_check();
+  },
+  function() {
+    jQuery.ajax({
+      type: 'GET',
+      url: '/share/social_status_change?provider=linkedin&status=off',
+      data: {},
+      success: function(data){
+        jQuery("#linked_in :input").attr("disabled", true);
+        jQuery("#linked_in #inside-linkedin").find("a").removeAttr("href");
+      }
+    });
+     check_check();
+  },
+  { switch_on_container_path: "<%= asset_path 'iphone_switch_container_off.png' %>" });
+
+
+
+
+  function check_check()
+  {
+
+    var check_box_status = [];
+    jQuery(".iphone_switch_container").each(function() {
+
+      if(jQuery(this).children("img").css("background-position") == "0px 50%"){
+        check_box_status.push("true");
+      }else{
+        check_box_status.push("false");
+      }
+    });
+    if (jQuery.inArray('true',check_box_status) > -1)
+    {
+      jQuery("#share_question button").removeAttr("disabled");
+    }
+    else
+    {
+
+      jQuery("#share_question button").attr("disabled", true);
+    }
+
+  }
+  jQuery(document).ready(function(){
+
+     var fb_status='<%= status[:fb]%>'
+    var twitter_status='<%= status[:twitter]%>'
+    var linkedin_status='<%= status[:linkedin]%>'
+
+    if(fb_status=="" && twitter_status=="" && linkedin_status=="" ) {
+
+      jQuery("#linked_in :input").attr("disabled", true);
+    }
+    else if(fb_status!="" || twitter_status!="" || linkedin_status!="" ){
+      if (fb_status=="true"){
+        jQuery("#share_question button").attr("disabled", false);
+      }
+      else if(twitter_status=="true"){
+        jQuery("#share_question button").attr("disabled", false);
+      }
+      else if(linkedin_status=="true"){
+        jQuery("#share_question button").attr("disabled", false);
+      }
+      else{
+
+        jQuery("#share_question button").attr("disabled", true);
+      }
+    }
+    jQuery("#linked_btn").removeAttr("disabled");
+  });
+
+
+</script>
+
+
+

@@ -1,0 +1,113 @@
+      <div class="modal fade" id="verify_caller_model" aria-hidden="true" tabindex='-1'>
+        <div class="modal-dialog signup modal-size">
+          <div class="modal-content">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                  &nbsp;
+                </button>
+                <h4 class="modal-title">Verification Code </h4>
+              </div>
+              <div class="modal-body verify_call_message">
+              </div></div>
+          </div>
+        </div>
+      </div>
+      <div class="pull-right" style="height: 0px;width: 0px;overflow:hidden;">
+        <a href= "#" class="btn-link" data-toggle="modal" data-target="#verify_caller_model" id="verify_caller"></a>
+      </div>
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix"><h2>Account</h2></div>
+      <div class="wrap-box-cont">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="white-box-wrapper">
+              <div class="box-head clearfix">
+                <h3><span class="glyphicon glyphicon-cog"></span>Settings</h3>
+              </div>
+              <div class="white-box">
+                <!-- Offline payment -->
+                <div class="link-downgrade">
+                </div>
+                <!-- Offline payment -->
+                <!-- Nav tabs -->
+                <%= render "shared/admin_menus_header"%>
+                <!-- Nav tabs -->
+                <div class="tab-content">
+                  <div class="tab-wrapper">
+                    <div class="row">
+                      <div class="col-lg-4 col-sm-6 col-md-12 col-xs-12">
+                        <%= form_for(tenant,html:{class: "new_tenant"}) do |f| %>
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <label>Name</label>
+                                <div class="form-group">
+                                  <label class="sr-only" for="InputName">Name</label>
+                                  <%= f.text_field :name, :class => "text_field rc_5 form-control input-medium" ,:id => "InputName" , :placeholder => "Name" , :tabindex => 1 %>
+                                  <p><span class="error" style="width:190px;" id="error_tenant_name"><%= tenant.errors[:name][0] %></span></p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <label>Address </label>
+                                <div class="form-group">
+                                  <label class="sr-only" for="InputName">Address</label>
+                                  <%= f.text_field :address, :class => "text_field rc_5 form-control input-medium" ,:id => "InputAddress" , :placeholder => "Address" , :tabindex => 2 %>
+                                  <p><span class="error" style="width:190px;" id="error_tenant_name"><%= tenant.errors[:address][0] %></span></p>
+                                </div>
+                              </div>
+                            </div>
+                            <% check_pricing_plan_access(current_user)%>
+                            <%default_url_phone_user%>
+                            <%if @redirect_url%>
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <label> Redirect Url </label>
+                                <div class="form-group">
+                                  <label class="sr-only" for="InputRedirectUrl">Redirect Url</label>
+                                  <%= f.text_field :redirect_url, :class => "text_field rc_5 form-control input-medium" ,:id => "InputRedirectUrl" , :value => tenant.redirect_url.blank? ? @default_url : tenant.redirect_url ,:placeholder => "RedirectUrl" , :tabindex => 3 %>
+                                  <p><span class="error" style="width:190px;" id="error_tenant_name"><%= tenant.errors[:redirect_url][0] %></span></p>
+                                </div>
+                              </div>
+                            </div>
+                                <%end%>
+                            <%if @from_number%>
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <label> From Number(*Please add with country code) </label>
+                                <div class="form-group">
+                                  <label class="sr-only" for="InputRedirectUrl">From Number</label>
+                                  <input type="text" value="<%=tenant.from_number.blank? ? "#{@default_no.gsub("+","")}" : tenant.from_number%>" tabindex="3" placeholder="FromNumber" name="tenant[from_number]" id="InputFromNumber" class="text_field rc_5 form-control input-medium from_number" readonly>
+                                  <%#= f.text_field :from_number, :class => "text_field rc_5 form-control input-medium from_number" ,:id => "InputFromNumber" , :value => tenant.from_number.blank? ? "#{@default_no.gsub("+","")}" : tenant.from_number ,:placeholder => "FromNumber" , :disabled => true, :tabindex => 3 %><a href="#" class ="edit_from" id="verify_caller_edit">Edit</a> <a href="#" class="verify_caller_id" id="false" style="display:none;">Verify & Update</a>
+                                  <p><span class="error" style="width:190px;" id="error_from_number"><%= tenant.errors[:from_number][0] %></span></p>
+                                </div>
+                              </div>
+                            </div>
+                                <%end%>
+
+                            </div>
+                            </div>
+                            </div>
+                            <!--//. recent activity -->
+                            <div class="btn-wrap text-center btn-update-info">
+                              <input type="hidden" id="user_id" name="tenant[client_id]" value="<%= assign_parent_id %>" />
+                              <a href="/tenants" class="article" id="back_to_users">Back</a>
+                              <%if is_edit %>
+                                  <%= f.submit  "Update", :class => "button medium orange update_account_det", :tabindex => 11  %>
+                              <% else %>
+                                  <%= f.submit "Create", :class => "button medium orange update_account_det", :tabindex => 11  %>
+                              <%end%>
+                            </div>
+                        <% end %>
+                        </div>
+              </div>
+            </div>
+          </div> <!-- Wrap-bo -->
+        </div> <!-- Container -->
+      </div>
+    </div>
+  </div>
+</div>

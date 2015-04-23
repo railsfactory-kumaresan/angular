@@ -1,0 +1,103 @@
+		<!-- start kendo grid -->
+				<div class="modal-body customer-info-lb">
+        <div class="kendo-wrapper">
+          <div class="row">
+            <script id="popup-editor" type="text/x-kendo-template">
+						<div class="add-user-form">
+                <div>
+                  <div class="k-edit-label">
+                    <label> Email: </label>
+                  </div>
+									<input type="hidden" name="id" id="current-data-id" data-type="id" data-bind="value:id">
+                  <div data-container-for="email" class="k-edit-field">
+                    <input type="text" class="k-input k-textbox" name="email" data-type="email" required="required" data-bind="value:email">
+                  </div>
+                </div>
+                <div>
+                  <div class="k-edit-label">
+                    <label> Name: </label>
+                  </div>
+                  <div data-container-for="customer_name" class="k-edit-field">
+                    <input type="text" class="k-input k-textbox" name="customer_name" data-type="customer_name" required="required" data-bind="value:customer_name">
+                  </div>
+                </div>
+                <div>
+                  <div class="k-edit-label">
+                    <label> Mobile: </label> </div>
+                  <div data-container-for="mobile" class="k-edit-field">
+                    <input type="text" class="k-input k-textbox" name="mobile" required="required" maxlength="15">
+                    <span style="display: block;margin: 4px 0 0;">*Add mobile number without country code</span>
+                  </div>
+                </div>
+                <div>
+                  <div class="k-edit-label"><label> Age: </label> 	</div>
+                  <div data-container-for="age" class="k-edit-field">
+                    <input type="text" class="k-input k-textbox" name="age" required="required" >
+                  </div>
+                </div>
+                <div> <div class="k-edit-label"><label> Gender: </label></div>
+                  <div data-container-for="gender" class="k-edit-field">
+                    <input type="radio" data-type="gender"  name="gender" value="male" /> Male
+                    <input type="radio"  name="gender" data-type="gender"  value="female" /> Female
+                  </div>
+                </div>
+                <div><div class="k-edit-label"> <label> Country: </label></div>
+                  <div data-container-for="country" class="k-edit-field">
+                    <%= select_tag "country", options_for_select(country_load_all, (params[:country] ? params[:country] : ["India", "IN"])),:prompt=>"-Select Country-", :required => "required",:class=>"form-control input-small"%>
+                  </div>
+                </div>
+                <div><div class="k-edit-label"> <label> State: </label></div>
+                  <div data-container-for="state" class="k-edit-field">
+                    <%= select_tag "state", options_for_select(' '),:prompt=>"Select states", :id=>"states",:class=>"form-control input-small"%></div>
+                  <div>
+                    <div>
+                      <div class="k-edit-label"> <label> City: </label></div>
+                      <div data-container-for="city" class="k-edit-field">
+                        <input type="text" class="k-input k-textbox" name="city" data-type="city" data-bind="value:city"> </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div>
+                      <div class="k-edit-label"> <label> Area: </label></div>
+                      <div data-container-for="area" class="k-edit-field">
+                        <input type="text" class="k-input k-textbox" name="area" data-type="area" data-bind="value:area"> </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div>
+                      <div class="k-edit-label"> <label> Custom Field: </label></div>
+                      <div data-container-for="custom_field" class="k-edit-field">
+                        <input type="text" class="k-input k-textbox" name="custom_field" data-type="custom_field" data-bind="value:custom_field"> </div>
+                    </div>
+                  </div>
+                  </script>
+									  <div id="window"></div>
+							<script type="text/x-kendo-template" id="windowTemplate">
+								<!--	<div class="modal-content"> -->
+										<div class="modal-body">
+											<div class="text-center">
+												<button type="button" class="button orange" id="yesButton">YES</button>
+												<button type="button" class="btn btn-link" id="noButton">NO</button>
+											</div>
+											<br />
+										</div>
+								<!--	</div> /.modal-content -->
+							</script>
+                  <div id="grid-<%= gridval%>"></div>
+                </div>
+              </div>
+				 <% unless customer_settings %>
+                  <div class="grid-btn-wrap clearfix">
+                      <div class="append-template-chk-button pull-left">
+						<input type='button' id='reset-grid' onclick="share_email_popup_load('<%= gridval%>');"class ='btn btn-link select-btn' value='Reset Grid' />
+					  </div>
+                      <div class="append-template-reset-grid-button pull-left">
+                        <input type="hidden" id='maximum_limit' value='<%=@maximum_limit%>' />
+                        <input type="hidden" id="email_validation" value="<%= current_user.is_csv_processed %>" />
+					    <input type='button' id='select-all-email-chk' class='button orange select-btn btn-small' value='<%= button_msg%>' /><h3 class='error chk-prse-error' style='display:none;text-align:center;'>"Please select at least one email address."</h3>
+					  </div>
+                  </div>
+                  <% end %>
+						</div>
+
+						</div>

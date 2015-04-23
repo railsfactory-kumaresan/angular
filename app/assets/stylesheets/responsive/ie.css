@@ -1,0 +1,15 @@
+.modal-dialog{
+	width: 600px;
+}
+.close{
+	filter: alpha(opacity=100);
+}
+.close:hover{
+	filter: alpha(opacity=80);
+}
+
+/* ie 7 */
+.form-control{
+	*height: auto;
+	*width: 94%;
+}

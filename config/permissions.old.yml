@@ -1,0 +1,126 @@
+Individual:
+ downloads:
+  download_csv: 2
+ account:
+  company_settings: 1
+  transaction_history: 1
+  account_attachment: 2
+  social_login: 2
+  valid_email: 1
+  add_social_account: 2
+  get_customer_info: 1
+ users/omniauth_callbacks:
+  linkedin: 2
+  facebook: 2
+  twitter: 2
+ users/registrations:
+  edit: 1
+  update: 2
+ imports:
+  csv_template: 2
+  create_customer_info: 2
+Corp-Admin:
+ downloads:
+  download_csv: 2
+ account:
+  company_settings: 1
+  transaction_history: 1
+  account_attachment: 2
+  social_login: 2
+  valid_email: 1
+  add_social_account: 2
+  get_customer_info: 1
+ users/omniauth_callbacks:
+  linkedin: 2
+  facebook: 2
+  twitter: 2
+ users/registrations:
+  edit: 1
+  update: 2
+ imports:
+  csv_template: 2
+  create_customer_info: 2
+Corp-Exec:
+ downloads:
+  download_csv: 2
+ account:
+  company_settings: 1
+  transaction_history: 1
+  account_attachment: 2
+  social_login: 2
+  valid_email: 1
+  add_social_account: 2
+  get_customer_info: 1
+ users/omniauth_callbacks:
+  linkedin: 2
+  facebook: 2
+  twitter: 2
+ users/registrations:
+  edit: 1
+  update: 2
+ imports:
+  csv_template: 2
+  create_customer_info: 2
+Tenant-Admin:
+ downloads:
+  download_csv: 2
+ account:
+  company_settings: 1
+  transaction_history: 0
+  social_login: 2
+  valid_email: 1
+  add_social_account: 1
+  get_customer_info: 1
+  account_attachment: 1
+ users/omniauth_callbacks:
+  linkedin: 1
+  facebook: 1
+  twitter: 1
+ users/registrations:
+  edit: 1
+  update: 2
+ imports:
+  csv_template: 1
+  create_customer_info: 1
+Tenant-Manager:
+ downloads:
+  download_csv: 2
+ account:
+  company_settings: 1
+  transaction_history: 0
+  account_attachment: 1
+  social_login: 2
+  valid_email: 1
+  add_social_account: 1
+  get_customer_info: 1
+ users/omniauth_callbacks:
+  linkedin: 1
+  facebook: 1
+  twitter: 1
+ users/registrations:
+  edit: 1
+  update: 2
+ imports:
+  csv_template: 1
+  create_customer_info: 1
+Tenant-Analyst:
+ downloads:
+  download_csv: 2
+ account:
+  company_settings: 1
+  transaction_history: 0
+  account_attachment: 1
+  social_login: 2
+  valid_email: 1
+  add_social_account: 1
+  get_customer_info: 1
+ users/omniauth_callbacks:
+  linkedin: 1
+  facebook: 1
+  twitter: 1
+ users/registrations:
+  edit: 1
+  update: 2
+ imports:
+  csv_template: 1
+  create_customer_info: 1

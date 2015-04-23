@@ -1,0 +1,153 @@
+<%= stylesheet_link_tag    "/video/css/videobox.css", :media => "all" %>
+<%= javascript_include_tag  "/video/js/mootools","/video/js/swfobject",	"/video/js/videobox"%>
+<% content_for :page_specific_head_content do%>
+<%= javascript_include_tag "responsive/page_loaders/dashboard","responsive/page_loaders/word_cloud" %>
+<%end%>
+<% content_for :title, "Dashboard" %>
+<%p session[:user_permissions]%>
+<div class="modal fade" id="question_suggestion_model" aria-hidden="true" tabindex='-1'>
+  <div class="modal-dialog signup modal-size">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &nbsp;
+        </button>
+        <h4 class="modal-title">CCAVENUE CANCEL</h4>
+      </div>
+      <div class="modal-body signin">
+        <div class="">
+          <div class="cancel_head" id="qustion_suggestion_list">
+            You seem to have cancelled your transaction.Please leave your feedback.<hr class="hor-style"/>
+            <form action="<%=send_cancel_email_payments_path%>" method="post" id="cancel_email">
+            <div class="col-md-12">
+              <textarea class="form-control" id="question_body" maxlength="" name="message" rows="3"></textarea>
+            </div>
+            <div class="btn-wrap text-center">
+              <a id="share_question"  class="button medium button-blue" href="#">
+                Send
+              </a>
+              <a id="share_question_close"  class="nt-nw" href="#" aria-hidden="true" data-dismiss="modal">
+                Not Now
+              </a>
+            </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pull-right" style="height: 0px;width: 0px;overflow:hidden;">
+  <a href= "#" class="btn-link" data-toggle="modal" data-target="#question_suggestion_model" id="cc_avenue_cancel"></a>
+</div>
+<div class="main-content">
+  <% if @user.check_subscribe_user?(current_user) %>
+  <% if !params[:category].present? %>
+   <div class="container">
+    <div class="alert alert-warning fade in" id="flash_message">
+      <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+      <%if current_user.present? && current_user.subscribe == false%>
+      <%= @created_date.to_s.capitalize %> <%="Day".pluralize(@created_date) %> left in your free trial. <%# if @created_date == Time.now.strftime("%Y-%m-%d") %><!--<a href='payments/merchant_test'><strong>Pay Now</strong></a>--><%#end%>
+      <%end%>
+    </div>
+  </div>
+  <%end%>
+  <%end%>
+
+  <div class="container">
+    <div class="wrap-box">
+      <% if ((get_tenant_count(current_user) && get_tenant_count(current_user) > 0) || @question_details.present?) %>
+          <div class="wrap-box-head clearfix">
+            <h2>Dashboard</h2>
+          </div>
+          <%= render :partial => 'dashboard/analytics', :locals =>{:status_result => @status, :total_view_count => @total_view_count, :total_response_count => @total_response_count, :total_view => @total_view, :total_response => @total_response, :year => @year, :user => @user, :response => @response, :views => @views, :responses => @responses, :age_wise_view_count => @age_wise_view_count, :age_wise_response_count => @age_wise_response_count, :country_collection => @countries, :unknown_views_show => @unknown_views_show, :unknown_response_show => @unknown_response_show, :unknown_views => @unknown_views, :unknown_responses => @unknown_response, :keywords => @keywords, :comments => @comments, :category => @category,:user_id=>current_user.id ,:country_collection => @countries, :params_val => params}%>
+      <% else %>
+          <%= render :partial => 'dashboard/get_started_dashboard'%>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Video Modal -->
+<div class="modal fade" id="myvideo" aria-hidden="true">
+  <div class="modal-dialog signup">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&nbsp;</button>
+        <h4 class="modal-title">About Inquirly</h4>
+      </div>
+      <div class="modal-body question-suggestion-lb">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="img-responsive">
+              <iframe width="100%" height="315" src="//www.youtube.com/embed/efRNKkmWdc0" frameborder="0" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<%if current_user.is_trail_in_period? %>
+	<%= render :partial => 'payments/billing_info_details'%>
+<%end%>
+<script type="text/javascript">
+    var pay = '<%= params["pay"] %>';
+    if(pay == 'true')
+    {
+    click_bus(<%= current_user.blank? ? "" : current_user.business_type_id%>,'<%= user_plan_billinginfo(current_user)[1]%>','<%= user_plan_billinginfo(current_user)[0].blank? ? false : true%>');
+      jQuery('#billingInfo').on('hidden.bs.modal', function () {
+          jQuery.ajax({
+              type: "get",
+              url: "dashboard/shift_to_trial_period",
+              data: {},
+              dataType: "json",
+              success: function(data)
+              {
+              }
+          });
+      })
+  }
+  var status = '<%= params[:status]%>'
+  if(status == "Aborted"){jQuery("#cc_avenue_cancel").click();}
+  jQuery("#share_question").click(function(){
+      jQuery("#cancel_email").submit();
+  });
+  jQuery("#share_question_close").click(function(){
+      window.location.href='<%=dashboard_index_path%>';
+  })
+jQuery(document).ready(function(){
+  var user_created_at = '<%= current_user.present? ? current_user.created_at : Date.now%>';
+  jQuery("#from_date").datepicker({
+      showOn : "button",
+      buttonImage : "/assets/responsive/calendar.png",
+      buttonImageOnly : true,
+      dateFormat : 'yy/mm/dd',
+      minDate: new Date(user_created_at.split(' ')[0].split('-')[0],user_created_at.split(' ')[0].split('-')[1] -1,user_created_at.split(' ')[0].split('-')[2]),
+      maxDate: new Date()
+  });
+
+  jQuery("#to_date").datepicker({
+      showOn : "button",
+      buttonImage : "/assets/responsive/calendar.png",
+      buttonImageOnly : true,
+      dateFormat : 'yy/mm/dd',
+      minDate: new Date(user_created_at.split(' ')[0].split('-')[0],user_created_at.split(' ')[0].split('-')[1] -1,user_created_at.split(' ')[0].split('-')[2]),
+      maxDate: new Date()
+  });
+//wordcloud_data_load('dashboard');
+
+    /* Pricing Plan Category Check */
+    <% category_type = get_plan_category_types(current_user) %>
+    <% if category_type == "Feedback" %>
+        jQuery("#Feedback").trigger('click');
+    <% elsif category_type == "Innovation" %>
+        jQuery("#Innovation").trigger('click');
+    <% else %>
+        jQuery("#Marketing").trigger('click');
+    <% end %>
+
+});
+
+</script>

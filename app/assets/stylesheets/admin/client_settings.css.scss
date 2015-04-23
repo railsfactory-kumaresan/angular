@@ -1,0 +1,75 @@
+// Place all the styles related to the admin/client_settings controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+ul.ui-autocomplete li.ui-menu-item {
+  z-index: 1;
+}
+.btn-update-info {
+  margin-top: 10px;
+  float: left;
+}
+#search_user  {
+  margin: -34px -180px 0px 0px;
+}
+.main-content{
+  height: 430px !important;
+}
+#search_user_email{
+  width: 150% !important;
+}
+.tab-content .inner{
+  border: 2px solid orange;
+  border-radius: 25px;
+}
+.ui-widget-content{
+  border: 1px solid #aaaaaa/*{borderColorContent}*/;
+  background: #ffffff/*{bgColorContent}*/ asset-url("responsive/ui-bg_flat_75_ffffff_40x100.png",image) /*{bgImgUrlContent}*/ 50%/*{bgContentXPos}*/ 50%/*{bgContentYPos}*/ repeat-x/*{bgContentRepeat}*/;
+  color: #222222/*{fcContent}*/;
+  top: 58px; left: 38px; width: 189px;
+}
+.ui-widget {
+  font-family: Verdana,Arial,sans-serif/*{ffDefault}*/;
+  font-size: 1.1em/*{fsDefault}*/;
+}
+.ui-corner-all{
+  border-top-right-radius: 4px;
+}
+.ui-menu .ui-menu-item {
+  margin: 0;
+  padding: 0;
+  zoom: 1;
+  width: 100%;
+}
+.ui-menu .ui-menu-item a {
+  text-decoration: none;
+  display: block;
+  padding: 2px .4em;
+  line-height: 1.5;
+  zoom: 1;
+  font-weight: normal;
+}
+.ui-widget-content a{
+  color: #222222/*{fcContent}*/
+}
+.ui-state-focus, .ui-widget-content .ui-state-focus{
+  border: 1px solid #999999/*{borderColorHover}*/;
+  background: #dadada/*{bgColorHover}*/ asset-url("responsive/ui-bg_glass_75_dadada_1x400.png",image) /*{bgImgUrlHover}*/ 50%/*{bgHoverXPos}*/ 50%/*{bgHoverYPos}*/ repeat-x/*{bgHoverRepeat}*/;
+  font-weight: normal/*{fwDefault}*/;
+  color: #212121/*{fcHover}*/;
+}
+.ui-menu .ui-menu-item a.ui-state-focus{
+  font-weight: normal;
+  margin: -1px;
+}
+.date-picker .ui-datepicker-trigger{
+  position: absolute;
+  right: 11px;
+  top: 18px;
+  margin: 10px 8px 0 0;
+}
+.footer {
+  position: fixed;
+  height: 70px;
+  bottom: -25px;
+  width: 100%;
+}

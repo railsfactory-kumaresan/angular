@@ -1,0 +1,494 @@
+<%#= javascript_include_tag "responsive/transloadit" %>
+<%= form_for( question, :url => { :action => :create }, :html => {:class => "question_form", :id => "question_create", :multipart => true }) do |f| %>
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Create Question</h2>
+      </div>
+      <div class="wrap-box-cont">
+        <div class="question-create-steps">
+          <div class="row">
+            <% benchmark '##Render question header form' do %>
+            <%= render "question_header", :question_id =>  question_id, :question_id =>  question.id, :custom_url =>  custom_url %>
+            <% end %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="white-box-wrapper">
+              <div class="box-head clearfix">
+                <h3><span class="glyphicon glyphicon-edit"></span>Write Question</h3>
+                 <%if current_user.check_privilege('suggestions')%>
+                <div class="pull-right">
+                  <a href= "#" class="btn-link" data-toggle="modal" data-target="#question_suggestion_model" id="qst_sugg_submit">Show me some examples</a>
+                </div>
+                 <% end %>
+              </div>
+              <div class="white-box">
+                <!-- Tab panes -->
+                <div class="form-horizontal">
+                  <div class="row">
+                    <div class="col-lg-4 lang-type">
+                      <div class="form-group">
+                        <label for="inputLanguage" class="col-sm-6 text-left control-label">
+                          Select Language
+                        </label>
+                        <div class="col-sm-6">
+                          <select id="langlist" class="form-control input-small" onchange="setChar();"></select>
+                          <%#= f.text_field :hidden,:id=>"language", :value=>"English" %>
+                          <input type="hidden" name="question[language]" id="language" value="English" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--row-->
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <label>Write your Question</label>
+                    <%= f.text_area :question, :rows => 3, :class => "form-control" ,:id=> "question_body", :maxlength=>"140"%>
+                    <div class="form-group error-field error-msg-question-create question_error" style="display:none">
+                      <div class="error">Please enter the question</div>
+                    </div>
+                    <div class="char-count text-right">
+                      <span class="req" id="charCount"> </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-horizontal">
+                  <div class="row">
+                    <div class="col-lg-4 col-md-4">
+                      <div class="form-group">
+                        <%# if  user_business_type == 2 ||  user_role == "create" %>
+                        <%if category_types.count > 1%>
+                        <label for="inputEmail3" class="col-sm-3 control-label">Type</label>
+                        <div class="col-sm-9">
+                          <%= f.select "category_type_id",  category_types.collect {|u| [u.category_name, u.id] }, {:selected=> question.category_type_id},{:class => 'form-control input-small'}%>
+                        </div>
+                        <% else %>
+                        <input type="hidden" value="<%=category_types.first.id%>" name="question[category_type_id]" id="question_category_type_id"/>
+                        <% end %>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                      <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Expiration</label>
+                        <div class="col-sm-9">
+                          <%= f.select "expiration_id", options_for_select( expiration, :selected => params[:question] && params[:question][:expiration_id] ? params[:question] && params[:question][:expiration_id] : ""),{}, {:class => 'form-control input-small'} %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="checkbox"><label> <%= f.check_box :private_access %>Make Question as Private <span title="Private question will not be displayed for other users">(?)</span> </label></div>
+                  </div>
+                </div><!--row-->
+                <!--row-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--//. write question -->
+        <!--Video preview script file -->
+        <%= f.hidden_field :upload_video_url, :value => "" %>
+        <%if current_user.check_privilege('video_photo_count')%>
+        <%= render :partial => "/question/question_video_preview", :locals => { :user_business_type => user_business_type, :f => f } %>
+        <%end%>
+        <!--//. add video -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="white-box-wrapper">
+              <div class="box-head clearfix">
+                <h3><span class="glyphicon glyphicon-pencil"></span>Write your answer</h3>
+              </div>
+              <div class="white-box">
+                <ul class="nav nav-tabs main-tabs hidden-xs" id="myTabs">
+                  <li>
+                    <a href="#single_answer" data-toggle="tab" id="single_qst_tab">
+                      <span class="glyphicon glyphicon-record"></span>Single Answer
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#multiple_answer" data-toggle="tab"  id="multiple_qst_tab">
+                      <span class="glyphicon glyphicon-check"></span>Multiple Answer
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#yes_no" data-toggle="tab"  id="yes_no_tab">
+                      <span class="glyphicon glyphicon-thumbs-up"></span>Yes/No
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#comment" data-toggle="tab"  id="comment_tab">
+                      <span class="glyphicon glyphicon-comment"></span>Comment
+                    </a>
+                  </li>
+                </ul>
+                <!--Dropdown for selecting the answer type -->
+                <select class="answer_navigation form-control visible-xs">
+                  <option value="Single Answer">Single Answer</option>
+                  <option value="Multiple Answer">Multiple Answer</option>
+                  <option value="Yes/No">Yes/No</option>
+                  <option value="Comment">Comment</option>
+                </select>
+                <!-- Nav tabs -->
+                <input type="hidden" name="question[question_type_id]" id="question_type" value="1" />
+                <!-- Tab panes -->
+                <div class="col-lg-12">
+                  <div class="tab-content">
+                    <!-- single question begin -->
+                    <div class="tab-pane active" id="single_answer">
+                      <div class="tab-pane-inner" id="single_tap_question">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <h4>User will be able to select only one of the following answers.</h4>
+                          </div>
+                        </div>
+                        <div class="form-group error-field error-msg-question-create">
+                          <div class="error answer_error" style="display:none">Please enter the answers</div>
+                          <div class="error answer_uni_error" style="display:none">Duplicate Answer</div>
+			  <!--<div class="error answer_length_error" style="display:none">Answer length should not be more than 40 characters</div>-->
+                        </div>
+                        <div id="another_answer">
+                          <div class="row">
+                            <div class="col-lg-10 col-md-9 col-sm-9">
+                              <div class="form-group">
+                                <label class="sr-only" for="InputAnswer1">Answer</label>
+                                <input type="text" class="form-control input-medium ans_count" id="single_ans_0" name="ans[0]" maxlength="30" tabindex="19" placeholder="Answer"/>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-10 col-md-9 col-sm-9">
+                              <div class="form-group">
+                                <label class="sr-only" for="InputAnswer2">Answer</label>
+                                <input type="text" class="form-control input-medium ans_count" id="single_ans_1" name="ans[1]" maxlength="30" tabindex="20" placeholder="Answer"/>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <a href="javascript:void(0);" class="" id="add_another_button"><span class="glyphicon glyphicon-plus"></span>Add Another Answer</a>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-10 col-md-10 col-sm-10">
+                            <div class="form-group">
+                              <div class="checkbox">
+                                <label>
+                                  <%= f.check_box :include_other,:class=>"fl"%>Include Other
+                                </label>
+                              </div>
+                              <div class="checkbox">
+                                <label>
+                                  <%= f.check_box :include_text,:class=>"fl"%>Include free text option
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- single question end -->
+                    <!-- Multiple question begin -->
+                    <div class="tab-pane" id="multiple_answer">
+
+                    </div>
+                    <!-- multiple question end -->
+                    <!-- Yes/No begin -->
+                    <div class="tab-pane" id="yes_no">
+
+                    </div>
+                    <!-- Yes/No end -->
+                    <!-- Comment Begin -->
+                    <div class="tab-pane" id="comment">
+
+                    </div>
+                    <!-- Comment End -->
+                  </div>
+                  <!-- Tab panes end -->
+                </div>
+              </div>
+            </div>
+            <!--//. recent activity -->
+          </div>
+        </div>
+        <!--//. write answer -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="white-box-wrapper">
+              <div class="box-head clearfix">
+                <h3><span class="glyphicon glyphicon-pencil"></span>Add Thank You Message</h3>
+              </div>
+              <div class="white-box">
+                <!-- Tab panes -->
+                <div class="row">
+                  <div class="col-md-12">
+                    <!-- <label>Thank you for Responding!</label> -->
+                    <%= f.text_area :thanks_response, :rows => "3", :class => "form-control", :value => "Thanks for responding!" %>
+                  </div>
+                </div><!--row-->
+              </div>
+            </div>
+            <!--//. recent activity -->
+          </div>
+        </div>
+        <!--//. add thankyou message -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="btn-wrap quest-prev-btn">
+              <input type="hidden" name="copy_video_url" id="copy_video_url" value="" /> <!-- Copy Other question video/photo -->
+              <input type="hidden" name="copy_embed_url" id="copy_embed_url" value="" /> <!-- Copy Other question video/photo emebed -->
+              <%= link_to "Cancel", question_index_path, :class => "btn btn-link"%>
+              <%= f.submit "Preview Question", :class => "button medium orange size-lg", :disable_with => 'Please wait...', :id => "prv" ,:onclick => "return validate();"%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+<!-- question suggestion -->
+<div class="modal fade" id="question_suggestion_model" aria-hidden="true" tabindex='-1'>
+  <div class="modal-dialog signup">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &nbsp;
+        </button>
+        <h4 class="modal-title">Question Suggestion</h4>
+      </div>
+      <div class="modal-body signin">
+        <div class="">
+          <div class="" id="qustion_suggestion_list">
+
+          </div>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+
+  selected_languages = [];
+  <%@languages.each do |language|%>
+       selected_languages.push("<%=language%>");
+  <%end%>
+    Quill.Config.client.defaultLanguage = "<%=@languages.first%>";
+    load_question_body_text('');
+
+  // To change language dynamically
+  jQuery("body").delegate("#langlist","change", function(){
+    jQuery("#language").val(jQuery('#langlist').val());
+  })
+
+  jQuery("body").delegate("#qst_sugg_submit","click", function(){
+    var text_value = encodeURIComponent( jQuery('#question_body').val());
+    var question_category_type = jQuery('#question_category_type_id').val();
+    jQuery.ajax({
+      url: '/question/search?keywords='+text_value+'&question_type='+question_category_type+'',
+      type: 'GET',
+      success: function(data){
+      }
+    });
+  });
+  $("body").delegate("#single_qst_tab","click", function(){
+    jQuery.ajax({
+      url : '/question/single_question',
+      success : function(data) {
+        jQuery("#single_answer").html(data);
+        reindex();
+        single_qst_tab_select();
+      }
+    });
+  })
+  $("body").delegate("#multiple_qst_tab","click", function(){
+    jQuery.ajax({
+      url : '/question/multiple_question',
+      success : function(data) {
+        jQuery("#multiple_answer").html(data);
+        reindex();
+        multi_sql_tab_select();
+      }
+    });
+  })
+
+  $("body").delegate("#yes_no_tab","click", function(){
+    jQuery.ajax({
+      url : '/question/yes_no_question',
+      success : function(data) {
+        jQuery("#yes_no").html(data);
+        reindex();
+        yes_no_tab_select();
+      }
+    });
+  })
+  $("body").delegate("#comment_tab","click", function(){
+    jQuery.ajax({
+      url : '/question/comment_question',
+      success : function(data) {
+        jQuery("#comment").html(data);
+        reindex();
+        comment_tab_select();
+      }
+    });
+  })
+
+  function setChar()
+  {
+    if ($("#langlist").val() == "English")
+    {
+      $("#charCount").text(Quill.getCharsLeft("question_body"));
+    }
+    else
+    {
+      $("#charCount").text(" ");
+    }
+  }
+
+  $(document).ready(function() {
+    reindex();
+    question_create_and_edit_tab_navigation() // For responsive view tab navigation
+    $('#myTabs').children().first().addClass("active");
+    Quill.init('question_thanks_response', 'langlist', null);
+    question_body_css();
+    tanks_response_css();
+    enable_quill_pad();
+    add_tab_index();
+    setTimeout(function() {
+      if ($("#langlist").val() == "English")
+      {
+        Quill.init('question_body', 'langlist', null);
+        Quill.setCharLimit (140, 'question_body');
+        $("#charCount").text(140);
+      }
+      $("#Quillquestion_body_container").addClass("form-control quill-box"); // For design to class for quill pad dynamic div element
+    });
+
+    $("body").delegate("#Quillquestion_body_container","keydown", function(){
+      if ($("#langlist").val() == "English")
+      {
+        $("#charCount").text(Quill.getCharsLeft("question_body"));
+      }
+    });
+  });
+
+  $("body").delegate("#add_another_button","click", function(){
+    reindex();
+    var increase_count = jQuery(".tab-content #another_answer :text").length;
+    jQuery("#another_answer").append("<div class='row' id='row_count_"+increase_count+"'><div class='col-lg-10 col-md-9 col-sm-9'><div class='form-group'><label class='sr-only' for='InputAnswer"+increase_count+"'>Answer</label><input type='text' class='form-control input-medium ans_count' id='InputAnswer"+increase_count+"' placeholder='Answer' name='ans["+increase_count+"]'/></div></div></div>");
+    enable_button();
+    add_delete_button();
+    enable_quill_pad();
+    add_tab_index();
+    enable_focus();
+    setTimeout(function() {
+      Quill.setFocus('question_body');
+    });
+    // Video upload new functionality
+    // Video Script
+    // jQuery('#question_create').unbind('submit.transloadit');
+    // Question Video functionalities
+    // jQuery(".question_video_browse").click(function () {
+    //   $("#question_video_url").click();
+    //   return false;
+    // });
+    // jQuery("#question_video_url").change(function () {
+    //   jQuery(".question_video_input").val(jQuery("#question_video_url").val());
+    // });
+    // Question video attachment image click option
+    jQuery(".video-upload-content .qr-file-attach").click(function () {
+      return false;
+    })
+
+    // Question video select option
+    jQuery("input[type='radio']").click(function () {
+      var another_class_name;
+      var input_class_name = "div." + jQuery(this).attr('class');
+      if (jQuery(this).attr("class") == "embed-url") {
+        another_class_name = "div.self-upload";
+        jQuery("#question_video_url").val("");
+      } else {
+        another_class_name = "div.embed-url";
+        $("#question_embed_url").val("");
+      }
+      jQuery(another_class_name).toggle();
+    });
+    // To show/hide add button
+  });
+
+jQuery('#select-video-button').click(function () {
+  if($("#chk_self_upload").is(':checked')){
+    $("input[type='file']").trigger('click');
+  }
+});
+
+</script>
+
+<script type="text/javascript">
+
+  // function transload(){
+  //   jQuery('#question_create').transloadit({
+  //     wait: true,
+  //     params: {
+  //       auth: { key: "bf80b2b12ae0658bc9ca18514f52245a" },
+  //       template_id: "d77d1042cb9683ff936d6172c8310450"
+  //     }
+  //   });
+  // }
+  // jQuery(document).ready(function(){
+  //   jQuery('#question_create').unbind('submit.transloadit');
+  // });
+</script>
+
+<style>
+.qr-file-attach {
+  background: url(attach-icon.png) no-repeat scroll 0 0;
+  width: 54px;
+  height: 49px;
+  display: block;
+  cursor: pointer;
+  border: none;
+  margin-top: 10px;
+}
+
+.video-upload-content {
+  width: 600px;
+}
+
+.video-upload-content h1 {
+  font-size: 13px;
+  color: #807E7E;
+  font-weight: 600;
+  float: left;
+  margin-top: 10px;
+}
+
+.video-upload-content input[type='radio'] {
+  margin-top: 10px;
+}
+
+.video-upload-content h1:last-of-type {
+  margin-right: 10px;
+}
+
+.video-upload-content .self-upload, .video-upload-content .embed-url {
+  margin-top: 15px;
+}
+
+.qr-input-txt {
+  width: 402px;
+  margin: 0 10px 0 0;
+  border: 1px solid #cbcbcb;
+  padding: 10px 10px;
+  background-color: #f6f6f6;
+}
+</style>

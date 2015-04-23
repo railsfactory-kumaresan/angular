@@ -1,0 +1,335 @@
+<html>
+<head>
+  <title>Inquirly:Listener</title>
+  <%= favicon_link_tag 'responsive/favicon.ico', rel: 'shortcut icon', type: 'image/x-icon'%>
+  <%= favicon_link_tag 'responsive/favicon.ico', rel: 'icon', type: 'image/x-icon'%>
+  <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300|Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/assets/listener/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/listener/font-awesome.css" rel="stylesheet">
+  <link href="/assets/listener/base.css" rel="stylesheet">
+  <!-- <script src="/assets/listener/jquery-2.1.1.min.js" type="text/javascript"></script>
+   <script src="/assets/listener/bootstrap.min.js" type="text/javascript"></script>-->
+  <script type="text/javascript" src="/assets/listener/Chart.Core.js"></script>
+  <script type="text/javascript" src="/assets/listener/Chart.Line.js"></script>
+  <script type="text/javascript" src="/assets/listener/Chart.Doughnut.js"></script>
+  <script type="text/javascript" src="/assets/listener/TrendsChart.js"></script>
+  <script type="text/javascript" src="/assets/listener/DoughnutChart.js"></script>
+  <!--<script type="text/javascript" src="/assets/listener/enscroll-0.6.0.min.js"></script>-->
+  <script type="text/javascript" src="/assets/responsive/page_loaders/listener.js"></script>
+  <script type="text/javascript" src="/assets/listener/listener_new.js"></script>
+  <%= csrf_meta_tag %>
+</head>
+
+<body>
+<div class="modal fade" id="question_suggestion_model" aria-hidden="true" tabindex='-1'>
+  <div class="modal-dialog signup modal-size">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &nbsp;
+        </button>
+        <h4 class="modal-title">Add Keywords</h4>
+      </div>
+      <div class="modal-body signin">
+        <div class="">
+          <div class="cancel_head" id="qustion_suggestion_list">
+            <form action="<%#=save_keywords_admin_listener_path(:id => current_user.id)%>" method="post" id="cancel_email">
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/>
+
+              <div class="col-md-12">
+                <input type="text" class="form-control" id="keywords" maxlength="" name="keywords"/>
+              </div>
+              <div class="btn-wrap text-center">
+                <a id="save_keywords" class="nt-nw" href="#">
+                  Create
+                </a>
+                <a id="share_question_close" class="nt-nw" href="#" aria-hidden="true" data-dismiss="modal">
+                  Cancel
+                </a>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Listening Stats Panel -->
+<nav class="navbar navbar-default listening-stats-panel" role="navigation">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-2 navbar-header" style="font-size: 13px !important;color: black;padding-top: 6px !important;height: 0px;"><span class="navbar-brand" style="font-size: 13px!important;">Listening Stats</span><span style="float:right;"><select class="select_tenant form-control input-small"
+                    style="height: 25px !important; margin-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 29px !important;padding: 0;"><option value="">Select Tenant</option>
+        <%@tenant.each do|i|%><%if params[:tenant_id].to_i == i.id.to_i%><option value="<%=i.id%>" selected><%else%><option value="<%=i.id%>"><%end%><%=i.name%></option><%end%></select></span>
+      </div>
+      <div class="col-lg-3 stats-block divider-vertical slide_toggle">
+        <div class="stats-container">
+          <div class="stats-value"><%= @traffic_source.blank? ? "-" : @traffic_source.count%></div>
+          <div class="stats-type">Traffic Sources</div>
+        </div>
+      </div>
+      <div class="col-lg-3 stats-block divider-vertical slide_toggle">
+        <div class="stats-container">
+          <div class="stats-value"><%= @total_new_results.blank? ? "-" : @total_new_results%></div>
+          <div class="stats-type">New Results</div>
+        </div>
+      </div>
+      <div class="col-lg-3 stats-block slide_toggle">
+        <div class="stats-container">
+          <div class="stats-value"><%= @total_results_velocity.blank? ? "-" : @total_results_velocity %><!--span class="glyphicon glyphicon-chevron-up results-velocity-icon"></span--></div>
+          <div class="stats-type">Resutls Velocity</div>
+        </div>
+      </div>
+      <div class="col-lg-1 stats-block toggle_clas">
+        <div class="stats-toggle-button" style=" height: 54px !important;line-height: 55px !important;" data-toggle="collapse" data-parent="#accordion" href="#stats-charts-container">
+          <span class="glyphicon glyphicon-chevron-down"></span>
+        </div>
+      </div>
+    </div>
+    <div id="stats-charts-container" class="panel-collapse collapse ">
+      <div class="panel-body" style="height: 274px;">
+        <div class="container-fluid">
+          <div class="row" style="padding-left: 65px;">
+            <div class="chart-container">
+              <div class="stats-title">Traffic Sources</div>
+              <div id="traffic_source" class="traffic-source-chart"></div>
+              <div class="stats-value"><%=  @traffic_source.blank? ? "": @traffic_source.count%></div>
+            </div>
+            <div class="chart-container">
+              <div class="stats-title">New Results</div>
+              <div id="new_results" class="new-results-chart"></div>
+              <div class="stats-value"><%= @total_new_results%></div>
+            </div>
+            <div class="chart-container">
+              <div class="stats-title">Resutls Velocity</div>
+              <div id="results_velocity" class="results-velocity-chart"></div>
+              <div class="stats-value"><%= @total_results_velocity%></div>
+            </div>
+            <div class="chart-container">
+              <div id="trends_chart" class="trends-chart"></div>
+              <div id="trends_keywords" class="trends-legend"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</nav>
+<!-- End of Listening Stats Panel -->
+<!-- Main Container -->
+<div class="container-fluid">
+  <div class="row">
+    <!-- Save Listens-->
+    <div class="col-lg-2 col-md-2 saved-listens">
+      <%= render :partial => 'saved_listener', :locals => {:saved_listener => @saved_listener} %>
+    </div>
+    <!-- End of Save Listens-->
+
+    <!-- Center Container-->
+    <div class="col-lg-8 col-md-8 center-container">
+      <%= render :partial => 'listener_center_container'%>
+    </div>
+    <!-- End of Center Container-->
+
+    <!-- Discoverer Container -->
+    <div class="col-lg-2 col-md-2 discoverer-container">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="sub-title col-lg-12 col-md-12">
+            Discoverer
+	 <span class="dropdown">
+					<a id="discovere-dropdown" role="button" data-toggle="dropdown" href="#">
+                      <span class="glyphicon glyphicon-chevron-down discoverer-more"></span>
+                    </a>
+					<ul id="discoverer-dropdown-menu" class="dropdown-menu" role="menu" aria-labelledby="discoverer-dropdown">
+                      <li role="presentation">
+                        <a role="menuitem" tabindex="-1" id="wcLowHigh" onclick="return wcLowHigh(this.id)">Low - High</a>
+                        <a role="menuitem" tabindex="-1" id="wcHighLow" onclick="return wcLowHigh(this.id)">High - Low</a>
+                      </li>
+                    </ul>
+	</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 world_cloud" style="padding:0px;">
+            Start searching to see keyword suggestions
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- End of Discoverer Container -->
+  </div>
+</div>
+<!-- End of Main Container -->
+<script>
+    //[lable, value, color, hightlight]
+    $(document).ready(function() {
+        <%if !@traffic_source.blank?%>
+        traffic_source = JSON.parse("<%= @traffic_source%>".replace(/&quot;/g, '"'));
+        results_velocity = JSON.parse("<%= @results_velocity%>".replace(/&quot;/g, '"'));
+        new_results = JSON.parse("<%= @new_results%>".replace(/&quot;/g, '"'));
+        keywords = JSON.parse("<%= @keywords%>".replace(/&quot;/g, '"'));
+        post_per_day = JSON.parse("<%= @post_per_day%>".replace(/&quot;/g, '"'));
+        init_val_tra = JSON.parse("<%= @traffic_source[0]%>".replace(/&quot;/g, '"'));
+        init_val_res_vel =  JSON.parse("<%= @results_velocity[0]%>".replace(/&quot;/g, '"'));
+        init_val_new_res =  JSON.parse("<%= @new_results[0]%>".replace(/&quot;/g, '"'));
+        chart_graph_build(keywords, traffic_source, results_velocity, new_results, post_per_day,init_val_tra,init_val_res_vel, init_val_new_res);
+        jQuery(".loading").css('display','none');
+        jQuery(".loading").ajaxStart(function() {
+            console.log("Spinner is started");
+            jQuery(".loading").css('display','block');
+        });
+        jQuery(".loading").ajaxStop(function() {
+            console.log("Spinner is ended");
+            jQuery(".loading").css('display','none');
+        });
+        <%end%>
+    });
+</script>
+
+<%if !@traffic_source.blank?%>
+    <div class="loading">
+      <div class="loader"></div>
+      <div class="loading-overlay"></div>
+    </div>
+
+    <p id="back-top">
+      <a href="#top"><span></span></a>
+    </p>
+    </body>
+<%end%>
+</html>
+<script>
+    jQuery(".save_keywords").attr('disabled', true)
+    jQuery(".save_keywords").removeClass("listen").addClass("grey")
+    <%if @traffic_source.blank? &&  @results_velocity.blank? && @total_results_velocity.blank?%>
+    jQuery(".stats-toggle-button").hide();
+    <%end%>
+
+    $(".save_keywords").click(function () {
+        jQuery(".loading").css('display','block');
+        var id = '<%=current_user.id%>'
+        var term = jQuery(".search_new_keyword").val();
+        $.ajax(
+                {
+                    url : "/admin/listeners/"+id+"/save_keywords",
+                    type: "POST",
+                    data : {keywords: term},
+                    dataType: "script",
+                    success:function(data)
+                    {
+                        jQuery(".loading").css('display','none');
+                        jQuery(".save_keywords").removeClass("listen").addClass("grey")
+                        jQuery(".save_keywords").attr('disabled', true)
+                    }
+
+                });
+    })
+//jQuery(".slide_toggle").css("display", "none");
+//jQuery(".toggle_clas").css("margin-left","1200px")
+    $(document).ready( function() {
+//        $('.scroll_discover').enscroll({
+//            showOnHover: true,
+//            verticalTrackClass: 'track3',
+//            verticalHandleClass: 'handle3'
+//        });
+        $(".search_new_keyword_butt").click(function( e ) {
+            var term = jQuery(".search_new_keyword").val();
+            var id = '<%=current_user.id%>';
+            live_search(term,id,false);
+        });
+    });
+
+    function live_search(term,id,status)
+    {
+		 jQuery(".loading").css('display','block');
+        jQuery("#live_listeni .message-card-container").remove();
+        var sources = [];
+        $('.filter-source_live:checked').each(function(i){
+            sources[i] = $(this).val();
+        });
+        //if($('input:radio[class=all_filt]:checked').val() == "exact"){var sourc = sources}else{}
+        $.ajax(
+                {
+                    url: "/admin/listeners/live_data",
+                    type: "get",
+                    data: {keywords: term, id:id,status:status,filter_source: sources},
+                    dataType: "script",
+                    success:function(data)
+                    {
+                        jQuery(".save_keywords").removeClass("grey").addClass("listen")
+                        jQuery(".save_keywords").attr('disabled', false)
+
+                    }
+                });
+    }
+
+    $(document).ready(function(){
+        $(window).scroll(function(){
+            if($(window).scrollTop() == $(document).height() - $(window).height()){
+                console.log("windows scroll");
+                var id = "";
+                jQuery("#myTabContent").children('div').each(function () {if(jQuery(this).hasClass("active")){id =this.id}});
+                var offset = jQuery(".message-card-container").size();
+                console.log(id);
+                var tent_id = id.replace("i",'').split("_")[1];
+                var user_id = jQuery("#"+id.replace("tab",'').split("_")[0]+"tab"+"_"+tent_id+"").attr("class").split(" ")[0]
+                var sources = [];
+                $('.filter-source:checked').each(function(i){
+                    sources[i] = $(this).val();
+                })
+                if(tent_id != "listeni"){
+                    $.ajax(
+                            {
+                                url: "/admin/listeners/add_more",
+                                type: "get",
+                                data: {id: id[0],user_id: user_id ,book_mark: "0", tenant_id: tent_id,offset:offset + 1,filter_source: sources},
+                                dataType: "script",
+                                success: function(data) {
+
+                                }
+                            });
+                }
+            }
+        });
+
+        $(".select_tenant").change(function() {
+					jQuery(".loading").css('display','block');
+            $.ajax(
+                    {
+                        url : "/admin/listeners",
+                        type: "get",
+                        data : {tenant_id: $( this ).val()},
+                        dataType: "script",
+                        success:function(data)
+                        {
+
+                        }
+
+                    });
+            // Check input( $( this ).val() ) for validity here
+        });
+
+
+        jQuery(".stats-toggle-button").click(function()
+        {
+            <%if !@traffic_source.blank? &&  !@results_velocity.blank? && !@total_results_velocity.blank?%>
+
+            if(jQuery(this).children().hasClass("glyphicon-chevron-down")){jQuery(this).children().removeClass("glyphicon-chevron-down");jQuery(this).children().addClass("glyphicon-chevron-up")
+                jQuery(".slide_toggle").hide();
+                jQuery(".toggle_clas").css("float", "right")
+            }
+            else{jQuery(this).children().removeClass("glyphicon-chevron-up");jQuery(this).children().addClass("glyphicon-chevron-down")
+                jQuery(".toggle_clas").css("margin-left", "0px")
+                jQuery(".slide_toggle").show();
+            }
+            <%else%>
+             jQuery("#stats-charts-container").hide();
+            <%end%>
+        });
+
+    });
+
+</script>
+

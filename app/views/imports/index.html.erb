@@ -1,0 +1,85 @@
+<%= javascript_include_tag "responsive/import"%>
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Import Data</h2>
+      </div>
+      <div class="wrap-box-cont">
+<!--         <form class="" accept="" enctype="multipart/form-data" action="/" method="post" name="upload_form" onsubmit="return false; ">
+-->
+<div class="well">
+  <div class="row">
+    <div class="col-lg-8 col-sm-8 col-md-10 col-xs-12">
+      <h3>Download Template</h3>
+      <div class="form-group">
+        <select id="table_name" name="table_name" class="form-control">
+          <option value="CustomersInfo">CustomersInfo</option>
+        </select>
+      </div>
+      <span id="error" style="color:red; padding:5px 0; display:block;"></span>
+    </div>
+  </div>
+  <!-- Comment to remove default file download -->
+<!--   <div id="template_data" style="display:none">
+    Please click the following to download template. <div id="template_table"></div>
+  </div> -->
+
+  <div id="template_data">
+    Please click the following to download template.
+    <div id="template_table"><%= link_to "BusinessCustomerInfo", csv_template_imports_path(format: "csv") %></div>
+  </div>
+
+  <%= form_for(:business_customer_info, :url => '/imports/create_customer_info', :method => :post,:html => { :multipart => true }) do |f| %>
+  <div class="row">
+    <div class="col-lg-8 col-sm-8 col-md-10 col-xs-12">
+      <h3>Upload and Import</h3>
+      <div class="form-group">
+<!--                   <select class="form-control" name="table_name" id="table_name">
+                    <option value="CustomersInfo">CustomersInfo</option>
+                  </select> -->
+                  <%#= f.select :country_id, @countries.map{ |c| [c.name, "#{c.id}:#{c.currency_code}"] }%>
+                  <%= f.select(:table_name, BusinessCustomerInfo::CUSTOMER_INFO,{},{:class => "form-control"}) %>
+                </div>
+                <div class="form-group" id="csv_upload">
+                  <label class="" for="datafile">Please choose a file: </label>
+                  <span id="error" style="color:red;float:left;"></span>
+                  <!-- <span class="">Select file</span> -->
+                  <!-- <input type="file" name="datafile" size="30" id="upload_csv_element"> -->
+									<div class="optimize-upload">
+                  <%= f.file_field(:datafile,id:"upload_csv_element")%>
+									<span id='val'></span>
+									<span id='csv-select-button'>Select File</span></div>
+                </div>
+                <div class='upload-progress clearfix'><span class='spinner'></span><span class='upload-status'>Upload in progress</span></div>
+                <span id="error_file" style="color:red;float:left;"></span>
+              </div>
+            </div>
+          </div>
+          <div class="btn-wrap entry">
+            <input type="submit" id="upload_file" class="button medium orange" value="Import" onclick="return validate_csv_file()">
+            <%end%>
+            <input type="submit" id="csv_cancel" class="button medium orange" value="Reset" onclick="window.location='/imports'">
+          </div>
+          <%= hidden_field_tag :csv_upload_status,@is_csv_processed%>
+          <!-- </form> -->
+        </div>
+      </div>
+    </div>
+  </div>
+<script type="text/javascript">
+    $('#upload_csv_element').change(function(){
+    var file = this.files[0];
+    var ext =file.name.split('.').pop().toLowerCase();
+    if(ext != 'csv')
+    {
+    this.value = '';
+    $("#error_file").show();
+    $("#error_file").html("Invalid CSV file format. Please correct the file name and try again.");
+    }
+    else
+    {
+    $("#error_file").html("");
+    }
+    });
+</script>

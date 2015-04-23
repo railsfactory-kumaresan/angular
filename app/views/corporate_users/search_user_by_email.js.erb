@@ -1,0 +1,1 @@
+$('#render_tenantant').html("<%= escape_javascript(render(:partial => 'search_user',:locals => {:user => @user,:tenants => @tenants})) %>");

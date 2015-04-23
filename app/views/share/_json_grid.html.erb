@@ -1,0 +1,12 @@
+<div class="modal customer-list-dialog" id="customer_list_<%= type %>" style="width:auto !important;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close close-cus-list-popup" data-dismiss="modal" aria-hidden="true">&nbsp;</button>
+        <h4 class="modal-title"><%= type =='email' ? "Add Emails" : "Add Phone Numbers" %></h4>
+      </div>
+      <!-- JSON-Grid start -->
+      <div id="customer-collection-grid-<%= type %>"></div>
+    </div>
+  </div>
+</div>

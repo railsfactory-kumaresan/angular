@@ -1,0 +1,39 @@
+"account-My Account":
+ users/registrations-update-Update account Info:
+ account-transaction_history-Transaction History:
+ account-account_attachment-Company Logo:
+"imports-Import Customers":
+ imports-csv_template-Download Template:
+ imports-create_customer_info-Upload Customers:
+"users/omniauth_callbacks-Add social account":
+ users/omniauth_callbacks-linkedin-Linkedin:
+ users/omniauth_callbacks-facebook-Facbook:
+ users/omniauth_callbacks-twitter-Twitter:
+"question-Engage Dashboard":
+  question-new-Create New Question:
+  question-edit-Edit Question:
+  question-show-View Question:
+  question-upload_logo-Upload Question Logo:
+  question-deactivate-Deactivate Question:
+"share-Share Question":
+  share-show-Share Question:
+"payments-Change Plan":
+  payments-merchant_test-Choose Plan:
+  payments-handler-Make Payments:
+"admin/listeners-Listener":
+  admin/listeners-index-listener:
+"tenants-Manage Tenants":
+  tenants-new-Create Tenant:
+  tenants-edit-Edit Tenant:
+  tenants-change_tenant_status-Deactivate Tenant:
+"corporate_users-Manage Users":
+  corporate_users-index-Show Manage Users:
+  corporate_users-new-Create User:
+  corporate_users-edit-Edit User:
+  corporate_users-change_user_status-Deactivate User:
+  corporate_users-reset_password-Reset User Password:
+  corporate_users-mapping_tenant-Manage Executives:
+"manage_roles-Manage Roles":
+  manage_roles-index-Show Manage Roles:
+  manage_roles-new-Create New Role:
+  manage_roles-edit-Edit Permission for Custom Role:

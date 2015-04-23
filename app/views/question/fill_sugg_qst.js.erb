@@ -1,0 +1,134 @@
+jQuery("#category_type_id").val('<%= @category_type_id %>');
+jQuery("#question_category_type_id").val('<%= @category_type_id %>');
+jQuery("#embed_url").val("<%= @question.embed_url %>");
+jQuery("#question_expiration_id").val('<%= @question.expiration_id %>');
+Quill.clearText('question_body');
+Quill.loadText("<%= raw (@question.question.gsub("\r","").gsub("\n","")) %>",'question_body');
+
+/* Check if Photo/video Question */
+<% if !@question.embed_url.nil? ||  !@question.video_url.nil?  %>
+ jQuery("#question_video_upload_checkbox").attr('checked',true);
+ jQuery("#question_upload").show();
+ <% if @question.video_url.present? %>
+  <% s3_file_name = @question.video_url%>
+  <% file_name = s3_file_name.gsub("http://tmp.transloadit.com.s3.amazonaws.com/","") %>
+    jQuery("#chk_self_upload").attr('checked',true);
+    jQuery("#youtube_source_video").hide();
+    jQuery("#self-upload_hide").show();
+    <% if image_file_format_check(s3_file_name) %>
+      jQuery("#default_img").attr('src', '<%= @question.video_url%>').show();
+      jQuery("#source_video").hide();
+    <% else %>
+      jQuery("#source_video").attr('src', '<%= @question.video_url%>').show();
+      jQuery("#default_img").hide();
+     <% end %>
+		 url_file_name = "<%= file_name%>".split('/').pop().split('?')[0]
+    jQuery("#val").text(url_file_name);
+    jQuery("#copy_video_url").val('<%= @question.video_url%>');
+//   jQuery('#question_upload_video_url').val('<%#= @question.video_url%>');
+<% end %>
+ <% if @question.embed_url.present? %>
+    jQuery("#chk_youtub_upload").attr('checked',true);
+    jQuery("#self-upload_hide").hide();
+    jQuery("#embed_url").attr('disabled',false);
+    jQuery("#default_img").attr("src","/assets/responsive/placeholder-video-320x180.png");
+    jQuery("#youtube_source_video").attr('src', '<%= @question.embed_url%>');
+    jQuery("#val").text('<%= @question.embed_url%>').hide();
+    jQuery("#embed_url").trigger('change');
+    jQuery("#copy_embed_url").val('<%= @question.embed_url%>');
+//   jQuery('#question_upload_video_url').val('<%#= @question.embed_url%>');
+ <% end %>
+<% end %>
+
+<% if @question.question_type_id == 1 %>
+$('#question_type').attr('value',1);
+// Header Focus
+$("#single_qst_tab").parent().addClass("active");
+$("#multiple_qst_tab").parent().removeClass("active");
+$("#yes_no_tab").parent().removeClass("active");
+$("#comment_tab").parent().removeClass("active");
+// Body focus
+$("single_answer").addClass("active");
+$("#multiple_answer").removeClass("active");
+$("#yes_no").removeClass("active");
+$("#comment").removeClass("active");
+remove_all_answer_type();
+$('#single_answer').html("<%= escape_javascript(render 'single_question', :question => @question, :question_option => @question_options) %>");
+enable_quill_pad();
+enable_button();
+
+<% elsif @question.question_type_id == 2 %>
+$('#question_type').attr('value',2);
+// Header Focus
+$("#single_qst_tab").parent().removeClass("active");
+$("#multiple_qst_tab").parent().addClass("active");
+$("#yes_no_tab").parent().removeClass("active");
+$("#comment_tab").parent().removeClass("active");
+// Body Focus
+$("#single_answer").removeClass("active");
+$("#multiple_answer").addClass("active");
+$("#yes_no").removeClass("active");
+$("#comment").removeClass("active");
+remove_all_answer_type();
+$('#multiple_answer').html("<%= escape_javascript(render 'multiple_question', :question => @question, :question_option => @question_options) %>");
+enable_quill_pad();
+enable_button();
+
+<% elsif @question.question_type_id == 3 %>
+$('#question_type').attr('value',3);
+// Header Focus
+$("#single_qst_tab").parent().removeClass("active");
+$("#multiple_qst_tab").parent().removeClass("active");
+$("#yes_no_tab").parent().addClass("active");
+$("#comment_tab").parent().removeClass("active");
+// Body Focus
+$("single_answer").removeClass("active");
+$("#multiple_answer").removeClass("active");
+$("#yes_no").addClass("active");
+$("#comment").removeClass("active");
+remove_all_answer_type();
+$('#yes_no').html("<%= escape_javascript(render 'yes_no_question', :question => @question) %>");
+$("#add_another_button").hide();
+
+<%else%>
+$('#question_type').attr('value',4);
+// Header Focus
+$("#single_qst_tab").parent().removeClass("active");
+$("#multiple_qst_tab").parent().removeClass("active");
+$("#yes_no_tab").parent().removeClass("active");
+$("#comment_tab").parent().addClass("active");
+// Body Focus
+$("single_answer").removeClass("active");
+$("#multiple_answer").removeClass("active");
+$("#yes_no").removeClass("active");
+$("#comment").addClass("active");
+remove_all_answer_type();
+$('#comment').html("<%= escape_javascript(render 'comment_question') %>");
+<%end%>
+
+jQuery("#langlist").val('<%= @question.language %>');
+Quill.clearText('question_thanks_response');
+Quill.loadText('<%= @question.thanks_response.gsub("\r","").gsub("\n","") %>','question_thanks_response');
+
+setTimeout(function() {
+   jQuery('#langlist').val('<%= @question.language %>').change();
+ });
+
+function remove_all_answer_type()
+{
+  $("#single_tap_question").remove();
+  $("#multi_tap_question").remove();
+  $("#yes_no_tap_question").remove();
+  $("#comment_tap_question").remove();
+  remove_quill_pad_element();
+}
+function enable_button()
+{
+  var count = jQuery("#another_answer :text").length;
+  if (count >= 4) {
+    jQuery('#add_another_button').hide();
+  }
+  else {
+    jQuery('#add_another_button').show();
+  }
+}

@@ -1,0 +1,27 @@
+	<div class="modal fade" id="InviteUser" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+			&nbsp;
+			</button>
+			<h4 class="modal-title">Invite a User</h4>
+			</div>
+				<div class="modal-body signin">
+					<div class="container">
+							<div class="lightbox-form">
+								<% if status == "account_edit"%>
+								<% benchmark '##Render form list in popup_hml' do %>
+                 <%= render "form_list", :response => response %>
+                <% end %>
+								<%else%>
+								<% benchmark '##Render invite user in popup_html' do %>
+                <%= render 'invite_user/invite'%><br>
+								<% end %>
+								<%end%>
+							</div>
+					</div>
+			</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->

@@ -1,0 +1,5 @@
+  active_inactive_qst @questions do | qst |
+    question_id qst.id
+    qusetion qst.question
+    qrcode_status qst.qrcode_status
+  end

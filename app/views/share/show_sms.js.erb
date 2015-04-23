@@ -1,0 +1,1 @@
+jQuery("#share-sms-ajax-update").html("<%= escape_javascript(render(:partial=>'share/sms', :locals => { :question_id => params["question_id"],:question_slug=>@question.slug }))%>");

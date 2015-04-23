@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Calibri" x:Family="Swiss" ss:Size="11" ss:Color="#000000"/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+ </Styles>
+  <% @questions.each do |name,questions| %>
+  <% customer_info = questions %>
+    <Worksheet ss:Name="Recent Activity <%=name%>">
+      <Table>
+        <Row ss:Height="24">
+          <Cell ss:MergeAcross="8"><Data ss:Type="String" >Reports</Data></Cell>
+        </Row >
+        <Row>
+          <Cell ss:MergeAcross="3"><Data ss:Type="String">Date Range</Data></Cell>
+          <Cell ss:MergeAcross="2"><Data ss:Type="String">From Date: <%=params[:from_date].present? ? params[:from_date] : current_user.created_at.strftime("%d/%m/%Y")%></Data></Cell>
+          <Cell ss:MergeAcross="1"><Data ss:Type="String">To Date: <%=params[:to_date].present? ? params[:to_date] : Date.today.strftime("%d/%m/%Y") %></Data></Cell>
+        </Row>
+        <Row>
+           <Cell ss:MergeAcross="3"><Data ss:Type="String">Recent Activity</Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String">Answer</Data></Cell>
+           <Cell ss:MergeAcross="1"><Data ss:Type="String">Responses Count</Data></Cell>
+        </Row>
+       <%if name == "Feedback" %>
+        <% question = @feedback_question %>
+        <%elsif name =="Innovation"%>
+          <% question = @innovation_question %>
+        <%else%>
+          <% question = @marketting_question %>
+        <%end%>
+        <%p question%>
+        <% question && question.each do |k,v|%>
+        <% k = k.split('|') %>
+         <Row>
+            <Cell ss:MergeAcross="3"><Data ss:Type="String"><%= k[0] %></Data></Cell>
+            <Cell ss:MergeAcross="2"><Data ss:Type="String"><%= k[1] %></Data></Cell>
+            <Cell ss:MergeAcross="1"><Data ss:Type="String"><%= v %></Data></Cell>
+          </Row>
+         <% customer_details =  get_customer_info(customer_info,k[0],k[1]) %>
+        <% unless customer_details.blank? %>
+           <Row>
+            <Cell><Data ss:Type="String">Customer name</Data></Cell>
+            <Cell ss:MergeAcross="1"><Data ss:Type="String">Email</Data></Cell>
+            <Cell ss:MergeAcross="2"><Data ss:Type="String">Contact Number</Data></Cell>
+            <Cell><Data ss:Type="String">Country</Data></Cell>
+            <Cell><Data ss:Type="String">age</Data></Cell>
+            <Cell><Data ss:Type="String">gender</Data></Cell>
+          </Row>
+        <% end %>
+        <% customer_details && customer_details.each do |key,info| %>
+            <Row>
+              <Cell><Data ss:Type="String"><%= key %></Data></Cell>
+              <Cell ss:MergeAcross="1"><Data ss:Type="String"><%= info[0] %></Data></Cell>
+              <Cell ss:MergeAcross="2"><Data ss:Type="String"><%= info[1] %></Data></Cell>
+              <Cell><Data ss:Type="String"><%= find_country(info[2]) %></Data></Cell>
+              <Cell><Data ss:Type="String"><%= info[3] %></Data></Cell>
+              <Cell><Data ss:Type="String"><%= info[4] %></Data></Cell>
+            </Row>
+         <%end%>
+          <%end%>
+          <Row>
+          <Cell ss:MergeAcross="8"><Data ss:Type="String" >Share Details</Data></Cell>
+        </Row>
+         <Row>
+           <Cell><Data ss:Type="String"></Data></Cell>
+           <Cell><Data ss:Type="String">Facebook</Data></Cell>
+           <Cell><Data ss:Type="String">Twitter</Data></Cell>
+           <Cell><Data ss:Type="String">Linkedin</Data></Cell>
+           <Cell><Data ss:Type="String">Email</Data></Cell>
+           <Cell><Data ss:Type="String">QR code</Data></Cell>
+           <Cell><Data ss:Type="String">SMS</Data></Cell>
+           <Cell><Data ss:Type="String">Make a Call</Data></Cell>
+           <Cell><Data ss:Type="String">Embed</Data></Cell>
+        </Row>
+        <% social_media = ["Facebook","Twitter","Linkedin","Email","QR","Sms","Call","embed"] %>
+        <%if name =="Feedback" %>
+        <Row>
+           <Cell><Data ss:Type="String">Views</Data></Cell>
+           <% social_media.each do |val| %>
+            <Cell><Data ss:Type="String"><%=@feedback_social_count.first[val].present? ? @feedback_social_count.first[val] : 0 %></Data></Cell>
+           <%end%>
+        </Row>
+        <Row>
+           <Cell><Data ss:Type="String">Responses</Data></Cell>
+           <% social_media.each do |val| %>
+            <Cell><Data ss:Type="String"><%=@feedback_social_count.last[val].present? ? @feedback_social_count.last[val] : 0%></Data></Cell>
+           <%end%>
+        </Row>
+        <%elsif name =="Innovation"%>
+        <Row>
+           <Cell><Data ss:Type="String">Views</Data></Cell>
+           <% social_media.each do |val| %>
+            <Cell><Data ss:Type="String"><%=@innovation_social_count.first[val].present? ? @innovation_social_count.first[val] : 0 %></Data></Cell>
+           <%end%>
+        </Row>
+        <Row>
+           <Cell><Data ss:Type="String">Responses</Data></Cell>
+           <% social_media.each do |val| %>
+            <Cell><Data ss:Type="String"><%=@innovation_social_count.last[val].present? ? @innovation_social_count.last[val] : 0 %></Data></Cell>
+           <%end%>
+        </Row>
+        <%else%>
+         <Row>
+           <Cell><Data ss:Type="String">Views</Data></Cell>
+           <% social_media.each do |val| %>
+            <Cell><Data ss:Type="String"><%=@marketting_social_count.first[val].present? ? @marketting_social_count.first[val] : 0  %></Data></Cell>
+           <%end%>
+        </Row>
+        <Row>
+           <Cell><Data ss:Type="String">Responses</Data></Cell>
+           <% social_media.each do |val| %>
+            <Cell><Data ss:Type="String"><%=@marketting_social_count.last[val].present? ? @marketting_social_count.last[val] : 0 %></Data></Cell>
+           <%end%>
+        </Row>
+        <%end%>
+         <Row>
+          <Cell ss:MergeAcross="8"><Data ss:Type="String" >Demographics Report</Data></Cell>
+        </Row >
+         <Row>
+           <Cell><Data ss:Type="String">Age</Data></Cell>
+           <Cell><Data ss:Type="String">&lt; 18</Data></Cell>
+           <Cell><Data ss:Type="String">18-25</Data></Cell>
+           <Cell><Data ss:Type="String">26-30</Data></Cell>
+           <Cell><Data ss:Type="String">31-35</Data></Cell>
+           <Cell><Data ss:Type="String">36-40</Data></Cell>
+           <Cell><Data ss:Type="String">41-45</Data></Cell>
+           <Cell><Data ss:Type="String">46-50</Data></Cell>
+           <Cell><Data ss:Type="String">&gt; 50</Data></Cell>
+        </Row>
+       <%if name =="Feedback" %>
+        <Row>
+           <Cell><Data ss:Type="String">Female</Data></Cell>
+           <% @demographics_feedback.each do |index,val| %>
+            <Cell><Data ss:Type="String"><%=@demographics_feedback[index]["female"]%></Data></Cell>
+           <%end%>
+        </Row>
+        <Row>
+           <Cell><Data ss:Type="String">Male</Data></Cell>
+           <% @demographics_feedback.each do |index,val| %>
+            <Cell><Data ss:Type="String"><%=@demographics_feedback[index]["male"]%></Data></Cell>
+           <%end%>
+        </Row>
+        <%elsif name =="Innovation"%>
+       <Row>
+           <Cell><Data ss:Type="String">Female</Data></Cell>
+           <% @demographics_innovation.each do |index,val| %>
+            <Cell><Data ss:Type="String"><%=@demographics_innovation[index]["female"]%></Data></Cell>
+           <%end%>
+        </Row>
+        <Row>
+           <Cell><Data ss:Type="String">Male</Data></Cell>
+           <% @demographics_innovation.each do |index,val| %>
+            <Cell><Data ss:Type="String"><%=@demographics_innovation[index]["male"]%></Data></Cell>
+           <%end%>
+        </Row>
+        <%else%>
+        <Row>
+           <Cell><Data ss:Type="String">Female</Data></Cell>
+           <% @demographics_marketting.each do |index,val| %>
+            <Cell><Data ss:Type="String"><%=@demographics_marketting[index]["female"]%></Data></Cell>
+           <%end%>
+        </Row>
+        <Row>
+           <Cell><Data ss:Type="String">Male</Data></Cell>
+           <% @demographics_marketting.each do |index,val| %>
+            <Cell><Data ss:Type="String"><%=@demographics_marketting[index]["male"]%></Data></Cell>
+           <%end%>
+        </Row>
+         <%end%>
+         <Row>
+          <Cell ss:MergeAcross="8"><Data ss:Type="String" >Location Wise Report</Data></Cell>
+        </Row>
+         <Row>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String">Country</Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String">Views Count</Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String">Responses Count</Data></Cell>
+        </Row>
+         <%if name =="Feedback" %>
+        <%  total_known_view_count = 0%>
+        <%  total_known_response_count = 0%>
+        <%= @params_feedback.inspect %>
+        <% @location_feedback.each do |country| %>
+        <Row>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%= find_country(country.value) %></Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%=get_location_based_view_count(country.value,current_user.id,@params_feedback,'dashboard') %></Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%=get_location_based_response_count(country.value,nil,current_user.id,@params_feedback,'dashboard')%></Data></Cell>
+            <%  total_known_view_count+=get_location_based_view_count(country.value,current_user.id,@params_feedback,'dashboard').to_i%>
+            <%  total_known_response_count+=get_location_based_response_count(country.value,nil,current_user.id,@params_feedback,'dashboard').to_i%>
+        </Row>
+         <%end%>
+         <Row>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String">Unknown</Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%=  get_total_unknown_view_count_report(total_known_view_count,@params_feedback) > 0 ? get_total_unknown_view_count_report(total_known_view_count,@params_feedback) : 0  %></Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%=  get_total_unknown_response_count_report(total_known_response_count,@params_feedback) > 0 ? get_total_unknown_response_count_report(total_known_response_count,@params_feedback) : 0 %></Data></Cell>
+        </Row>
+        <%elsif name =="Innovation" %>
+        <%  total_known_view_count = 0%>
+        <%  total_known_response_count = 0%>
+        <% @location_innovation.each do |country| %>
+        <Row>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%= find_country(country.value) %></Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%=get_location_based_view_count(country.value,current_user.id,@params_innovation,'dashboard') %></Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%=get_location_based_response_count(country.value,nil,current_user.id,@params_innovation,'dashboard')%></Data></Cell>
+            <%  total_known_view_count+=get_location_based_view_count(country.value,current_user.id,@params_innovation,'dashboard').to_i%>
+            <%  total_known_response_count+=get_location_based_response_count(country.value,nil,current_user.id,@params_innovation,'dashboard').to_i%>
+        </Row>
+        <%end%>
+         <Row>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String">Unknown</Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%=  get_total_unknown_view_count_report(total_known_view_count,@params_innovation) > 0 ? get_total_unknown_view_count_report(total_known_view_count,@params_innovation) : 0 %></Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%=  get_total_unknown_response_count_report(total_known_response_count,@params_innovation) > 0 ? get_total_unknown_response_count_report(total_known_response_count,@params_innovation) : 0 %></Data></Cell>
+        </Row>
+        <%else%>
+        <%  total_known_view_count = 0%>
+        <%  total_known_response_count = 0%>
+        <% @location_marketting.each do |country| %>
+        <Row>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%= find_country(country.value) %></Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%=get_location_based_view_count(country.value,current_user.id,@params_marketting,'dashboard') %></Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%=get_location_based_response_count(country.value,nil,current_user.id,@params_marketting,'dashboard')%></Data></Cell>
+            <%  total_known_view_count+=get_location_based_view_count(country.value,current_user.id,@params_marketting,'dashboard').to_i%>
+            <%  total_known_response_count+=get_location_based_response_count(country.value,nil,current_user.id,@params_marketting,'dashboard').to_i%>
+        </Row>
+         <%end%>
+         <Row>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String">Unknown</Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%=  get_total_unknown_view_count_report(total_known_view_count,@params_marketting) > 0 ? get_total_unknown_view_count_report(total_known_view_count,@params_marketting) : 0  %></Data></Cell>
+           <Cell ss:MergeAcross="2"><Data ss:Type="String"><%=  get_total_unknown_response_count_report(total_known_response_count,@params_marketting) > 0 ? get_total_unknown_response_count_report(total_known_response_count,@params_marketting) : 0 %></Data></Cell>
+        </Row>
+         <%end%>
+
+      </Table>
+    </Worksheet>
+  <%end%>
+</Workbook>
+
+
+

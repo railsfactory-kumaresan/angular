@@ -1,0 +1,178 @@
+<%=javascript_include_tag "responsive/jquery_migrate" %>
+<% content_for :title, "Preview" %>
+<div class="main-content">
+  <div class="container">
+    <div class="row">
+      <% benchmark '##Render question header form in preview' do %>
+        <%= render :partial => 'question/question_header', :locals => {:custom_url => @custom_url, :question_id => @question.id} %>
+      <% end %>
+    </div>
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Question Preview</h2>
+      </div>
+      <div class="wrap-box-cont">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="white-box-wrapper">
+              <div class="box-head clearfix">
+                <h3><span class="glyphicon glyphicon-cog"></span>Customization</h3>
+              </div>
+              <% benchmark '##Render customize form in preview' do %>
+                <%= render "customize", :question => @question, :custom_url => @custom_url, :question_style => @question_style %>
+              <% end %>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="white-box-wrapper quesion-left quest-preview">
+              <div class="box-head clearfix">
+                <h3><span class="glyphicon glyphicon-search"></span>Preview Question</h3>
+              </div>
+              <div class="white-box bg-prev-question">
+                <div class="preview-wrapper">
+                  <div class="response-header clearfix">
+                    <div class="comp-logo">
+                      <%if @image_url.present? %>
+                        <img src="<%= @image_url %>" id="preview_image" alt=""/>
+                      <% else %>
+														<!-- rails4_image_tag_impact -->
+			                   <%= image_tag("responsive/default_logo_resize.jpg", alt: "company logo", id: "preview_image") %>
+                        <!-- <img src="/assets/responsive/default_logo_resize.jpg" id="preview_image" alt="company logo" />-->
+                      <%end %>
+                    </div>
+                    <!--//. company logo information -->
+                  </div>
+                  <!--//. response header -->
+                  <div class="company-info" id="company_name">
+                    <span><strong><%= current_user.company_name if current_user.company_name%></strong></span> |
+                    <span><%=Question.get_date_time(@question.created_at).strftime("%B %d, %Y") %></span> |
+                    <span><%=Question.get_date_time(@question.created_at).strftime("%I:%M%p") %></span>
+                  </div>
+                  <!-- company info -->
+                  <!--form role="form" class="form-horizontal"-->
+                  <div class="row text-center">
+                    <div class="qwrapper clearfix">
+                      <div class="response-question quest_preview">
+                        <div class="question-title-preview" id="question">
+                          <div id="qs-title"><%= @question.question %></div>
+                        </div>
+                        <div class="answers-options" id="answers">
+                          <% if @question.question_type_id == 1 || @question.question_type_id == 3 %>
+                            <% @question_options && @question_options.each do |question| %>
+                              <div class="radio">
+                                <label for="optionsRadios1">
+																	<%= radio_button_tag 'answer_option',question.option,false,disabled: true,:class => "",:id=>"optionsRadios1" %>
+                                  <%= question.option %>
+                                </label>
+                              </div>
+                            <% end %>
+                          <% elsif @question.question_type_id == 2 %>
+                            <% @question_options && @question_options.each do |d| %>
+                              <div class="checkbox">
+                                <label for="optionsRadios1">
+																	<%= check_box_tag  'answer_option',d.option, false, :class => '', :id=>"optionsRadios1" %>
+                                  <%=d.option%>
+                                </label>
+                              </div>
+                            <% end %>
+                          <% else %>
+                            <div class="row others-field">
+                              <%= text_area_tag :comments,'', :class=>"form-control input-small",:id=>"InputOthers" %>
+                            </div>
+                          <% end %>
+
+                          <%if @question.include_other %>
+                            <% if @question.question_type_id == 2%>
+                              <div class="checkbox">
+                                <input class="fl" id="include_other" name="include_other" type="checkbox" value=""/>
+                              <% else %>
+                                <div class="radio">
+                                  <%= radio_button_tag "answer_option","include_other",false,disabled: true,:class=>"fl",:id=>"optionsRadios1" %>
+                                <% end %>
+                                <label class="fl q-type">Others</label>
+                              </div>
+                            <% end %>
+                          </div>
+                           <% if @question.embed_url? %>
+                            <div class="question-video">
+                              <%= stylesheet_link_tag '/video_response/video-js.min' %>
+                              <%= javascript_include_tag '/video_response/video' %>
+                              <%= javascript_include_tag '/video_response/vjs.youtube' %>
+                              <div>
+                                <video id="vid1" src="" class="video-js vjs-default-skin" width="250" height="250" data-setup='{ "techOrder": ["youtube"], "src": "<%= @question.embed_url %>" }'></video>
+                              </div>
+                            </div>
+                          <% elsif @question.video_url? %>
+                            <div class="question-video">
+                              <% if image_file_format_check(@question.video_url)%>
+                               <div>
+                                <img src="<%= @question.video_url%>" class="uploaded-img" />
+                               </div>
+                              <%else%>
+                              <%= stylesheet_link_tag  "responsive/video-css" %>
+                              <%= javascript_include_tag "responsive/video-js" %>
+                              <div>
+                                <video id="example_video_1" class="video-js vjs-default-skin"   controls preload="auto" width="400" height="250"   data-setup='{"example_option":true}'>
+                                  <source src="<%= @question.video_url%>" type='video/mp4' />
+                                </video>
+                              </div>
+                              <%end%>
+                            </div>
+                          <% end %>
+                          <div>
+                          <% if @question.include_text %>
+                            <div class="question-comments">
+															<label>Comments</label>
+															<label for="InputFirstName" class="sr-only">First Name</label>
+															<textarea name="include_text" id="include_text" rows="3" class="form-control"></textarea>
+														</div>
+                          <% end %>
+                        </div>
+                      </div>
+
+
+                      <div class="btn-wrap text-center">
+                        <button type="button" disabled id="submit" class="button medium">Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-head clearfix">
+          <div class="btn-wrap text-center">
+            <% unless (@question.status == "Active" || @question.status == "Closed") %><a href="<%=edit_question_path(@question.slug)%>" class="link-edit-quest">Edit Question</a><% end %>
+            <a href="<%=share_path(@question.slug)%>"class="button medium orange" data-disable-with="Please wait...">Share Question</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!--site wrapper-->
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#include_text").attr("disabled","true");
+        $("#answer_option_include_text").click(function(){
+            $("#include_text").removeAttr('disabled');
+        });
+    <% if (@errors && @errors[:image][0]) || (@errors && @errors[:image_content_type][0])%>
+        $("#image").show();
+    <% end %>
+    <% if @question_style.present? %>
+        jQuery(".bg-prev-question").css("background-color","<%= @question_style.background %>");
+        jQuery("#company_name").css("color","<%= @question_style.page_header %>");
+        jQuery("#submit").css("background","none");
+        jQuery("#submit").css("background-color","<%= @question_style.submit_button %>");
+        jQuery("#submit").css("background-color","<%= @question_style.submit_button %>");
+        jQuery("#submit").css("color","<%= @question_style.button_text %>");
+        jQuery(".quesion-left").css("font-family","<%= @question_style.font_style %>");
+        jQuery("#answers").css("color","<%= @question_style.answers %>");
+        jQuery("#qs-title").css("font-family","<%= @question_style.background %>");
+        jQuery("#qs-title").css("color","<%= @question_style.question_text %>");
+    <% end %>
+    });
+</script>

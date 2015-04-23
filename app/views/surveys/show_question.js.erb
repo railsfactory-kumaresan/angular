@@ -1,0 +1,6 @@
+var selected_languages = ['<%= @question.language %>'];
+<% if (params[:provider] !=  "QR" && @question.status == 'Active') ||  (params[:provider] == "QR" &&  @question.status == 'Active' && @question.qrcode_status && @question.qrcode_status == "Active")  %>
+jQuery('#response_question').html('<%= escape_javascript(render :partial => 'show_partial') %>')
+<% else %>
+jQuery('#response_question').html("<div id='response_question'><div class='response-wrapper'><div class='response-whole-wrapper'><div class='response-container'><h1 style='font-size:1.4em;color:red;text-align: center;'><div class='row'><div class='col-xs-12'>No question is mapped to QR code.</div></div></h1></div></div></div></div>")
+<% end %>

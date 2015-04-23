@@ -1,0 +1,61 @@
+<span id="error_email" style="color:red;margin-left:155px;"></span>
+<link rel="stylesheet" type="text/css" href="/assets/jquery.fancybox.css" media="all"/>
+<script type="text/javascript" src="/assets/jquery.fancybox.js"></script>
+<form method="post" action="" accept-charset="UTF-8">
+  <div class="field">
+    <label class="name">To</label>
+    <input type="text" id="email_value" readonly="true" class="rc_5 text_field" value="Click to add email address" onFocus="call_import();" onBlur="if (this.value == '') {this.value = 'Click to add email address';}">
+
+    <p class="email_value_error_message" style="display:none;">Please enter the valid email address</p>
+    <a class="load_fancy" href="#user_info_list" id="call_import"></a>
+
+    <div style="display:none">
+      <div id="user_info_list">
+			  <% benchmark '##Render user info list page' do %>
+         <%= render :partial => 'question/user_info_list', :locals => {:user_info_list => user_info_list} %>
+         <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label class="name">Subject</label>
+    <input type="text" id="email_subject" class="rc_5 text_field" value="This is a default subject" onFocus="if(this.value == 'This is a default subject') {this.value = '';}",
+    onBlur="if (this.value == '') {this.value = 'This is a default subject';}">
+  </div>
+  <div class="field">
+    <label class="name">Body</label>
+    <textarea class="text_field rc_5" id="email_text_area" onFocus="if(this.value == 'Please click to answer the following') {this.value = '';}",
+    onBlur="if (this.value == '') {this.value = 'Please click to answer the following';}">Please click to answer the
+    following</textarea>
+  </div>
+  <div class="clearfix share-btn">
+    <!--<a class="btn rc_5" id="question_send_email_share_submit" href="javascript:void(0);" id="create_email" onclick="return share_email(id=<%#= params[:question_id]%>);">Send Email</a>-->
+    <a class="btn rc_5 question_send_email_share_submit" href="javascript:void(0);" id="create_email" onclick="send_email('<%= params[:question_id]%>');">Send Email</a>
+  </div>
+</form>
+<div class="spinner"></div>
+<script>
+    jQuery(".load_fancy").fancybox({
+        'transitionIn': 'none',
+        'transitionOut': 'none',
+        'overlayColor': '#8f807c',
+        'overlayOpacity': 0.9,
+        'width': 450,
+        'height': 450,
+        'scrolling': 'auto'
+    });
+    function call_import() {
+        jQuery("#call_import").trigger('click');
+    }
+   
+       
+
+	
+</script>
+
+<style>
+    .email_value_error_message {
+        color: red;
+        margin-top: 10px;
+    }
+</style>

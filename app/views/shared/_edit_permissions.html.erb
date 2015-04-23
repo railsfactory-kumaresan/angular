@@ -1,0 +1,43 @@
+<% content_for :page_specific_head_content do%>
+<%= javascript_include_tag "responsive/page_loaders/role_permissions" %>
+<%end%>
+<%checkbox_select = (current_user.admin? || !@role.is_default?) ? true : false%>
+<h3>Edit Role Permissions</h3>
+<br>
+<%= form_for :feature, :url => {:action => 'update'},:method => :put, :class => "form-inline"  do |f|%>
+    <%@parent_features.each do |feature| %>
+     <div class="field" >
+     &nbsp;&nbsp;&nbsp;&nbsp;
+     <input type="checkbox" <%if !checkbox_select%>disabled="<%=checkbox_select%>"<%end%> class = "parent-select" id ="feature_<%=feature.id%>_access_level"  />
+          <%=feature.title%>
+     </div>
+   <div id="sub_feature_index_<%=feature.id%>" >
+  <%feature.sub_features.each do |sub_feature|%>
+   <div class="field" >
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <%name = "#{sub_feature.controller_name}-" + "#{sub_feature.action_name}-#{params['id']}"%>
+      <%permission = Permission.check_feature_permission(sub_feature,params[:id])%>
+<%if checkbox_select%>
+<%= check_box('feature', "#{name}", options = {:checked => permission,:class => "sub_case",:id => "sub_case_#{feature.id}"}, checked_value = 1, unchecked_value =0) %>
+
+<%else%>
+<%= check_box('feature', "#{name}", options = {:disabled=>true,:checked => permission,:class => "sub_case",:id => "sub_case_#{feature.id}"}, checked_value = 1, unchecked_value =0) %>
+
+<%end%>
+
+      <%=sub_feature.title%>
+   </div>
+<% end %>
+   </div>
+
+   <br>
+<% end %>
+ <div class="btn-wrap text-center btn-update-info">
+  <%if checkbox_select%>
+   <%= submit_tag 'Update',:class=> 'button medium orange'%>
+ <%end%>
+  <%link = current_user.admin? ? "/admin/pricing_plans" : "/manage_roles"%>
+   <%=link_to 'Back',link,:class=>'button medium orange'%>
+ </div>
+
+<% end %>

@@ -1,0 +1,481 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style media="screen, print">
+      /* CSS Document */
+
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      body{
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        background-color: transparent;
+        font-size: 14pt;
+        margin: 0;
+        padding: 0;
+      }
+      h4{
+        margin: 0;
+      }
+      table{
+        table-layout: fixed;
+        border-collapse:collapse;
+      }
+      .header{
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 50px;
+        height: 50px;
+        text-align: center;
+        z-index:-1;
+      }
+      .table{
+        width: 100%;
+      }
+      .midwrapper{
+        padding: 10px;
+      }
+      .table-report th{
+        background-color: #EEEEEE;
+        border: 1px solid #d1d1d1;
+        color: #333333;
+        padding: 6px;
+        font-size: 11px;
+      }
+      .table-report td{
+        font-size: 11px;
+        padding: 6px;
+        border: 1px solid #d1d1d1;
+        text-align: center;
+        word-wrap: break-word;
+      }
+      .rowhead{
+        background-color: #0191A9;
+        color: #ffffff;
+        padding: 10px;
+        font-size: 15px;
+        font-weight: bold;
+        line-height: 18px;
+        text-transform: uppercase;
+      }
+      .tblrow{
+        background-color: #0191A9;
+        color: #ffffff;
+        padding: 10px;
+        font-size: 10px;
+        font-weight: normal;
+        line-height: 18px;
+        text-transform: uppercase;
+      }
+      .colhead{
+        background-color: #F8F8F8;
+        color: #333333;
+        padding: 10px;
+        font-size: 15px;
+        font-weight: bold;
+        line-height: 18px;
+        text-transform: uppercase;
+        border: 1px solid #d1d1d1;
+      }
+      .table-report .columnleft{
+        text-align: left;
+      }
+      .row-question td{
+        background-color: #f0f4f8;
+        font-weight: bold;
+      }
+      .row-question td h4{
+        color: #0191A9;
+        font-size: 12px;
+        text-align: left;
+        text-transform: capitalize;
+      }
+      .footer{
+        border-top: 1px solid #d1d1d1;
+        padding: 10px 20px;
+        margin-top: 20px;
+        color: #7a7a7a;
+        font-size: 11px;
+      }
+      .customer-info th{
+        font-size: 10px !important;
+        padding: 6px;
+        border: 1px thin #eeeeee !important;
+        text-align: center;
+        word-wrap: break-word;
+      }
+      .customer-info td{
+        font-size: 10px !important;
+        padding: 6px;
+        border: 1px thin #eeeeee !important;
+        text-align: center;
+        word-wrap: break-word;
+      }
+      .page_break{
+        page-break-after: always;
+      }
+      .footer {
+        padding: 1px;
+        border-top: 1px solid #ccc;
+      }
+      .logo{
+        float: left;
+        width: 22%;
+      }
+      .company_name{
+        float: left;
+        width: 58%;
+        text-align: left;
+        }
+      .company_name h2{
+        margin-top: 20px;
+      }
+      .date{
+        float: left;
+        width: 20%;
+        color: #666;
+      }
+      table, tr, td, th, tbody, thead, tfoot {
+        page-break-inside: avoid;
+        z-index:10;
+      }
+      table tr:before { clear:both; }
+
+  .header{
+    padding: 10px;
+    margin-top: 100px;
+    margin-bottom: 50px;
+    height: 75px;
+    text-align: center;
+    background: #373737;
+  }
+  .logo{
+		margin-top: 300px;
+		text-align: center;
+		width: 100%;
+  }
+	.logo img{
+		border: 5px solid #343434;
+		border-radius: 5px;
+		max-width: 400px;
+		max-height: 400px;
+	}
+  .company_name{
+    width: 100%;
+    text-align: center;
+    color: #0191A9;
+  }
+  .company_name h2{
+    margin-top: 5px;
+  }
+  .date{
+    float: left;
+    width: 20%;
+    color: #666;
+  }
+  .default-logo{
+    width: 75px;
+    height: 75px;
+  }
+	.intro-page{
+		height: 800px;
+	}
+	</style>
+  </head>
+  <body>
+	<!--// start intro page -->
+	<div class="intro-page">
+	  <div class="logo">
+			<% if current_user.attachment.present? %>
+				<%= wicked_pdf_image_tag  current_user.attachment.image.url(:large) %>
+			<%else%>
+				<%= wicked_pdf_image_tag_for_public  'no_image.jpg', :class => "default-logo" %>
+			<%end%>
+		</div>
+		<div class="company_name">
+			<h2><%=current_user.company_name%></h2>
+			<h6><%=Time.now.strftime("%B %e, %Y")%></h6>
+		</div>
+	</div>
+	<div class="page_break"></div>
+	<!--// end intro page -->
+    <% @questions.each do |name,questions| %>
+							<%if questions.present? %>
+			<%if (name !="Marketing" || name != "Innovation" )&& questions.present? %>
+          <div class="page_break"></div>
+        <%end%>
+      <div class="midwrapper">
+        <div style="margin-bottom:20px;">
+          <table width="100%" border="0" cellspacing="0" cellpadding="10">
+            <tr>
+              <td class="tblrow">Date Range</td>
+              <td class="tblrow">From Date: <%=params[:from_date].present? ? params[:from_date] : current_user.created_at.strftime("%d/%m/%Y")%></td>
+              <td class="tblrow">To Date: <%=params[:to_date].present? ? params[:to_date] : Date.today.strftime("%d/%m/%Y") %></td>
+            </tr>
+          </table>
+        </div>
+        <div class="wrapper">
+          <% customer_info = questions %>
+          <div class="rowhead">Report For <%=name%></div>
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table-report">
+            <thead>
+              <tr>
+                <th width="50%" class="columnleft">Recent Activity</th>
+                <th width="30%">Answer</th>
+                <th width="20%">Responses Count</th>
+              </tr>
+            </thead>
+          </table>
+
+          <%if name =="Feedback" %>
+            <% questions = @feedback_question %>
+          <%elsif name =="Innovation"%>
+            <% questions = @innovation_question %>
+          <%else%>
+            <% questions = @marketting_question %>
+          <%end%>
+          <% questions && questions.each do |k,v|%>
+            <% k = k.split('|') %>
+            <table class="table table-report">
+              <tr class="row-question">
+                <td colspan="3" width="50%"><h4><%= k[0] %></h4></td>
+                <td colspan="2" width="30%"><%= k[1] %></td>
+                <td width="20%"><%= v %></td>
+              </tr>
+              <!--<% customer_details =  get_customer_info(customer_info,k[0],k[1]) %>
+              <% unless customer_details.blank? %>
+                <tr>
+                  <th style="text-align: left;">Customer Name</th>
+                  <th style="text-align: left;">Email</th>
+                  <th>Contact Number</th>
+                  <th>Country</th>
+                  <th>Age</th>
+                  <th>Gender</th>
+                </tr>
+              <%end%>
+              <% customer_details && customer_details.each do |key,info| %>
+                <tr>
+                  <td style="text-align: left;"><%= key %></td>
+                  <td style="text-align: left;"><%= info[0] %></td>
+                  <td><%#= info[1] %></td>
+                  <td><%#= find_country(info[2]) %></td>
+                  <td><%#= info[3] %></td>
+                  <td><%#= info[4] %></td>
+                </tr>
+              <%end%>-->
+            </table>
+            <br />
+          <%end%>
+          <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table">
+            <tr>
+              <td class="rowhead">Social Shares</td>
+            </tr>
+            <tr>
+              <td>
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table-report" style="margin-bottom:10px;">
+                  <thead>
+                    <tr>
+                      <th width="20%" bgcolor="#EEEEEE">&nbsp;</th>
+                      <th width="10%" bgcolor="#EEEEEE">Facebook</th>
+                      <th width="10%" bgcolor="#EEEEEE">Twitter</th>
+                      <th width="10%" bgcolor="#EEEEEE">Linkedin</th>
+                      <th width="10%" bgcolor="#EEEEEE">Email</th>
+                      <th width="10%" bgcolor="#EEEEEE">QR Code</th>
+                      <th width="10%" bgcolor="#EEEEEE">SMS</th>
+                      <th width="10%" bgcolor="#EEEEEE">Make a Call</th>
+                      <th width="10%" bgcolor="#EEEEEE">Embed</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% social_media = ["Facebook","Twitter","Linkedin","Email","QR","Sms","Call","embed"] %>
+                    <%if name =="Feedback" %>
+                      <tr>
+                        <td>Views</Data></td>
+                        <% social_media.each do |val| %>
+                          <td><%=@feedback_social_count.first[val].present? ? @feedback_social_count.first[val] : 0 %></td>
+                        <%end%>
+                      </tr>
+                      <tr>
+                        <td>Responses</td>
+                        <% social_media.each do |val| %>
+                          <td><%=@feedback_social_count.last[val].present? ? @feedback_social_count.last[val] : 0%></td>
+                        <%end%>
+                      </tr>
+                    <%elsif name =="Innovation"%>
+                      <tr>
+                        <td>Views</td>
+                        <% social_media.each do |val| %>
+                          <td><%=@innovation_social_count.first[val].present? ? @innovation_social_count.first[val] : 0%></td>
+                        <%end%>
+                      </tr>
+                      <tr>
+                        <td>Responses</Data></td>
+                        <% social_media.each do |val| %>
+                          <td><%=@innovation_social_count.last[val].present? ? @innovation_social_count.last[val] : 0 %></td>
+                        <%end%>
+                      </tr>
+											<%else%>
+                      <tr>
+                        <td>Views</Data></td>
+                        <% social_media.each do |val| %>
+                          <td><%=@marketting_social_count.first[val].present? ?  @marketting_social_count.first[val] : 0 %></td>
+                        <%end%>
+                      </tr>
+                      <tr>
+                        <td>Responses</td>
+                        <% social_media.each do |val| %>
+                          <td><%=@marketting_social_count.last[val].present? ? @marketting_social_count.last[val] : 0 %></td>
+                        <%end%>
+                      </tr>
+                    <%end%>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+					</table>
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td class="rowhead">DEMOGRAPHICS Reports</td>
+            </tr>
+            <tr>
+              <td>
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table-report">
+                  <thead>
+                    <tr>
+                      <th width="20%" bgcolor="#EEEEEE">&nbsp;</th>
+                      <th width="10%" bgcolor="#EEEEEE">&lt;18</th>
+                      <th width="10%" bgcolor="#EEEEEE">18-25</th>
+                      <th width="10%" bgcolor="#EEEEEE">26-30</th>
+                      <th width="10%" bgcolor="#EEEEEE">31-35</th>
+                      <th width="10%" bgcolor="#EEEEEE">36-40</th>
+                      <th width="10%" bgcolor="#EEEEEE">41-45</th>
+                      <th width="10%" bgcolor="#EEEEEE">46-50</th>
+                      <th width="10%" bgcolor="#EEEEEE">&gt;50</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%if name =="Feedback" %>
+                      <tr>
+                        <td>Female</td>
+                        <% @demographics_feedback.each do |index,val| %>
+                          <td><%=@demographics_feedback[index]["female"]%></td>
+                        <%end%>
+                      </tr>
+                      <tr>
+                        <td>Male</td>
+                        <% @demographics_feedback.each do |index,val| %>
+                          <td><%=@demographics_feedback[index]["male"]%></td>
+                        <%end%>
+                      </tr>
+                    <%elsif name =="Innovation"%>
+                      <tr>
+                        <td>Female</td>
+                        <% @demographics_innovation.each do |index,val| %>
+                          <td><%=@demographics_innovation[index]["female"]%></td>
+                        <%end%>
+                      </tr>
+                      <tr>
+                        <td>Male</td>
+                        <% @demographics_innovation.each do |index,val| %>
+                          <td><%=@demographics_innovation[index]["male"]%></td>
+                        <%end%>
+                      </tr>
+                    <%else%>
+                      <tr>
+                        <td>Female</td>
+                        <% @demographics_marketting.each do |index,val| %>
+                          <td><%=@demographics_marketting[index]["female"]%></td>
+                        <%end%>
+                      </tr>
+                      <tr>
+                        <td>Male</td>
+                        <% @demographics_marketting.each do |index,val| %>
+                          <td><%=@demographics_marketting[index]["male"]%></td>
+                        <%end%>
+                      </tr>
+                    <%end%>
+                  </tbody>
+                </table></td>
+            </tr>
+          </table
+          <p>&nbsp;</p>
+          <table width="100%" border="0" cellspacing="" cellpadding="0">
+            <tr>
+              <td class="rowhead">LOCATION WISE REPORTS</td>
+            </tr>
+            <tr>
+              <td>
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="table-report" style="margin-bottom:10px;">
+                  <thead>
+                    <tr>
+                      <th width="50%" class="columnleft">Country</th>
+                      <th width="30%">Views Count</th>
+                      <th width="20%">Responses Count</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%if name =="Feedback" %>
+                      <%  total_known_view_count = 0%>
+                      <%  total_known_response_count = 0%>
+                      <% @location_feedback.each do |country| %>
+                        <tr>
+                          <td><%= find_country(country.value) %></td>
+                          <td><%=get_location_based_view_count(country.value,current_user.id,@params_feedback,'dashboard') %></td>
+                          <td><%=get_location_based_response_count(country.value,nil,current_user.id,@params_feedback,'dashboard')%></td>
+                          <%  total_known_view_count+=get_location_based_view_count(country.value,current_user.id,@params_feedback,'dashboard').to_i%>
+                          <%  total_known_response_count+=get_location_based_response_count(country.value,nil,current_user.id,@params_feedback,'dashboard').to_i%>
+                        </tr>
+                      <%end%>
+                      <tr>
+                        <td>Unknown</td>
+                        <td><%=  get_total_unknown_view_count_report(total_known_view_count,@params_feedback) > 0 ? get_total_unknown_view_count_report(total_known_view_count,@params_feedback) : 0  %></td>
+                        <td><%=  get_total_unknown_response_count_report(total_known_response_count,@params_feedback) > 0 ? get_total_unknown_response_count_report(total_known_response_count,@params_feedback) : 0 %></td>
+                      </tr>
+                    <%elsif name =="Innovation"%>
+                      <%  total_known_view_count = 0%>
+                      <%  total_known_response_count = 0%>
+                      <% @location_innovation.each do |country| %>
+                        <tr>
+                          <td><%= find_country(country.value) %></td>
+                          <td><%=get_location_based_view_count(country.value,current_user.id,@params_innovation,'dashboard') %></td>
+                          <td><%=get_location_based_response_count(country.value,nil,current_user.id,@params_innovation,'dashboard')%></td>
+                          <%  total_known_view_count+=get_location_based_view_count(country.value,current_user.id,@params_innovation,'dashboard').to_i%>
+                          <%  total_known_response_count+=get_location_based_response_count(country.value,nil,current_user.id,@params_innovation,'dashboard').to_i%>
+                        </tr>
+                      <%end%>
+                      <tr>
+                        <td>Unknown</td>
+                        <td><%=  get_total_unknown_view_count_report(total_known_view_count,@params_innovation) > 0 ? get_total_unknown_view_count_report(total_known_view_count,@params_innovation) : 0 %></td>
+                        <td><%=  get_total_unknown_response_count_report(total_known_response_count,@params_innovation) > 0 ? get_total_unknown_response_count_report(total_known_response_count,@params_innovation) : 0 %></td>
+                      </tr>
+                    <%else%>
+                      <%  total_known_view_count = 0%>
+                      <%  total_known_response_count = 0%>
+                      <% @location_marketting.each do |country| %>
+                        <tr>
+                          <td><%= find_country(country.value) %></td>
+                          <td><%=get_location_based_view_count(country.value,current_user.id,@params_marketting,'dashboard') %></td>
+                          <td><%=get_location_based_response_count(country.value,nil,current_user.id,@params_marketting,'dashboard')%></td>
+                          <%  total_known_view_count+=get_location_based_view_count(country.value,current_user.id,@params_marketting,'dashboard').to_i%>
+                          <%  total_known_response_count+=get_location_based_response_count(country.value,nil,current_user.id,@params_marketting,'dashboard').to_i%>
+                        </tr>
+                      <%end%>
+                      <tr>
+                        <td>Unknown</td>
+                        <td><%=  get_total_unknown_view_count_report(total_known_view_count,@params_marketting) > 0 ? get_total_unknown_view_count_report(total_known_view_count,@params_marketting) : 0  %></td>
+                        <td><%=  get_total_unknown_response_count_report(total_known_response_count,@params_marketting) > 0 ? get_total_unknown_response_count_report(total_known_response_count,@params_marketting) : 0 %></td>
+                      </tr>
+                    <%end%>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+		<% end %>
+      <%end%>
+    </div>
+  </body>
+</html>

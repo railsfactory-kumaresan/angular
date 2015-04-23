@@ -1,0 +1,106 @@
+<%= content_for(:title, "Manage Tenants") %>
+<%= javascript_include_tag "multitenant"%>
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Admin</h2>
+      </div>
+      <div class="wrap-box-cont">
+        <div class="white-box-wrapper">
+          <div class="box-head clearfix">
+            <h3><span class="glyphicon glyphicon-cog"></span>Settings</h3>
+          </div>
+          <div class="white-box">
+            <!-- Nav tabs -->
+            <%= render "shared/admin_menus_header"%>
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div class="tab-pane active" id="account_settings">
+                <div class="tab-wrapper">
+                  <%if @tenants.present? %>
+                      <div class="table-responsive">
+                        <table class="table-bordered table-striped table-condensed cf">
+                          <thead class="cf">
+                          <tr>
+                            <th class="quescol">Name</th>
+                            <th class="text-center">Address<a href="javascript:void(0);"><span class="glyphicon"></span></a></th>
+                            <th class="text-center">Redirect Url</th>
+                            <th class="text-center">From Number</th>
+                            <th class="th-actions">Actions</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <% @tenants.each do |tenant| %>
+                              <tr>
+                                <td class="quescol">
+                                  <%= truncate(tenant.name, length: 40) %>
+                                </td>
+                                <td class="quescol">
+                                  <%= truncate(tenant.address, length: 40) %>
+                                </td>
+                                <%default_url_phone_user%>
+                                <td class="quescol">
+                                  <%= tenant.redirect_url.blank?? @default_url : truncate(tenant.redirect_url, length: 40)  %>
+                                </td>
+                                <td class="quescol">
+                                  <%= tenant.from_number.blank? ? @default_no : tenant.from_number %>
+                                </td>
+                                <td>
+                                  <div class="action-items">
+                                    <a href="/tenants/<%= tenant.id %>/edit" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                                    <span class="label label-info"  title="<%= tenant.is_active ? "Deactivate" : "Activate" %>" id="change_status_<%= tenant.id %>" onclick="change_tenant_status('<%= tenant.id %>','<%= tenant.is_active %>');"><%= tenant.is_active ? "Deactivate" : "Activate"%></span>
+                                  </div>
+                                </td>
+                              </tr>
+                          <% end %>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--//. end question list -->
+                      <div class="row">
+                        <div class="pull-right">
+                          <%= will_paginate @tenants, renderer: BootstrapPagination::Rails %>
+                        </div>
+                      </div>
+                  <%else%>
+                      <div class="table-responsive">
+                        <table class="table-bordered table-striped table-condensed cf no-data">
+                          <thead class="cf">
+                          <tr>
+                            <th class="quescol"></th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                            <td>No Tenants found!</td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                  <%end%>
+                </div>
+                <div class="btn-wrap text-center btn-update-info">
+                  <a href="/tenants/new" class="button medium orange">Create Tenant</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+   function change_tenant_status(id, status){
+       <% change_tenant_status = check_role_level_permissions_js("tenants","change_tenant_status")%>
+       var can_change_tenant_status = "<%= change_tenant_status %>";
+       if(can_change_tenant_status == 'false')
+       {
+           alert("<%=APP_MSG['authorization']['failure']%>");
+           return false;
+       }else{
+           make_tenant_active(id,status)
+       }
+   }
+</script>

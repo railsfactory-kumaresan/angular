@@ -1,0 +1,6 @@
+<!-- TYPEKIT -->
+<script type="text/javascript" src="https://use.typekit.com/ltc1ytn.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+<% benchmark '##Render surveys pop up in response save' do %>
+<%= render :partial => "surveys/pop_up",:locals=>{:answer_id=>@answer_id, :question_slug => @question.slug, :provider => @provider} %>
+<% end %>

@@ -1,0 +1,2 @@
+jQuery('#question_det').html('<%= escape_javascript(render "customer_info", :cust_count => @cust_count, :customers => @customers) %>');
+jQuery('.pagination a').attr('data-remote', 'true');

@@ -1,0 +1,109 @@
+<%= javascript_include_tag 'multitenant', 'data-turbolinks-track' => true %>
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Admin</h2>
+      </div>
+      <div class="wrap-box-cont">
+        <div class="white-box-wrapper">
+          <div class="box-head clearfix">
+            <h3><span class="glyphicon glyphicon-cog"></span>Settings</h3>
+          </div>
+          <div class="white-box">
+            <!-- Nav tabs -->
+            <%= render "shared/admin_menus_header"%>
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div class="tab-pane active" id="account_settings">
+                <div class="tab-wrapper">
+
+                      <div class="form-horizontal">
+                        <div class="row">
+                          <div class="col-lg-4 lang-type" style="float:left;">
+                            <div class="form-group">
+                              <label for="inputLanguage" class="col-sm-6 text-left control-label">
+                                Select User
+                              </label>
+                              <div class="col-sm-6">
+                                <input type="text" name="email_id" id="search_by_email" class="text_field rc_5 form-control input-small" placeholder="Email"/>
+                                <%#= select_tag "tenant_name", options_for_select(@users.collect{|a| [a.email,a.id]}),:prompt=>"-Select User-", :required => "required",:class=>"text_field rc_5 form-control input-small" %>
+                                <label class="sr-only" for="InputTenantName">Tenant Name</label>
+                              </div>
+                              <div class="btn-wrap text-right btn-update-info"    >
+                                <input type="button" id="search_email" class="button medium orange" value="Search" />
+                              </div>
+
+                              <p><span class="error" style="width:190px;" id="error_role_id"></span></p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  <div id="render_tenantant"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    jQuery("#search_email").click(function(){
+        var email = jQuery("#search_by_email").val();
+        $.ajax(
+                {
+                    url : "search_user_by_email",
+                    type: "GET",
+                    data : {email: email} ,
+                    dataType: "script",
+                    success:function(data)
+                    {
+
+                    }
+
+                });
+    })
+
+    /* Auto Complete for Tenant Name */
+    jQuery("#search_by_email").autocomplete({
+        source: "/corporate_users/search_user",
+        minLength:1,
+        delay:100,
+        select: function(event, ui) {
+            jQuery("#InputTenantName").val(ui.item.label);
+        },
+        messages: {
+            noResults: '',
+            results: function() {}
+        }
+    });
+    var $input = $('input:text'),
+            $register = $('#search_email');
+
+    $register.attr('disabled', true);
+    $input.keyup(function() {
+        var trigger = false;
+        $input.each(function() {
+            if (!$(this).val()) {
+                trigger = true;
+            }
+        });
+        trigger ? $register.attr('disabled', true) : $register.removeAttr('disabled');
+    });
+</script>
+
+<style>
+    ul.ui-autocomplete li.ui-menu-item {
+        z-index: 1;
+    }
+    .btn-update-info {
+        margin-top: 10px;
+    }
+    #search_email{
+        margin: -34px -121px 0px 0px;
+    }
+</style>

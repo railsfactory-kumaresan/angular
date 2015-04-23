@@ -1,0 +1,31 @@
+ <div id="response_question">
+ <% if @question_status != "Active"%>
+<div class="response-wrapper">
+  <div class="response-whole-wrapper">
+    <div class="response-container">
+        <h1 style="font-size:1.4em;color:red;text-align: center;">
+          <div class="row">
+          <% if (@question && @question.status.downcase == "closed")%>
+                <div class="col-xs-12">This question has expired</div>
+          <% else (@question && @question.status.downcase =="inactive") %>
+                <div class="col-xs-12"> <%= (((@question && !@question.qrcode_status) || (@question && @question.qrcode_status == "")) && params[:provider] == "QR") ? "No question is mapped to QR code." : "This question is inactive" %></div>
+          <% end %>
+          </div>
+        </h1>
+    </div>
+    </div>
+</div>
+ <%end%>
+</div>
+
+<script>
+<%if @question_status == "Active"%>
+jQuery.ajax({
+        url: '/surveys/show_question',
+        type: 'post',
+    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', jQuery('meta[name="csrf-token"]').attr('content'))},
+    data: {id:'<%=@question.slug%>',cid: '<%=params[:cid]%>',provider: '<%=params[:provider]%>'},
+      dataType : "script"
+      });
+<%end%>
+ </script>

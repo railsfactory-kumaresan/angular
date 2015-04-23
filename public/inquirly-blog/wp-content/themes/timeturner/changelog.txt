@@ -1,0 +1,12 @@
+Changelog Legend:
+
+[+] = Added
+[*] = Changed
+[^] = Moved
+[=] = No Changes
+[x] = Deleted
+[!] = Bugs
+
+----
+
+(30/10/2013) - The initial public release - Version 1.0.0

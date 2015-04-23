@@ -1,0 +1,159 @@
+<%= content_for :page_specific_head_content do %>
+
+<%= javascript_include_tag 'responsive/customize', 'responsive/bootstrap' %>
+<%#= javascript_include_tag "responsive/page_loaders/question"%>
+<%= stylesheet_link_tag 'common'%>
+
+<% end %>
+<div class="white-box">
+  <%= form_for  :question_style, :url =>customize_question_path(question.slug), :class =>"form-horizontal", :html => { :multipart => true }  do |f| %>
+  <%= f.hidden_field :question_id,:value=>question.id %>
+  <%= f.hidden_field :custom_url,:value=>custom_url%>
+  <div class="form-horizontal question-customize">
+    <div class="form-group comp-img-upload clearfix">
+      <div class="error file-format-error" style="display:none">"Invalid image format. Only .jpg, .png or .gif file extentions allowed."</div>
+			 <div class="col-lg-12 upload-img-path"><span class="img-path-filename-rplc"><%= @image_file_name if @image_file_name.present?%></span></div>
+      <label class="col-sm-6 control-label" for="inputEmail3">Upload Logo</label>
+      <div class="col-sm-6 file-upload-img-over">
+				<span class="clicktoupload">Click to upload Image</span>
+       <input type="hidden" name="question_id" value="<%= @question.id%>"/>
+       <div class="fileinput fileinput-new" data-provides="fileinput">
+        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="cursor: pointer;">
+          <%if @image_url.present? %>
+          <img src="<%= @image_url %>" id="preview_image" alt=""/>
+          <% else %>
+					 <!-- rails4_image_tag_impact -->
+					<%= image_tag("responsive/upload-dummy-logo.jpg", alt: "company logo", id: "preview_image") %>
+					<!--<img src="/assets/responsive/upload-dummy-logo.jpg" id="preview_image" alt="company logo" />-->
+          <%end %>
+          <%#= file.file_field :image,:onchange=>"imagesSelected(this.files)",:class=>"", :id => "image_upload", :multiple=>false, :onchange=>"readURL(this);" %>
+        </div>
+        <div style="height: 1px; ">
+         <span class="btn btn-default btn-file" style="opacity: 0; height: 1px;  padding: 0;">
+          <span class="fileinput-new">Select image</span>
+          <span class="fileinput-exists">Change</span>
+          <input type="file" onClick="<%#=load_tab_details(@show_video_photo,'','')%>" id="logo-image-path" name="logo_image" />
+
+        </span>
+        <%#= file.submit "Upload" ,:class=>"btn rc_5",:onclick => 'return validate_image_type()',:style=>"display:none;",:id=>"upload_btn" %>
+        <span class="error">
+          <%= @errors.present? ? (@errors[:image].present? ? @errors[:image][0] : (@errors[:image_content_type].present? ?  @errors[:image_content_type][0] : "" ))  : "" %></span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="form-group clearfix">
+  <label class="col-sm-6 control-label" for="inputEmail3">Background</label>
+  <div class="col-sm-6">
+    <%= f.text_field :background, :value => question_style && question_style.background? ?  question_style.background : "#fefefe", :class => "text_field  color_option form-control input-small",:id=>"question_style_background" %>
+  </div>
+</div>
+<div class="form-group clearfix">
+  <label class="col-sm-6 control-label" for="inputEmail3">Page Header</label>
+  <div class="col-sm-6">
+    <%= f.text_field :page_header, :value => question_style && question_style.page_header? ? question_style.page_header : "#858585", :class => " text_field color_option form-control input-small",:id=>"question_style_page_header" %>
+  </div>
+</div>
+<div class="form-group clearfix">
+  <label class="col-sm-6 control-label" for="inputEmail3">Question Text</label>
+  <div class="col-sm-6">
+    <%= f.text_field :question_text, :value => question_style && question_style.question_text? ? question_style.question_text : "#30A4AC", :class => "text_field color_option form-control input-small",:id=>"question_style_question_text" %>
+  </div>
+</div>
+<div class="form-group clearfix">
+  <label class="col-sm-6 control-label" for="inputEmail3">Submit Button</label>
+  <div class="col-sm-6">
+    <%= f.text_field :submit_button, :value => question_style && question_style.submit_button? ? question_style.submit_button : "#d5d5d7", :class => "text_field color_option form-control input-small" ,:id=>"question_style_submit_button" %>
+  </div>
+</div>
+<div class="form-group clearfix">
+  <label class="col-sm-6 control-label" for="inputEmail3">Button Text</label>
+  <div class="col-sm-6">
+    <%= f.text_field :button_text, :value =>question_style && question_style.button_text? ? question_style.button_text : "#FFFFFF", :class => " text_field color_option form-control input-smal",:id=>"question_style_button_text" %>
+  </div>
+</div>
+<div class="form-group clearfix">
+  <label class="col-sm-6 control-label" for="inputEmail3">Answers</label>
+  <div class="col-sm-6">
+    <%= f.text_field :answers, :value => question_style && question_style.answers? ? question_style.answers : "#636363", :class => " text_field color_option form-control input-small",:id=>"question_style_answers" %>
+  </div>
+</div>
+<div class="form-group clearfix">
+  <label class="col-sm-6 control-label" for="inputEmail3">Font style</label>
+  <div class="col-sm-6">
+    <%selected=question_style && question_style.font_style? ? question_style.font_style : "Select" %>
+    <%= f.select "font_style", options_for_select(["Select","Sans","Serif"],selected),{:id=>"question_style_font_style"}, {:class => 'fonts form-control input-small'}%>
+  </div>
+</div>
+<div class="form-group clearfix">
+  <div class="col-lg-6">
+		<a href="javascript:void(0);" id="default_sttings" class="btn-link-reset">Reset settings</a>
+  </div>
+  <div class="col-lg-6 btn-apply text-right">
+    <%= f.submit "Apply" ,:class=>"button orange styles-upload-submit"%>
+  </div>
+</div>
+</div>
+<% end %>
+</div>
+
+<div id="colorpicker_wrapper">
+  <div id="colorpicker_inner_wrapper">
+    <div class="color_picker_pokey"></div>
+    <div id="colorpicker"></div>
+  </div>
+</div>
+
+<script>
+ $(document).ready(function(){
+ <% 
+ validation = check_role_level_permissions_js("question","upload_logo")
+ %>
+ var role_validation = "<%=validation%>";
+ //var msg = "<%=APP_MSG['authorization']['failure']%>";
+ jQuery('.fileinput-preview').click(function(){
+  if(role_validation == 'false')
+  { 
+  alert("<%=APP_MSG['authorization']['failure']%>");
+    // jQuery("#flash-message").append('<div id="flash_message" class="flash-message"><div class="alert alert-warning fade in"><button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button><strong><span id="msg_container">'+ msg +'</span></strong></div></div>').show();
+      //  jQuery("#flash_message").fadeOut(15000).hide("slow");
+      return false;
+
+  }
+ 
+  });
+
+ jQuery("#logo-image-path").change(function(){
+ validateFiles(this)
+ var imgfileName = jQuery(this).val().replace(/C:\\fakepath\\/i, '');
+ jQuery(".img-path-filename-rplc").html(imgfileName.replace(/\.[^/.]+$/, ""));
+ });
+ jQuery(".styles-upload-submit").click(function( ) {
+  var val = $("#logo-image-path").val();
+	if (val)
+		{
+			if (!val.match(/(?:gif|jpg|png|jpeg|JPG|PNG|GIF|JPEG)$/)) {
+			$(".file-format-error").show();
+			return false;
+		}
+		else{$(".file-format-error").hide(); return true;}
+	}
+	return true;
+});
+    jQuery("body").delegate("#question_style_font_style","change", function(){
+     var prev_val = document.getElementById('question_style_font_style').value;
+     if (prev_val == 'Serif')
+     {
+       jQuery(".bg-prev-question, #qs-title").removeClass("sans_style");
+       jQuery(".bg-prev-question, #qs-title").addClass("serif_style");
+     }
+     else if (prev_val == 'Sans')
+     {
+       jQuery(".bg-prev-question, #qs-title").removeClass("serif_style");
+       jQuery(".bg-prev-question, #qs-title").addClass("sans_style");
+     }
+   });
+ });
+</script>
+

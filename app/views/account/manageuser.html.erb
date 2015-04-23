@@ -1,0 +1,208 @@
+
+		<% benchmark '##Render account pop up in manage user' do %>
+		<%= render :partial => "account/pop_up", :locals => { :status => "index" } %>
+		<% end %>
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Account</h2>
+      </div>
+      <div class="wrap-box-cont">
+        <div class="white-box-wrapper">
+          <div class="box-head clearfix">
+            <h3><span class="glyphicon glyphicon-cog"></span>Settings</h3>
+          </div>
+          <div class="white-box">
+            <!-- Nav tabs -->
+						<% benchmark '##Render account setting header in manage user' do %>
+            <%= render  "account_settings_header", :business_type => @business_type, :subscribe => @subscribe %>
+            <% end %>
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div class="tab-pane active" id="account_settings">
+                <div class="tab-wrapper">
+                  <div class="filter-form-head">
+                    <div class="row">
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="btn-wrap">
+                          <a data-toggle="modal" href="#InviteUser" class="button medium orange" tabindex="1" >Invite a User</a>
+                        </div>
+                      </div>
+                      <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="filterby">
+                          <div class="hoz-form">
+                            <div class="row">
+                              <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                <select class="form-control input-small" tabindex="2">
+                                  <option>All Roles</option>
+                                  <option>Create</option>
+                                  <option>View</option>
+                                </select>
+                              </div>
+                              <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                <select class="form-control input-small" tabindex="3">
+                                  <option>All Status</option>
+                                  <option>Active</option>
+                                  <option>Deactive</option>
+                                </select>
+                              </div>
+                              <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                <div class="date-picker">
+                                  <label class="sr-only" for="exampleInputPassword2">05-11-2013</label>
+                                  <input type="text" class="form-control input-small date datepicker" value="05-11-2013" readonly="readonly" tabindex="4" />
+                                </div>
+                              </div>
+                              <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                <div class="date-picker">
+                                  <label class="sr-only" for="exampleInputPassword2">05-11-2013</label>
+                                  <input type="text" class="form-control input-small date datepicker" value="05-11-2013" readonly="readonly" tabindex="5" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--//. filter form -->
+                  <div class="question-table user-table" id="flip-scroll">
+                    <table class="table-bordered table-striped table-condensed cf" id="users_list">
+                      <thead class="cf">
+                        <tr>
+                          <th class="colname">Name</th>
+                          <th class="colemail">Email Address</th>
+                          <th class="colsts">Join Date<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></th>
+                          <th class="colact">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% @mangeuser.each do |q| %>
+                          <tr id="<%= q.id%>">
+                            <td>
+                              <a href="#"><%= q.first_name%> <%= q.last_name %></p>
+                                <span class="updated">Invited by <strong><%= (@user&&@user.first_name.present?) ? @user.first_name : ""%> <%= (@user&&@user.last_name.present?) ? @user.last_name : ""%></strong></span>
+                              </a>
+                            </td>
+                            <td><a href="#"><%= q.email %></a></td>
+                            <td><span class="glyphicon glyphicon-dashboard"></span><%= q.created_at.strftime("Joint on %b %d, %Y")%>
+                              <input type="hidden" value="<%= q.role %>" ><input type="hidden" value="<%= q.email %>" >
+                            </td>
+                            <td>
+                              <div class="action-items">
+                                <a href="#edit_form" data-toggle="modal" class="edit fr osx edit_fancy_box" onclick="Edit('<%= q.role%>','<%= q.email %>')"><span class="glyphicon glyphicon-pencil"></span></a>
+                                <a href="#" class="remove fl" id="Remove_user" onclick="RemoveUser(<%= q.id%>)"><span class="glyphicon glyphicon-remove"></span></a>
+                              </div>
+                            </td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!--//. end question list -->
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <ul class="pagination pull-right">
+												<%= will_paginate @mange_user, renderer: BootstrapPagination::Rails %>
+                      </ul>
+                      <!--//. end pagination -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane" id="company_settings">
+										2
+              </div>
+              <div class="tab-pane" id="manage_users">
+										3
+              </div>
+              <div class="tab-pane" id="billing_info">
+										4
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function RemoveUser(id)
+  {
+    var didConfirm = confirm("Are you sure you want delete this user?");
+    if (didConfirm == true)
+    {
+      //delete here
+      $.ajax({
+        url: "/account/"+id,
+        type: 'DELETE',
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        success: function(data){
+          if(data.status ==200)
+          {
+            $("#"+data.id).remove();
+          }
+          else
+          {
+            alert("error");
+          }
+        }
+      });
+    }
+  }
+  function Edit(role,email)
+  {
+    $("#edit_email").val(email);
+    $("select[name=role_edit]").val(role);
+    jQuery(".edit_fancy_box").fancybox({
+      'transitionIn'	: 'none',
+      'transitionOut'	: 'none',
+      'overlayColor'	: '#8f807c',
+      'overlayOpacity'	: 0.9
+    });
+  }
+
+</script>
+<div id="edit_form" class="modal fade" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" aria-hidden="true" data-dismiss="modal" type="button">   </button>
+        <h4 class="modal-title">Edit a User</h4>
+      </div>
+      <div class="modal-body signin">
+        <div class="container">
+          <div class="lightbox-form">
+            <%= form_tag "/update_role" ,:remote=>true do %>
+              <div class="form-group">
+                <label class="sr-only" for="exampleInputPassword1">Enter your email address</label>
+                <input type="text"  id="edit_email" name="email" class="form-control input-small" />
+              </div>
+              <div class="form-group">
+                <select class="form-control input-small" name="role_edit">
+                  <option value=0>Select Roles</option>
+                  <option value="create" >Create</option>
+                  <option value="view">View</option>
+                </select>
+              </div>
+              <div id='month_error' style='display:none;color:red;margin-left:50px;'>
+              </div>
+              <div id='role_error' style='display:none;color:red;margin-left:50px;'>
+              </div>
+              <div id='month_error1' style='display:none;color:red;margin-left:50px;'>
+              </div>
+              <div style="margin-top:20px;margin-left:170px;width:150px;" id="button_area">
+              </div>
+              <div id="spinner" style="margin-left:203px;margin-top:10px;"  >
+                <%=image_tag("loading.gif",:id=>"spinner_img",:style=>"display:none;")%>
+              </div>
+              <%= submit_tag "Update",:class =>"button medium orange" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

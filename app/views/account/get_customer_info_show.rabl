@@ -1,0 +1,1 @@
+attributes :customer_name, :mobile

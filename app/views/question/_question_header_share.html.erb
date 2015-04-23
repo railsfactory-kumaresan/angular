@@ -1,0 +1,12 @@
+<a class="distribute_nav_button sharing active" href="javascript:void(0)" id="social_media_tab">Social</a>
+<a class="distribute_nav_button direct_link " href="javascript:void(0)" id="email_media_tab">Email</a>
+<% if user_business_id == 2 %>
+<a class="distribute_nav_button embed_code " href="javascript:void(0)" id="embed_media_tab">Embed</a>
+<a class="distribute_nav_button sms " href="javascript:void(0)" id="sms_media_tab">sms</a>
+<a class="distribute_nav_button qr-code qr-btn" href="javascript:void(0)" id="qr_code_tab" onclick="active_qr_code_current_question(<%= question.id %>);">QR Code</a>
+<% if question.question_type_id == 3 || question.question_type_id == 1  %>
+<% if !question.video_url.present? && !question.embed_url.present? %>
+<a class="distribute_nav_button  qr-btn qr-call" href="javascript:void(0)" id="voice_call_tab">Make Call</a>
+<%end%>
+<% end%>
+<% end %>

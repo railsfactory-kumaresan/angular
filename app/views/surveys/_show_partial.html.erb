@@ -1,0 +1,683 @@
+<div class="response-wrapper" xmlns="http://www.w3.org/1999/html">
+  <div class="response-whole-wrapper">
+    <div class="response-container">
+      <% if (@question && @question.status =="Closed")%>
+      <h1 style="font-size:1.8em;color:red;text-align: center;"> This question has expired. </h1>
+      <% elsif (@question && @question.status =="Inactive") %>
+         <h1 style="font-size:1.8em;color:red;text-align: center;"> <%= (!@question.qrcode_status.present? || @question.qrcode_status == "") ? "This question not mapped with any QR code" :"This question is inactive." %></h1>
+      <% else %>
+      <div class="response-header">
+        <% if @attachment %>
+        <%= image_tag(@attachment) %>
+        <% else %>
+        <%= image_tag("#{Bitly_url["url"]}/assets/responsive/default_logo_resize.jpg") %>
+        <% end %>
+      </div>
+      <!-- .end header -->
+      <div class="company-info" id="company_name">
+        <span><strong><%= @user_company if @user_company %></strong></span> | <span><%=Question.get_date_time(@question.created_at).strftime("%B %d, %Y") %></span> | <span><%=Question.get_date_time(@question.created_at).strftime("%I:%M%p")%></span>
+      </div>
+      <!-- .end posted info -->
+      <%= form_for @question, :url => response_save_survey_path(@question.slug), :name => 'response', :method => :post do |f| %>
+        <%#@uuid_id = CookieToken.find_cookie_token_id(@cookie_uuid)
+        #@question= Question.find(params[:id])
+        #is_answered = Answer.check_already_answerd(@question.id,@uuid_id)%>
+
+	<input type="hidden" value="<%= @cookie_uuid %>" name="cookie_token_value"/>
+        <input type="hidden" value="<%=@is_answered %>" id="is_answered" name="is_answered"/>
+        <div class="row" id="language_select">
+          <div class="col-lg-4 col-md-4">
+            <div class="form-group">
+              <div class="col-sm-6">
+                <select id="langlist" class="form-control input-small"></select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="qwrapper">
+        <div class="response-question">
+        <!-- Tab panes -->
+        <div class="form-group error-field question-response-error">
+        <div class="error">
+        </div>
+        </div>
+        <% @ans_type = @question.question_type_id %>
+        <div class="row">
+          <div class="response-question">
+            <div class="question-title">
+              <div id="qs-title"><%= @question.question %></div>
+            </div>
+            <div class="answers-options">
+              <% if @ans_type == 4 %>
+              <div class="clearfix qa-wrap">
+                <%= text_area_tag 'answer_option', nil, :class => "form-control", :id => "comment_body", :maxlength=>"140" %>
+                <div class="char-count text-right">
+                 <span class="req" id="charCount"></span>
+               </div>
+             </div>
+             <% end %>
+
+             <% if @question_options && @question_options.each do |ans| %>
+             <% if @question.question_type_id == 1 || @question.question_type_id == 3%>
+             <div class="radio">
+              <label>
+                <%= radio_button_tag 'answer_option', ans.option, false%>
+                <%= ans.option %>
+              </label>
+            </div>
+            <% end %>
+            <% if @ans_type == 2%>
+            <div class="checkbox">
+              <label>
+                <%= check_box_tag "answer_option", ans.id, false, :class => "fl answer_type multi-ans" %>
+                <input class="multiple_answwers_loader" name="multiple_answers" style="display:none;" />
+                <%= ans.option %>
+              </label>
+            </div>
+            <% end %>
+            <% end %><% end %>
+            <% if @question.include_other %>
+            <div class="radio">
+              <label>
+                <%= radio_button_tag "answer_option", "others", false, :class => "fl answer_type",:id=>"answer-option-other" %>
+                Others
+              </label>
+            </div>
+            <div class="row others-field">
+              <input name="other_answer_option" type="text" class="form-control input-small answer_other_option_txtbox" id="InputOthers" placeholder="Others" style="display:none;" maxlength="20" />
+              <div class="char-count-inputothers text-right">
+                <span class="req" id="charCount_inputothers"></span>
+              </div>
+            </div>
+            <% end %>
+          </div>
+        </div>
+        <% if @question.embed_url? %>
+        <div class="question-video">
+          <%= stylesheet_link_tag '/video_response/video-js.min' %>
+          <%= javascript_include_tag '/video_response/video' %>
+          <%= javascript_include_tag '/video_response/vjs.youtube' %>
+          <div>
+            <video id="vid1" src="" class="video-js vjs-default-skin" width="400" height="250" data-setup='{ "techOrder": ["youtube"], "src": "<%= @question.embed_url %>" }'>
+            </video>
+          </div>
+        </div>
+        <% elsif @question.video_url? %>
+        <div class="question-video">
+          <% if image_file_format_check(@question.video_url)%>
+           <%= javascript_include_tag "responsive/e-smart-zoom-jquery.min" %>
+          <div>
+            <img id="imageFullScreen" src="<%= @question.video_url%>" width="400" height="250" />
+          </div>
+          <%else%>
+          <%= stylesheet_link_tag  "responsive/video-css" %>
+          <%= javascript_include_tag "responsive/video-js" %>
+          <div>
+            <video id="example_video_1" class="video-js vjs-default-skin"   controls preload="auto" width="400" height="250"   data-setup='{"example_option":true}'>
+              <source src="<%= @question.video_url%>" type='video/mp4' />
+              </video>
+            </div>
+          </div>
+          <% end %>
+        </div>
+        <%end%>
+        <% if @question.include_text %>
+        <div class="question-comments">
+          <label>Comments</label>
+          <label for="InputFirstName" class="sr-only">First Name</label>
+          <textarea name="include_text" id="include_text" rows="3" class="form-control" maxlength="70"></textarea>
+          <div class="char-count text-right">
+            <span class="req" id="charCount_include_comment"></span>
+          </div>
+        </div>
+        <% end %>
+        <div class="btn-wrap">
+         <%if params[:provider] && !params[:provider].blank? %>
+         <%= f.submit "Submit", :class => "button medium", :id => "submit1"%>
+         <%else%>
+         <%= f.submit "Submit", :class => "button medium", :id => "submit1",:disabled => "true" %>
+         <%end%>
+       </div>
+       <!--//. comment field -->
+       <!--</form>-->
+     </div>
+     <!--//. recent activity -->
+     <% if @question.id.present? %>
+     <input type="hidden" name="question_id" id="question_id" value="<%= @question.id %>" readonly />
+     <input type="hidden" name="cid" id="cid" value="<%=params[:cid]%>" readonly />
+     <% end %>
+     <input type="hidden" name="answer_id" id="answer_id" value="" readonly />
+     <% if @question.category_type_id.present? %>
+     <input type="hidden" name="category_type_id" id="category_type_id" value="<%= @question.category_type_id %>" readonly />
+     <% end %>
+     <%# if @raw_param.present? %>
+     <input type="hidden" name="provider" id="provider" value="<%=params[:provider]%>" readonly />
+     <% #end %>
+     <%end%>
+     <% end %>
+   </div>
+   <!-- .end qwrapper -->
+   <div class="response-footer">
+     <!-- rails4_image_tag_impact -->
+     <%= image_tag("responsive/logo-inquirly-poweredby.png") %>
+     <!--<img alt="" src="/assets/responsive/logo-inquirly-poweredby.png" /> -->
+  </div>
+</div>
+</div>
+</div>
+<!-- .end response-page -->
+
+<!-- Email Modal -->
+<div class="modal fade" id="response_email_modal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+<!--<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &nbsp;
+        </button>
+        <h4 class="modal-title">Customer Info</h4>
+      </div> -->
+      <div class="modal-body response_question_popup">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="question-dialog-box" id="success_msg">
+              <!--<img src="/assets/thank-u.png" alt="" class="fl" /> -->
+              <div class="box-info">
+                <!--<h4></h4><p id="success"></p> -->
+                <h2 class="thankyou-msg">
+                  <span class="glyphicon glyphicon-ok-circle"></span>
+                  <span class="thankmsg" id="success"></span>
+                </h2>
+              </div>
+            </div>
+
+            <h2 class="question-dialog-box thankyou-msg" id="failure_msg">
+              <div class="answered-msg">
+                <span class="glyphicon glyphicon-ban-circle"></span>
+                <span class="answered">You've already answered this question.
+                 Your feedback is important to us.Thanks for responding.</span>
+               </div>
+             </h2>
+
+             <div id="form_container">
+              <!--<h3 class="header small-text">Fill In Your Email Address</h3>-->
+              <%= form_tag response_email_verify_survey_path(@question.slug), :remote => true ,:id=>"response_email_verify_path" do %>
+	      <input type="hidden" value="<%= @cookie_uuid %>" name="cookie_token_value"/>
+              <div class="frm-email-field">
+                <!--<input type="text" name="email" id="email" style="background-color: #F6F6F6;border: 1px solid #AEAEAE;border-radius: 3px 3px 3px 3px;color: #181818;font-size: 14px;font-weight: 700;margin-right: 11px;outline: 0 none;padding: 7px;width: 300px;" placeholder="Enter Your Email" value="<%#= params[:email].present? ? params[:email] : ''%>">-->
+                <label>Responder Email</label>
+                <input type="text" class="form-control input-sm" name="email" id="email" style="" placeholder="Enter Your Email" value=""/>
+                <span class="error" id='email_error' style='display:none;'></span></p>
+                <input type="hidden" value="<%= @question.id %>" name="question_id"/>
+                <input type="hidden" value="<%=@answer_id %>" id="answer_id_new" name="answer_id"/>
+                <input type="hidden" value="<%=@provider %>" id="provider" name="provider"/>
+              </div>
+              <div class="clearfix submit-btn">
+                <!--<input class="btn rc_5" type="submit" value="Submit" name="commit" style="width:125px;"/>-->
+                <input id="email_form" type="submit" name="commit" value="Submit" class="button medium orange" />
+              </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal Email pop  -->
+<% if image_file_format_check(@question.video_url)%>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        /* Pinch-Zoom in effet */
+        $('#imageFullScreen').smartZoom();
+
+        $('#topPositionMap,#leftPositionMap,#rightPositionMap,#bottomPositionMap').bind("click", moveButtonClickHandler);
+        $('#zoomInButton,#zoomOutButton').bind("click", zoomButtonClickHandler);
+
+        function zoomButtonClickHandler(e){
+            var scaleToAdd = 0.8;
+            if(e.target.id == 'zoomOutButton')
+                scaleToAdd = -scaleToAdd;
+            $('#imageFullScreen').smartZoom('zoom', scaleToAdd);
+        }
+
+        function moveButtonClickHandler(e){
+            var pixelsToMoveOnX = 0;
+            var pixelsToMoveOnY = 0;
+
+            switch(e.target.id){
+                case "leftPositionMap":
+                    pixelsToMoveOnX = 50;
+                    break;
+                case "rightPositionMap":
+                    pixelsToMoveOnX = -50;
+                    break;
+                case "topPositionMap":
+                    pixelsToMoveOnY = 50;
+                    break;
+                case "bottomPositionMap":
+                    pixelsToMoveOnY = -50;
+                    break;
+            }
+            $('#imageFullScreen').smartZoom('pan', pixelsToMoveOnX, pixelsToMoveOnY);
+        }
+    });
+</script>
+<% end %>
+<script type="text/javascript" language="javascript">
+var answer_type = "<%= @question.question_type_id %>";
+jQuery(document).ready(function () {
+  // Intialize the character count for comment box,text_box(others),include other comment box(only english language)
+ setTimeout(function() {
+    var language = $("#langlist").val();
+      <% if @ans_type == 4 %>
+        // comment questions only
+        Quill.setCharLimit (140, 'comment_body');
+        $("#charCount").text(140);
+      <%else%>
+      // other text field
+        // Quill.setCharLimit (70, 'include_text');
+        // $("#charCount_include_comment").text(70);
+        // Quill.init('InputOthers', 'langlist', null);
+        // Quill.setCharLimit (20, 'InputOthers');
+        // $("#charCount_inputothers").text(20);
+        // Initialy hide the actual count in other text box
+        // jQuery("#QuillInputOthers_container").hide();
+        // jQuery("#charCount_inputothers").hide();
+      <%end%>
+  });
+
+  // When your enter the value in comment box, the character's can captured and reduced the actual count
+  $("body").delegate("#Quillcomment_body_container","keyup", function(){
+    $("#charCount").text(Quill.getCharsLeft("comment_body"));
+  });
+
+  // When your enter the value in other text box, the character's can captured and reduced the actual count
+  $("body").delegate("#Quillinclude_text_container","keyup", function(){
+   $("#charCount_include_comment").text(Quill.getCharsLeft("include_text"));
+  });
+
+  // When your enter the value in others comment box, the character's can captured and reduced the actual count
+  $("body").delegate("#QuillInputOthers_container","keyup", function(){
+    $("#charCount_inputothers").text(Quill.getCharsLeft("InputOthers"));
+  });
+
+  jQuery('#langlist').hide();
+  // language setter
+  if (jQuery('#include_text').length != 0)
+  {
+	<%if browser.android?%>
+		<%if browser.chrome?%>
+			Quill.remove();
+		<%else%>
+			Quill.Config.client.defaultLanguage = '<%= @question.language %>';
+			Quill.init('include_text','langlist',null);
+		<%end%>
+	<%else%>
+		Quill.Config.client.defaultLanguage = '<%= @question.language %>';
+		Quill.init('include_text','langlist',null);
+	<%end%>
+    Quill.setCharLimit (70, 'include_text');
+    $("#charCount_include_comment").text(70);
+    $("#Quillinclude_text_container").css('background-color','#ffffff');
+    $("#Quillinclude_text_container").css('background-image','none');
+    $("#Quillinclude_text_container").css('border','1px solid #cccccc');
+    $("#Quillinclude_text_container").css('border-radius','4px');
+    $("#Quillinclude_text_container").css('box-shadow','01px rgba(0,0,0,0.075) inset');
+    $("#Quillinclude_text_container").css('padding','6px 12px');
+  }
+  if (answer_type == 4)
+  {
+  	<%if browser.android?%>
+		<%if browser.chrome?%>
+			Quill.remove();
+		<%else%>
+			Quill.Config.client.defaultLanguage = '<%= @question.language %>';
+			Quill.init('comment_body', 'langlist', null);
+		<%end%>
+	<%else%>
+		Quill.Config.client.defaultLanguage = '<%= @question.language %>';
+		Quill.init('comment_body', 'langlist', null);
+	<%end%>
+
+    //~ Quill.init('answer_option','langlist',null);
+    $("#Quillanswer_option_container").css('background-color','#ffffff');
+    $("#Quillanswer_option_container").css('background-image','none');
+    $("#Quillanswer_option_container").css('border','1px solid #cccccc');
+    $("#Quillanswer_option_container").css('border-radius','4px');
+    $("#Quillanswer_option_container").css('box-shadow','01px rgba(0,0,0,0.075) inset');
+    $("#Quillanswer_option_container").css('padding','6px 12px');
+  }
+
+
+  // Other option selector
+  jQuery("input[type='radio']").click(function()
+	{
+    if(jQuery("#answer-option-other").prop("checked"))
+    {
+	<%if browser.android?%>
+		<%if browser.chrome?%>
+			Quill.remove();
+			$("#InputOthers").show();
+		<%else%>
+			Quill.init('InputOthers', 'langlist', null);
+			Quill.setCharLimit (20, 'InputOthers');
+		<%end%>
+	<%else%>
+		Quill.init('InputOthers', 'langlist', null);
+		Quill.setCharLimit (20, 'InputOthers');
+	<%end%>
+        $("#charCount_inputothers").text(20);
+        $("#QuillInputOthers_container").show();
+        $("#charCount_inputothers").show();
+        Quill.Config.client.defaultLanguage = '<%= @question.language %>';
+        $("#QuillInputOthers_container").css('background-color','#ffffff');
+        $("#QuillInputOthers_container").css('background-image','none');
+        $("#QuillInputOthers_container").css('border','1px solid #cccccc');
+        $("#QuillInputOthers_container").css('border-radius','4px');
+        $("#QuillInputOthers_container").css('box-shadow','01px rgba(0,0,0,0.075) inset');
+        $("#QuillInputOthers_container").css('padding','6px 12px');
+    }
+    else
+    {
+      jQuery('#QuillInputOthers_container').hide();
+      jQuery("input[name='other_answer_option']").hide();
+      jQuery("input[name='other_answer_option']").val("");
+			$("#charCount_inputothers").hide();
+    }
+  });
+
+  // response cutomization style
+  <% if @question_style.present? %>
+  jQuery(".response-container").css("background-color", "<%= @question_style.background %>");
+  jQuery("#company_name").css("color","<%= @question_style.page_header %>");
+  jQuery(".white-box").css("background-color", "<%= @question_style.background %>");
+  jQuery(".company-info span").css("font-family", "<%= @question_style.background %>");
+  jQuery("#submit1").css("background", "none");
+  jQuery("#submit1").css("background-color", "<%= @question_style.submit_button %>");
+  jQuery("#submit1").css("color", "<%= @question_style.button_text %>");
+  jQuery("body").css("font-family", "<%= @question_style.font_style %>");
+  jQuery(".answers-options").css("color", "<%= @question_style.answers %>");
+  jQuery("#qs-title").css("font-family","<%= @question_style.background %>");
+  jQuery("#qs-title").css("color","<%= @question_style.question_text %>");
+  <% else %>
+  $("#submit1").addClass("button medium orange");
+  <% end %>
+
+    var raw = '<%= @raw_param %>';
+    //var raw = '<%#= params[:provider] %>';
+    //jQuery.ajax({
+    // type: 'GET',
+    //url: '/view_count_update',
+    //data: {question_id: jQuery('#question_id').val(), provider: provider, ajax: true},
+    //data: {question_id: jQuery('#question_id').val(), provider: raw, ajax: true,cookie_token_id: jQuery('#cookie_token_id').val()},
+    //beforeSend: function (xhr) {
+    // xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+    //},
+    //success: function (data) {
+    //jQuery("#question_id").val(data["question_id"]);
+    //jQuery("#answer_id").val(data["answer_id"]);
+    //jQuery("#provider").val(data["provider"]);
+    //}
+    //});
+  var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
+    // Response page form submit action
+  jQuery('form').submit(function () {
+    jQuery("#submit1").val('Please wait...');
+    var form_id = this.id;
+    thanks_msg = '<%=escape_javascript(@thanks_msg.gsub("\r\n","!-!-!-!"))%>';
+    jQuery('#submit1').attr("disabled","disabled");
+    var valuesToSubmit = jQuery(this).serialize();
+    jQuery.ajax({
+    type: 'POST',
+    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', jQuery('meta[name="csrf-token"]').attr('content'))},
+    url: jQuery(this).attr('action'),
+    data: valuesToSubmit,
+    success: function (data) {
+      jQuery("#submit1").val('Submit');
+      var user_detail = "<%=@customer_cookie_detail%>";
+      var get_email = "<%=@get_email%>";
+      answered = "<%=@is_answered%>";
+      if(answered == "true"){
+      $("#response_email_modal").modal();
+        jQuery('#success_msg').hide();
+        jQuery('#failure_msg').show();
+        delay(function () {disable_response_container()},2000);
+        jQuery("#response_email_verify_path").hide();
+        return false;
+      }
+      if(user_detail)
+      {
+        var ques_id =  jQuery('[name=question_id]').val();
+        var ans_id =  jQuery('[name=answer_id]').val();
+        var provider = "<%= @provider%>";
+        jQuery.post( "/surveys/<%=@question.slug%>/response_email_verify?already_answered=<%=@is_answered%>", {question_id: ques_id , answer_id : ans_id, provider: provider } ).done(function( data )
+        {
+        if((jQuery(".answers-options input[name='answer_option']").is(":checked") == true)||(jQuery(".answers-options textarea").val()!=""))
+        {
+         $("#response_email_modal").modal();
+        }
+        if(cookie_result !== undefined && cookie_result === "true" && answered == "true"){
+          jQuery('#success_msg').hide();
+          jQuery('#failure_msg').show();
+          jQuery(".white_content").css("height","200px");
+          jQuery("#form_container").hide();
+          delay(function () {disable_response_container()},2000);
+        }else{
+          jQuery('#success_msg').show();
+          jQuery("#response_email_verify_path").hide();
+          jQuery("#success").html(GetWrapedText(thanks_msg.replace(/(!-!-!-!)/gm,'<br/>'),40));
+          jQuery("#form_container").hide();
+          jQuery('#failure_msg').hide();
+          delay(function () {disable_response_container()},2000);
+        }
+          data;
+        });
+      }
+      else{
+        if(((jQuery(".answers-options input[name='answer_option']").is(":checked") == true)||(jQuery(".answers-options textarea").val()!="")) && form_id != 'response_email_verify_path')
+        {
+          jQuery('#failure_msg').hide();
+          jQuery('#success_msg').hide();
+          $("#response_email_modal").modal();
+          delay(function () {disable_response_container()},2000);
+        }
+      }
+    }
+    });
+    jQuery("#answer_id_new").val(jQuery("#answer_id").val());
+    return false;
+  });
+
+  function disable_response_container(){
+  	if ($("#failure_msg").is(":visible") == true || $("#sucess_new").is(":visible") == true) {
+      delay(function(){
+        $("#response_email_modal").hide();
+        $(".modal-backdrop").remove();
+        window.location.href = "<%=user_redirect_url%>";
+      },3000);
+    }
+  }
+    // Form submit
+    jQuery("#submit1").click(function(){
+      var answer_type = "<%= @question.question_type_id %>";
+      var input_type = $(".answers-options [name='answer_option']").prop("tagName");
+      var final_submit_status = false;
+      if(input_type == "TEXTAREA"){
+        if(jQuery("#answers [name='answer_option']").val() == ""){
+         // jQuery(".error-field .error").show();
+        //  jQuery(".error-field .error").text("Please fill/select the answer before submit.");
+        final_submit_status = false;
+      }
+      else
+      {
+        final_submit_status = true;
+      }
+        //final_submit_status = (jQuery("#answers [name='answer_option']").val() == "") ? false : true;
+      }
+      else if(input_type == "INPUT")
+      {
+       var input_attr_type = jQuery(".answers-options input[name='answer_option']").attr("type");
+       if(input_attr_type == "radio" || input_attr_type == "checkbox"){
+        if(jQuery(".answers-options input[name='answer_option']").is(":checked") == false)
+        {
+          final_submit_status = false;
+            //jQuery("#answers").prepend("<p class='response_question_validation_message'>Please fill/select the answer before submit.</p>");
+          }
+          else
+          {
+            final_submit_status = true;
+          }
+        }
+      }
+
+      // Multiple answers
+      if(answer_type == 2){
+        var data_val = [];
+        jQuery.each(jQuery(".multi-ans"), function(i,x){
+          if(jQuery(x).is(":checked")){ data_val.push(jQuery(x).val()) }
+        });
+        if(jQuery(".answer_other_option_txtbox").val() != ""){
+          data_val.push(jQuery(".answer_other_option_txtbox").val());
+        }
+        var test_dat = data_val.join(",")
+        if(test_dat[test_dat.length - 1] == ","){
+          jQuery(".multiple_answwers_loader").val(data_val.join(",").slice(0,-1));
+        }else{
+          jQuery(".multiple_answwers_loader").val(data_val.join(","));
+        }
+
+      }
+
+      // Other option validator
+      if(jQuery("#Quillinclude_other_txt_container").is(':visible'))
+      {
+        if(jQuery("#include_other_txt").val() != "" && jQuery("#include_other_txt").val() != undefined)
+        {
+          final_submit_status = true;
+        }
+        else
+        {
+          final_submit_status = false;
+        }
+      }
+
+      // Change in Other Option Validation
+       if(jQuery("#QuillInputOthers_div").is(':visible')){
+           final_submit_status = jQuery("#QuillInputOthers_div").text() != '\xa0' ? true : false
+       }
+
+      if(answer_type == 4)
+      {
+
+        if(jQuery("#comment_question").val() != ""  ||jQuery("#inputField_Quillcomment_body").val() != "")
+        {
+          final_submit_status = true;
+            if( isMobile.any() ){
+               final_submit_status = jQuery("[name='answer_option']").val() == "" ? false : true;
+            }
+        }
+        else
+        {
+          final_submit_status = false;
+        }
+      }
+      if(final_submit_status == true)
+      {
+        jQuery(".error-field").css('display','none');
+        return true;
+      }
+      else
+      {
+        jQuery(".error-field").css('display','block');
+        jQuery(".error").text("Please fill/select the answer before submit.");
+        jQuery('#submit1').attr("disabled",false);
+        return false;
+      }
+    });
+
+    jQuery("#email_form").click(function(){
+       jQuery(this).val('Please wait...');
+    });
+});
+
+    // jQuery("#response_email_modal .close").click(function(){
+    //   console.log("everything was clicked");
+    //   window.location.href = "/";
+    //   return false;
+    // })
+
+$('#response_email_modal').on('hidden.bs.modal', function (e) {
+    var embed_data = $('#user_form').serialize();
+    if(embed_data){
+       var qid = jQuery("#question_id").val();
+       var name = jQuery("#name").val();
+       var mobile = jQuery("#mobile").val();
+       var age = jQuery("#date_of_birth").val();
+       var country = jQuery("#country").val();
+       var state = jQuery("#states").val();
+       var city = jQuery("#text_city").val();
+       var area = jQuery('#area').val();
+
+       if (country != "" && state != "" && city != ""){
+           /* Basic Validation for User details */
+           var can_upload = true;
+           if(name != ""){
+               if (name.match(/\d+/)){ can_upload = false }
+               else if (name.match(/[^a-zA-Z\. ]/)) { can_upload = false }
+               else if (name.length < 2 || name.length > 50) { can_upload = false }
+           }
+           if(mobile != "" && mobile != "Please enter your Mobile Number" ){ if (mobile.length < 8 || mobile.length > 15) {
+               can_upload = false }
+           }
+
+           if(age != "") { if (age.length > 2) {can_upload = false }}
+           if(city != "") {
+               if (city.match(/[^a-zA-Z\ ]/)) { can_upload = false }
+               else if (city.length > 20) { can_upload = false }
+           }
+           if(area != "") {
+               if (area.match(/[^a-zA-Z\ ]/)) { can_upload = false }
+               else if (area.length > 20) { can_upload = false }
+           }
+
+           if(mobile == "Please enter your Mobile Number"){ jQuery("#mobile").val('');}
+           if (can_upload) {
+             var embed_data = $('#user_form').serialize();
+             jQuery.ajax({
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', jQuery('meta[name="csrf-token"]').attr('content'))},
+                url: "/surveys/"+qid+"/create_user_info",
+                type: 'post',
+                data: embed_data,
+                success: function(data){
+                    redirect_path()
+                }
+             });
+           }else{
+               redirect_path()
+           }
+      }
+    }else{
+        redirect_path()
+    }
+})
+
+function redirect_path(){
+    window.location.href = "<%= user_redirect_url%>";
+    return false;
+}
+window.onload = new function() {
+} //Your Function };
+
+// jQuery(window).load(function(){
+//   alert("sssss");
+//   jQuery("#charCount_inputothers").hide();
+//   jQuery("#QuillInputOthers_container").hide();
+// });
+</script>
+

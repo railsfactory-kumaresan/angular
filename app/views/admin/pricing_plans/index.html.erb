@@ -1,0 +1,48 @@
+<h1>Listing pricing_plans</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Plan name</th>
+      <th>Business type</th>
+      <th>Tenant count</th>
+      <th>Customer records count</th>
+      <th>Category type ids</th>
+      <th>Language count</th>
+      <th>Listener</th>
+      <th>Expired date</th>
+      <th>Amount</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pricing_plans.each do |pricing_plan| %>
+      <tr>
+        <td><%= pricing_plan.plan_name %></td>
+        <td><%= pricing_plan.business_type_id %></td>
+        <td><%= pricing_plan.tenant_count %></td>
+        <td><%= pricing_plan.customer_records_count %></td>
+        <td><%= pricing_plan.category_type_ids %></td>
+        <td><%= pricing_plan.language_count %></td>
+        <td><%= pricing_plan.listener%></td>
+        <td><%= pricing_plan.expired_date %></td>
+        <td><%= pricing_plan.amount %></td>
+        <td><%= link_to 'Show', admin_pricing_plan_path(pricing_plan) %></td>
+        <td><%= link_to 'Edit', edit_admin_pricing_plan_path(pricing_plan) %></td>
+        <td><%#= link_to 'Destroy', admin_pricing_plan, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>
+
+<br>
+      <div class="row">
+    <div class="pull-right">
+
+     <%= will_paginate @pricing_plans, renderer: BootstrapPagination::Rails %>
+     </div>
+     </div>
+
+<%= link_to 'New Pricing plan', new_admin_pricing_plan_path %>

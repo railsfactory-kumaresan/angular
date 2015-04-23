@@ -1,0 +1,262 @@
+
+<!--
+  This page is commented as it is not used anywhere else.
+
+<div class="social_network" id="facebook">
+  <div class="social_header">
+    <a href="/users/auth/facebook"><div class="social_badge facebook active"></div></a>
+    <%# if @share_social_network_facebook.present? %>
+    <div id="fb_on_off_switch" style="width:87px;margin-left:auto;margin-right:auto;"></div>
+    <%# else %>
+    <div style="height: 27px;width: 94px;"></div>
+    <%# end %>
+
+  </div>
+  <%# if @share_social_network_facebook.present? %>
+  <ul class="social_account_list">
+    <%# @share_social_network_facebook.each do |share|%>
+    <li class="<%#= (share.present? && share.active == true) ? "select active" : ''%> "  id="div_<%#= share.id %>"  >
+      <img width="32" height="32" src="<%#= share.user_profile_image.present? ? share.user_profile_image : '/assets/no_image.jpg' %>" alt="">
+      <p><%#= share.user_name.present? ? share.user_name : "Facebook Account Name"%></p>
+      <div class="checkbox_container">
+        <%# if (share.present? && share.active == true)%>
+        <%#= check_box_tag "share_click_#{share.id}", '1', true, :class => 'fl share_chk chk_share', :onclick => "Share('#{share.id}')"%>
+        <%#else%>
+        <%#= check_box_tag "share_click_#{share.id}", '1', false, :class => 'fl share_chk chk_share', :onclick => "Share('#{share.id}')"%>
+        <%#end%>
+      </div>
+    </li>
+    <%#end%>
+  </ul>
+  <a class="need-account" href="/users/auth/facebook">Add another account</a>
+  <%#else%>
+  <a href="/users/auth/facebook" class="btn rc_5">Add an Account</a>
+
+  <%#end%>
+</div>
+<div class="social_network" id="twitter">
+  <div class="social_header">
+    <a href="/users/auth/twitter"><div class="social_badge twitter active"></div></a>
+    <%# if @share_social_network_twitter.present?%>
+    <div id="twitter_on_off_switch" style="width:87px;margin-left:auto;margin-right:auto;"></div>
+    <%# else %>
+    <div style="height: 27px;width: 94px;"></div>
+    <%# end %>
+
+  </div>
+  <%# if @share_social_network_twitter.present?%>
+  <ul class="social_account_list">
+    <%# @share_social_network_twitter.each do |share|%>
+    <li class="<%#= (share.present? && share.active == true) ? "select active" : ''%>"  id="div_<%#= share.id %>" >
+      <img width="32" height="32" src="<%#= share.user_profile_image.present? ? share.user_profile_image : '/assets/no_image.jpg' %>" alt="">
+      <p><%#= share.user_name.present? ? share.user_name : "Facebook Account Name"%></p>
+      <div class="checkbox_container">
+        <%# if (share.present? && share.active == true)%>
+        <%#= check_box_tag "share_click_#{share.id}", '1', true, :class => 'fl share_chk chk_share', :onclick => "Share('#{share.id}')"%>
+        <%#else%>
+        <%#= check_box_tag "share_click_#{share.id}", '1', false, :class => 'fl share_chk chk_share', :onclick => "Share('#{share.id}')"%>
+        <%#end%>
+      </div>
+    </li>
+    <%#end%>
+  </ul>
+  <a class="need-account" href="/users/auth/twitter">Add another account</a>
+  <%#else%>
+  <a href="/users/auth/twitter" class="btn rc_5">Add an Account</a>
+  <%#end%>
+</div>
+<div class="social_network" id="linked_in">
+  <div id="inside-linkedin">
+    <div class="social_header">
+      <a href="/users/auth/linkedin"><div class="social_badge linked_in active"></div></a>
+      <%# if @share_social_network_linkedin.present? %>
+      <div id="linkedin_on_off_switch" style="width:87px;margin-left:auto;margin-right:auto;"></div>
+      <%# else %>
+      <div style="height: 27px;width: 94px;"></div>
+      <%# end %>
+    </div>
+    <%# if @share_social_network_linkedin.present? %>
+    <ul class="social_account_list">
+      <%# @share_social_network_linkedin.each do |share|%>
+      <li class="<%#= (share.present? && share.active == true) ? "select active" : ''%>"  id="div_<%#= share.id %>" >
+        <img width="32" height="32" src="<%#= share.user_profile_image.present? ? share.user_profile_image : '/assets/no_image.jpg' %>" alt="">
+        <p><%#= share.user_name.present? ? share.user_name : "Facebook Account Name"%></p>
+        <div class="checkbox_container">
+          <%# if (share.present? && share.active == true)%>
+          <%#= check_box_tag "share_click_#{share.id}", '1', true, :class => 'fl share_chk chk_share', :onclick => "Share('#{share.id}')"%>
+          <%#else%>
+          <%#= check_box_tag "share_click_#{share.id}", '1', false, :class => 'fl share_chk chk_share', :onclick => "Share('#{share.id}')"%>
+          <%#end%>
+        </div>
+      </li>
+      <%#end%>
+    </ul>
+    <a class="need-account" href="/users/auth/linkedin">Add another account</a>
+    <%#else%>
+    <a href="/users/auth/linkedin" class="btn rc_5">Add an Account</a>
+    <%#end%>
+  </div>
+  <div class="clearfix share-btn">
+    <%#= link_to 'Share', share_question_question_index_path( :question_id => (@question.present? && @question.id.present?) ? @question.id : '',:custom_url=>@custom_url.present?  ? @custom_url : ""), :class => "btn rc_5",:id => "share_question" %>
+  </div>
+</div>
+<script type="text/javascript">
+  jQuery('#fb_on_off_switch').iphoneSwitch("<%#= @fb_status == "true" ? "on" : "off" %>",
+  function() {
+    jQuery.ajax({
+      type: 'GET',
+      url: '/fb_status_on',
+      data: {},
+      success: function(data){
+        jQuery("#facebook :input").attr("disabled", false);
+        jQuery("#facebook").find("a").attr("href", "/users/auth/facebook");
+      }
+    });
+    //~ check_check();
+  },
+  function() {
+    jQuery.ajax({
+      type: 'GET',
+      url: '/fb_status_off',
+      data: {},
+      success: function(data){
+        jQuery("#facebook :input").attr("disabled", true);
+        jQuery("#facebook").find("a").removeAttr("href");
+      }
+    });
+    //~ check_check();
+  },
+  { switch_on_container_path: '/assets/iphone_switch_container_off.png' });
+
+  jQuery('#twitter_on_off_switch').iphoneSwitch("<%#= @twitter_status =="true" ? "on" : "off" %>",
+  function() {
+    jQuery.ajax({
+      type: 'GET',
+      url: '/twitter_status_on',
+      data: {},
+      success: function(data){
+        jQuery("#twitter :input").attr("disabled", false);
+        jQuery("#twitter").find("a").attr("href", "/users/auth/twitter");
+
+      }
+    });
+    //~ check_check();
+  },
+  function() {
+    jQuery.ajax({
+      type: 'GET',
+      url: '/twitter_status_off',
+      data: {},
+      success: function(data){
+        jQuery("#twitter :input").attr("disabled", true);
+        jQuery("#twitter").find("a").removeAttr("href");
+
+      }
+    });
+    //~ check_check();
+  },
+  { switch_on_container_path: '/assets/iphone_switch_container_off.png' });
+
+  jQuery('#linkedin_on_off_switch').iphoneSwitch("<%#= @linkedin_status =="true" ? "on" : "off" %>",
+  function() {
+    jQuery.ajax({
+      type: 'GET',
+      url: '/linkedin_status_on',
+      data: {},
+      success: function(data){
+        jQuery("#linked_in :input").attr("disabled", false);
+        jQuery("#linked_in #inside-linkedin").find("a").attr("href", "/users/auth/linkedin");
+
+      }
+    });
+    //~ check_check();
+  },
+  function() {
+    jQuery.ajax({
+      type: 'GET',
+      url: '/linkedin_status_off',
+      data: {},
+      success: function(data){
+        jQuery("#linked_in :input").attr("disabled", true);
+        jQuery("#linked_in #inside-linkedin").find("a").removeAttr("href");
+      }
+    });
+    //~ check_check();
+  },
+  { switch_on_container_path: '/assets/iphone_switch_container_off.png' });
+
+
+
+  jQuery("body").delegate(".social_network :input[type=checkbox]","change", function(){
+    //~ check_check();
+  });
+  function check_check()
+  {
+    var check_box_status = [];
+    jQuery(".social_network :input[type=checkbox]").each(function() {
+      if( jQuery(this).is(":checked") && !(jQuery(this).is(':disabled')))
+      {
+        check_box_status.push("true");
+        //check_box_status
+      }
+      else
+      {
+        check_box_status.push("false");
+        //check_box_status
+      }
+    });
+    if (jQuery.inArray('true',check_box_status) > -1)
+    {
+      jQuery("#share_question").attr("href", "<%#= share_question_question_index_path( :question_id => (@question.present? && @question.id.present?) ? @question.id : '',:custom_url=>@custom_url.present?  ? @custom_url : "") %>");
+    }
+    else
+    {
+      jQuery("#share_question").removeAttr("href");
+    }
+  }
+</script>
+
+
+<script>
+  jQuery(document).ready(function(){
+    var fb_status='<%#= @fb_status%>'
+    var twitter_status='<%#= @twitter_status%>'
+    var linkedin_status='<%#= @linkedin_status%>'
+    if(fb_status!=""){
+      if (fb_status=="true"){
+        //$('#fb_on_off_switch').iphoneSwitch("on");
+        //~ check_check();
+      }
+      else{
+        //$('#fb_on_off_switch').iphoneSwitch("off");
+        jQuery("#facebook :input").attr("disabled", true);
+        jQuery("#facebook").find("a").removeAttr("href");
+      }
+    }
+
+    if (twitter_status!="" ){
+      if (twitter_status=="true"){
+        //$('#twitter_on_off_switch').iphoneSwitch("on");
+        //~ check_check();
+      }
+      else
+      {
+        //$('#twitter_on_off_switch').iphoneSwitch("off");
+        jQuery("#twitter :input").attr("disabled", true);
+      }
+    }
+
+    if(linkedin_status!=""){
+      if (linkedin_status=="true"){
+        //$('#linked_on_off_switch').iphoneSwitch("on");
+        //~ check_check();
+      }
+      else{
+        //$('#linked_on_off_switch').iphoneSwitch("off");
+        jQuery("#linked_in :input").attr("disabled", true);
+      }
+    }
+
+  });
+</script>
+-->

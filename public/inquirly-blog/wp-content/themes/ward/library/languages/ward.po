@@ -1,0 +1,346 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Text in function
+#: ward/search.php:15
+msgid " search results for"
+msgstr ""
+
+#. Text in function
+#: ward/content-header.php:22
+msgid "% Comments"
+msgstr ""
+
+#. Text in function
+#: ward/functions.php:272
+msgid "%1$s at %2$s"
+msgstr ""
+
+#. Text in function
+#: ward/library/preview-pro.php:40
+msgid "%s can help take your website to the next level. Here\\'s a list of some of the advanced features."
+msgstr ""
+
+#. Text in function
+#: ward/footer.php:34
+msgid "%s created by %s."
+msgstr ""
+
+#. Text in function
+#: ward/single.php:23
+msgid "%title &rarr;"
+msgstr ""
+
+#. Text in function
+#: ward/single.php:22
+msgid "&larr; %title"
+msgstr ""
+
+#. Text in function
+#: ward/comments.php:41
+msgid "&larr; Older Comments"
+msgstr ""
+
+#. Text in function
+#: ward/single.php:19
+msgid "&larr; Previous Image"
+msgstr ""
+
+#. Text in function
+#: ward/functions.php:272
+#: ward/functions.php:297
+#: ward/content-footer.php:9
+msgid "(edit)"
+msgstr ""
+
+#. Text in function
+#: ward/content-header.php:22
+msgid "0 Comments"
+msgstr ""
+
+#. Text in function
+#: ward/content-header.php:22
+msgid "1 Comment"
+msgstr ""
+
+#. Text in echo
+#: ward/404.php:13
+msgid "404 Error"
+msgstr ""
+
+#. Text in function
+#: ward/functions.php:192
+msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
+msgstr ""
+
+#. Text in function
+#: ward/sidebar.php:21
+#: ward/sidebar-second.php:22
+msgid "Add your own widgets by going to the %sWidgets admin page%s."
+msgstr ""
+
+#. Text in echo
+#: ward/sidebar-second.php:26
+msgid "Archives"
+msgstr ""
+
+#. Text in echo
+#: ward/content-aside.php:12
+msgid "Aside"
+msgstr ""
+
+#. Text in function
+#: ward/archive.php:27
+msgid "Author Archive for %s"
+msgstr ""
+
+#. Text in echo
+#: ward/library/widgets/widget-image-icon.php:66
+msgid "Automatically add paragraphs"
+msgstr ""
+
+#. Text in echo
+#: ward/archive.php:37
+msgid "Blog Archives"
+msgstr ""
+
+#. Text in function
+#: ward/library/preview-pro.php:54
+msgid "Buy %s Now &rarr;"
+msgstr ""
+
+#. Text in echo
+#: ward/comments.php:40
+msgid "Comment navigation"
+msgstr ""
+
+#. Text in echo
+#: ward/comments.php:51
+msgid "Comments are closed."
+msgstr ""
+
+#. Text in function
+#: ward/library/widgets/widget-image-icon.php:1
+msgid "Custom Text Widget with Image"
+msgstr ""
+
+#. Text in function
+#: ward/archive.php:31
+msgid "Daily Archives: %s"
+msgstr ""
+
+#. Text in function
+#: ward/functions.php:641
+msgid "First Sidebar"
+msgstr ""
+
+#. Text in function
+#: ward/library/custom-metaboxes.php:1
+msgid "Home Page Alignment"
+msgstr ""
+
+#. Text in function
+#: ward/functions.php:641
+msgid "Home Page Top Area"
+msgstr ""
+
+#. Text in function
+#: ward/library/widgets/widget-image-icon.php:1
+msgid "Image Text Widget"
+msgstr ""
+
+#. Text in echo
+#: ward/library/widgets/widget-image-icon.php:61
+msgid "Image URL:"
+msgstr ""
+
+#. Text in echo
+#: ward/library/custom-metaboxes.php:25
+msgid "Left"
+msgstr ""
+
+#. Text in echo
+#: ward/content-link.php:12
+msgid "Link"
+msgstr ""
+
+#. Text in echo
+#: ward/header.php:39
+msgid "Main menu"
+msgstr ""
+
+#. Text in echo
+#: ward/sidebar.php:25
+msgid "Meta"
+msgstr ""
+
+#. Text in function
+#: ward/archive.php:33
+msgid "Monthly Archives: %s"
+msgstr ""
+
+#. Text in function
+#: ward/comments.php:42
+msgid "Newer Comments &rarr;"
+msgstr ""
+
+#. Text in function
+#: ward/functions.php:196
+msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#. Text in function
+#: ward/single.php:20
+msgid "Next Image &rarr;"
+msgstr ""
+
+#. Text in echo
+#: ward/index.php:32
+msgid "No posts to display"
+msgstr ""
+
+#. Text in echo
+#: ward/content-none.php:14
+msgid "No results were found. Please try again."
+msgstr ""
+
+#. Text in echo
+#: ward/content-none.php:11
+msgid "Nothing found"
+msgstr ""
+
+#. Text in function
+#: ward/functions.php:641
+msgid "Page %s"
+msgstr ""
+
+#. Text in function
+#: ward/content-footer.php:9
+msgid "Pages:"
+msgstr ""
+
+#. Text in echo
+#: ward/functions.php:297
+msgid "Pingback:"
+msgstr ""
+
+#. Text in echo
+#: ward/single.php:17
+msgid "Post navigation"
+msgstr ""
+
+#. Text in function
+#: ward/content-status.php:18
+msgid "Posted on %1$s at %2$s"
+msgstr ""
+
+#. Text in function
+#: ward/content-header.php:22
+msgid "Posts by %s"
+msgstr ""
+
+#. Text in echo
+#: ward/functions.php:190
+msgid "Posts navigation"
+msgstr ""
+
+#. Text in function
+#: ward/library/preview-pro.php:1
+msgid "Preview %s Pro"
+msgstr ""
+
+#. Text in function
+#: ward/functions.php:1
+msgid "Primary Menu"
+msgstr ""
+
+#. Text in function
+#: ward/content-video.php:15
+#: ward/functions.php:299
+#: ward/content-status.php:21
+#: ward/content-image.php:15
+#: ward/content-link.php:15
+#: ward/content-audio.php:15
+#: ward/page.php:23
+#: ward/content.php:29
+#: ward/content-aside.php:15
+#: ward/content-quote.php:14
+msgid "Read more &rarr;"
+msgstr ""
+
+#. Text in function
+#: ward/index.php:35
+msgid "Ready to publish your first post? <a href=\"%s\">Get started here</a>."
+msgstr ""
+
+#. Text in echo
+#: ward/library/custom-metaboxes.php:27
+msgid "Right"
+msgstr ""
+
+#. Text in echo
+#: ward/header.php:40
+msgid "Skip to content"
+msgstr ""
+
+#. Text in echo
+#: ward/404.php:16
+msgid "Sorry. We can't seem to find the page you're looking for."
+msgstr ""
+
+#. Text in echo
+#: ward/content-status.php:12
+msgid "Status"
+msgstr ""
+
+#. Text in function
+#: ward/archive.php:29
+msgid "Tag Archive for %s"
+msgstr ""
+
+#. Text in function
+#: ward/content-footer.php:9
+msgid "Tags:"
+msgstr ""
+
+#. Text in function
+#: ward/functions.php:570
+msgid "The four boxes below are Image Text Widgets that have been added to the <em>Home Page Top Area</em>. Add your own by going to the %sWidgets admin page%s or remove this section completely under the <em>Layout panel</em> on the %sTheme Options page%s."
+msgstr ""
+
+#. Text in function
+#: ward/functions.php:641
+msgid "This is the first sidebar widgetized area. All defaults widgets work great here."
+msgstr ""
+
+#. Text in echo
+#: ward/library/widgets/widget-image-icon.php:58
+msgid "Title:"
+msgstr ""
+
+#. Text in function
+#: ward/functions.php:641
+msgid "Widgetized area on the home page directly below the navigation menu. Specifically designed for 3 text widgets. Must be turned on in the Layout options on the Theme Options admin page."
+msgstr ""
+
+#. Text in function
+#: ward/archive.php:35
+msgid "Yearly Archives: %s"
+msgstr ""
+
+#. Text in function
+#: ward/functions.php:278
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#. Text in function
+#: ward/content-header.php:22
+msgid "by %s"
+msgstr ""
+
+#. Text in function
+#: ward/content-header.php:22
+msgid "on"
+msgstr ""

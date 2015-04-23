@@ -1,0 +1,261 @@
+<div class="modal fade" id="report_call_model" aria-hidden="true" tabindex='-1'>
+  <div class="modal-dialog signup modal-size">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &nbsp;
+        </button>
+        <h4 class="modal-title">CALL REPORT</h4>
+      </div>
+      <div class="modal-body signin">
+        <div class="">
+          <div class="cancel_head" id="qustion_suggestion_list">
+            <%= form_tag twillo_call_report_share_index_path, :method => :post, :class => 'mail-report' do%>
+                <!--  <form action="<%#=mandril_report_share_index_path%>" method="post" class="mail-report">-->
+                <%= hidden_field_tag "email", current_user.email%>
+                <div class="col-lg-4 col-md-12 col-sm-4 col-xs-12">
+                  <label>Select Date</label>
+                  <div class="form-group">
+                    <div class="date-picker">
+                      <label class="sr-only" for="exampleInputPassword2"><%#=t.strftime("%Y/%m/%d")%></label>
+                      <input type="text" class="form-control date datepicker" name="start_date" value="<%=params[:from_date] ? params[:from_date].to_date.strftime("%Y/%m/%d") : Time.now.strftime("%Y/%m/%d")%>" id="start_date" readonly />
+                    </div>
+                  </div>
+                </div>
+                <div class="btn-wrap text-center">
+                  <span class="date-range-start-end error" style="display:none; margin: 35px 172px 0px 0px;">From date should be before To date </span>
+                  <a id="cal_report"  class="button medium button-blue" href="#">
+                    Click
+                  </a>
+                  <a id="share_question_close"  class="nt-nw" href="#" aria-hidden="true" data-dismiss="modal">
+                    Cancel
+                  </a>
+
+                </div>
+
+                <!--</form>--><%end%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="text-align:center;display:none;" class="error make_call_error"> Please select at least one phone number.</div>
+<div class="tab-wrapper">
+  <%= form_tag(share_call_share_path(@question.slug), method: 'post',id: 'make_call_frm') do%>
+    <div class="form-head clearfix">
+      <div class="row">
+        <div class="col-lg-6">
+          <span style="text-align:left;display:none;" class="error demo_response"></span>
+          <div class="checkbox">
+            <!--<label>
+              <input type="checkbox" value="all_phone_num" id="chk_select_all" name="select_all_value" tabindex="1" autofocus="true"/>
+								Select All
+            </label>-->
+          </div>
+          <!-- <input type="hidden" name="question_id" value="<%#=question_id%>"/>  -->
+         <!-- <input type="hidden" name="phone_number" id ="phone_number" />-->
+        </div>
+      </div>
+			 <div class="row">
+      <div class="col-lg-8">
+        <div class="clearfix">
+          <label>To</label>
+          <span class="link-add-email">
+            <% if is_sso %>
+             <a href="javascript:void(0);" id="call-add-number" onclick="share_grid_request('voice')">Add mobile numbers from a list</a>
+            <% else %>
+             <a href="javascript:void(0);" id="make-acall-addnum" onclick="share_email_popup_load('call_count')">Add mobile numbers from a list</a>
+            <% end %>
+          </span>
+          <!--<%#if current_user.parent_id.to_i == 0 || current_user.parent_id.blank?%>
+          <span class="link-add-email" style="float:right">
+            <a href= "#" class="btn-link" data-toggle="modal" data-target="#report_call_model" id="cc_avenue_cancel">Click to see sent Call report</a>
+          </span>
+              <%#end%>-->
+        </div>
+        <div class="form-group">
+          <label for="InputTo" class="sr-only">Click to add mobile numbers</label>
+          <input type="text" name="phone_number" id="phone_number" name="to" class="form-control input-medium" value="Click to add mobile numbers" onFocus="if (this.value == 'Click to add mobile numbers') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Click to add mobile numbers';}"  tabindex="1"autofocus="true" readonly/>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label>Body</label>
+            <% default_content = current_user.call_content.blank? ? "Welcome to Inquirly Feedback services" : current_user.call_content %>
+            <%= text_area_tag :call_default_content, default_content,:rows => 3, :class => "form-control" ,:id=> "make_call_content", :maxlength=>"40"%>
+            <div class="char-count text-right">
+              <span class="req" id="maxChar"> </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!--<div class="contact-list">
+      <div class="contact-list-wrapper qr-ch-box">
+				<div id="grid-make-call-share"></div>
+      </div>--->
+			<div class="btn-wrap" align="center">
+              <input type="hidden" id="call_cus_ids" name="customer_ids" class="form-control input-medium"/>
+              <input type="hidden" id="unchecked_call_ids" name="unchecked_cus_ids" class="form-control input-medium"/>
+              <input type="hidden" id="selected_customers" name="selected_customers" value="">
+              <input type="hidden" id="unselected_customers" name="unselected_customers" value="">
+              <input type="hidden" id="select-all" value="">
+				<button class="button medium orange" type="submit" tabindex="2">Call</button>
+				<a onclick="play_demo()" class="button medium orange">Play Demo</a>
+			</div>
+  <%end%>
+  </div>
+	</div>
+	<!--End wrapper-->
+<div class="modal" id="userinfo-make-call-share" style="width:auto !important;">
+  <div class="modal-dialog">
+    <%#= stylesheet_link_tag    "kendoui/kendo.common-bootstrap.min", "kendoui/kendo.bootstrap.min"%>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close close-cus-info-popup-call" data-dismiss="modal" aria-hidden="true">&nbsp;</button>
+        <h4 class="modal-title">Add Phone Numbers</h4>
+      </div>
+			<!-- start kendo grid -->
+				<div id="email-template-grid-make-call">
+				</div>
+				<!-- end grid -->
+          </div>
+        </div>
+      </div>
+<!-- Play Demo Dialog box -->
+<div class="modal fade" id="play_demo_initiate" aria-hidden="true" tabindex='-1'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &nbsp;
+        </button>
+        <h4 class="modal-title">Make Demo Call</h4>
+      </div>
+      <div class="modal-body" id="activate_listener_message">
+        <input type="text" name="phone_number" onkeypress="return isNumberKey(event)" id="demo_phone_number" name="to" class="form-control input-medium" value="Provide Mobile number with Country code" onFocus="if (this.value == 'Provide Mobile number with Country code') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Provide Mobile number with Country code';}"  tabindex="1" autofocus="true" autocomplete="off" maxlength="15"/>
+        <div style="text-align:left;display:none;" class="error call_error"> Please provide valid mobile number</div>
+        <input type="hidden" name="demo_content" id="demo_content" value=""/>
+        <input type="hidden" name="id" id="question_slug" value="<%= @question.slug %>"/>
+      </div>
+      <div class="modal-footer">
+        <div class="text-center">
+          <button class="button medium orange" id="make-call" tabindex="2">Call</button>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<%= render :partial => 'json_grid', :locals => {:type => 'voice'} %>
+<script style="text/javascript">
+
+  $("#start_date").datepicker({
+      showOn : "button",
+      buttonImage : "/assets/responsive/calendar.png",
+      buttonImageOnly : true,
+      dateFormat : 'yy/mm/dd',
+      maxDate: new Date()
+  });
+
+  jQuery(document).ready(function(){
+  jQuery("#cal_report").click(function(){
+          jQuery(".loading").css('display','block');
+          jQuery.ajax({
+              type: 'POST',
+              url: '<%= twillo_call_report_share_index_path%>',
+              data: jQuery(".mail-report").serialize(),
+              dataType: "json",
+              success: function(data){
+                  console.log(data.message)
+                  jQuery(".loading").css('display','none');
+                  jQuery("#report_call_model").modal("hide");
+                  jQuery('.demo_response').show().text(data.message);
+                  setTimeout(function() {
+                      jQuery('.demo_response').fadeOut('slow');
+                  },5000);
+                  //jQuery('.flash_message').show();
+              }
+          });
+
+  })
+  })
+
+    function play_demo(){
+        var demo_val = jQuery('#make_call_content').val();
+        jQuery("#demo_content").val(demo_val);
+        jQuery('#play_demo_initiate').modal('show');
+    }
+    function isNumberKey(evt){
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    jQuery("#make-call").bind('click', function(){
+        var phone_number = jQuery("#demo_phone_number").val();
+        var question_slug = jQuery("#question_slug").val();
+        var content = jQuery("#demo_content").val();
+        if (phone_number  == "Provide Mobile number with Country code" || (phone_number.length < 8 || phone_number.length > 15))
+        {
+            jQuery(".call_error").show();
+            return false;
+        }
+        else
+        {
+            jQuery(".call_error").hide();
+            jQuery.ajax({
+                type: 'POST',
+                url: '/share/'+ question_slug +'/make_demo_call',
+                data: {id: question_slug,phone_number: phone_number,demo_content: content },
+                success: function(data){
+                       if(data.body.status){
+                           jQuery('#play_demo_initiate').modal('hide');
+                           jQuery('.demo_response').show().text(data.body.msg);
+                           setTimeout(function() {
+                            jQuery('.demo_response').fadeOut('slow');
+                           },5000);
+                       }
+                }
+            });
+        }
+    });
+    jQuery(".modal-header .close").click(function(){
+        jQuery("#demo_phone_number").val('Provide Mobile number with Country code');
+        jQuery(".call_error").hide();
+    });
+//    jQuery("#make_call_content").bind('keypress keyup',function(){
+//        var txtName = jQuery(this).val();
+//        if (txtName != '' && txtName.match(/^[\w ]+$/) == null) {
+//            txtName = txtName.replace(/[\W]/g, '');
+//            jQuery(this).val(txtName);
+//        }
+//    })
+	jQuery(document).ready(function(){
+        jQuery("#maxChar").html(40 - jQuery("#make_call_content").val().length);
+		jQuery("#make-acall-addnum").click(function(){
+			jQuery("#userinfo-make-call-share").dialog({modal: false});
+		});
+		jQuery(".close-cus-info-popup-call").click(function(){
+				jQuery("#userinfo-make-call-share").dialog("close");
+        });
+
+        jQuery("#call-add-number").click(function(){
+            jQuery("#customer_list_voice").modal();
+        });
+        function updateCount()
+        {
+            var qText = jQuery("#make_call_content").val();
+
+            if(qText.length < 40) {
+                jQuery("#maxChar").html(40 - qText.length);
+            } else {
+                jQuery("#maxChar").html(0);
+                jQuery("#make_call_content").val(qText.substring(0,40));
+            }
+        }
+        $("#make_call_content").bind('keyup keypress keydown',function () {
+            updateCount();
+        });
+	});
+</script>

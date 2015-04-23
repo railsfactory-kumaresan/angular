@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if gt IE 9]> <html> <![endif]-->
+<!--[if !IE]><!--> <html lang="en"> <!--<![endif]-->
+    <title>Inquirly - Listen Engage Act.....Progress</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="discription" content="">
+		<meta name="keywords" content="">
+			<!-- rails4_image_tag_impact -->
+		<%= favicon_link_tag 'responsive/favicon.ico', rel: 'shortcut icon', type: 'image/x-icon'%>
+		<%= favicon_link_tag 'responsive/favicon.ico', rel: 'icon', type: 'image/x-icon'%>
+   <!--<link rel="shortcut icon" href="/assets/responsive/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="/assets/responsive/favicon.ico" type="image/x-icon">-->
+    <!--IE Support-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script type="text/javascript">window.history.forward();function noBack()   {window.history.forward();}</script>
+    <!-- Bootstrap -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="javascripts/common/html5shiv.js"></script>
+    <script src="javascripts/common/respond.min.js"></script>
+    <link href="stylesheets/ie.css" rel="stylesheet" media="screen">
+    <![endif]-->
+      <!-- Bootstrap -->
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag "login", :media => "screen" %>
+  <%= yield :email_preview_styles %>
+  <%= javascript_include_tag "application" %>
+  <%= yield :page_specific_head_content %>
+  <%= csrf_meta_tag %>
+
+  <!--// start typekit font include -->
+  <script type="text/javascript" src="//use.typekit.net/ltc1ytn.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  <!--// end typekit font include -->
+
+  </head>
+<script>
+        /// IE function.bind polyfill
+        if (!Function.prototype.bind) {
+          Function.prototype.bind = function (oThis) {
+            if (typeof this !== "function") {
+                    // closest thing possible to the ECMAScript 5 internal IsCallable function
+                    throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+                  }
+
+                  var aArgs = Array.prototype.slice.call(arguments, 1),
+                  fToBind = this,
+                  fNOP = function () {},
+                  fBound = function () {
+                    return fToBind.apply(this instanceof fNOP && oThis ? this : oThis,
+                      aArgs.concat(Array.prototype.slice.call(arguments)));
+                  };
+
+                  fNOP.prototype = this.prototype;
+                  fBound.prototype = new fNOP();
+
+                  return fBound;
+                };
+              }
+            </script>
+
+  <body  onpageshow="if (event.persisted) noBack();" onunload=""  <% if controller.controller_name == "home" && controller.action_name=="index" %> onload="noBack();" class=""<%end%>>
+    <div class="login-head-bg"></div>
+    <div class="header navbar navbar-inverse bs-docs-nav login-header">
+      <div class="container login-wrap">
+        <div class="navbar-header">
+              <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+          </button>
+          <a href="/" class="navbar-brand"><%= image_tag "login/header-login-logo.png" %> </a>
+        </div>
+        <div id="main-navigation" class="collapse navbar-collapse bs-navbar-collapse login-menu-wrap">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="http://inquirly.com">HOME</a><span ></span>
+            </li>
+            <li>
+              <a href="#" id='signup_form_link' class="main-navigation" onClick="render_signup_form();"> SIGN UP
+              </a><span></span>
+            </li>
+            <li class="sign-in">
+              <a style="cursor: pointer;" class="main-navigation" onClick="render_signin_form();">SIGN IN
+              </a><span class="active-span"></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="flash-msg-wrapper">
+      <div class="container" id="flash-message">
+        <%= render :partial => "shared/flash_message"%>
+      </div>
+    </div>
+
+    <%= yield %>
+
+   <%=render "/shared/home_footer"%>
+
+
+                  <div class="loading">
+                <div class="loader"></div>
+                <div class="loading-overlay"></div>
+              </div>
+              <p id="back-top">
+                <a href="#top"><span></span></a>
+              </p>
+
+            <div class="modal fade" id="listener_request" aria-hidden="true" tabindex='-1'>
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &nbsp;
+                      </button>
+                      <h4 class="modal-title">Listener</h4>
+                    </div>
+                    <div class="modal-body" id="activate_listener_message">
+                    </div>
+                   <div class="modal-footer">
+                    <div class="text-center">
+                      <a href="/" id="btnYes" class="button medium orange">Ok</a>
+                    </div>
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+            <script>
+              // To test the @id toggling on password inputs in browsers that donÃ¢â¬â¢t support changing an inputÃ¢â¬â¢s @type dynamically (e.g. Firefox 3.6 or IE), uncomment this:
+              // $.fn.hide = function() { return this; }
+              // Then uncomment the last rule in the <style> element (in the <head>).
+              $(function() {
+                // Invoke the plugin
+                $('input, textarea').placeholder();
+                // ThatÃ¢â¬â¢s it, really.
+              });
+              // jQuery(document).ready(function(){
+              //   jQuery(".loading").hide();
+              // });
+              jQuery(document).ready(function(){
+               jQuery(".loading").css('display','none');
+                  jQuery('ul > li').click(function() {
+                      jQuery('ul > li').find("span").removeClass('active-span');
+                      jQuery(this).find("span").addClass('active-span');
+                  });
+
+               jQuery(".loading").ajaxStart(function() {
+                console.log("Spinner is started");
+                jQuery(".loading").css('display','block');
+              });
+               jQuery(".loading").ajaxStop(function() {
+                console.log("Spinner is ended");
+                jQuery(".loading").css('display','none');
+              });
+              });
+            </script>
+
+    </body>
+    </html>

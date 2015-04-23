@@ -1,0 +1,4 @@
+jQuery(".loading").css('display','none');
+$("#wcLowHigh").attr("href", "/admin/listeners/wordcloud?id=<%=@keyword_id%>&order=lowhigh&tenant_id=<%=params[:tenant_id]%>&user_id=<%=params[:user_id]%>");
+$("#wcHighLow").attr('href', "/admin/listeners/wordcloud?id=<%=@keyword_id%>&tenant_id=<%=params[:tenant_id]%>&user_id=<%=params[:user_id]%>");
+$(".world_cloud").html("<%= escape_javascript(render(:partial=>'wordcloud') || APP_MSG["listener"]["buzz_word"] )%>");

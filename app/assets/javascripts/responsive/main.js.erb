@@ -1,0 +1,22 @@
+	$(document).ready(function() {
+		var clip = new ZeroClipboard( document.getElementById("copy_clipboard"), {
+		moviePath: "<%= asset_path('responsive/ZeroClipboard.swf') %>"
+		} );
+		clip.on( 'complete', function(client, args) {
+            var txt = jQuery("#select_default_embed").text();
+            if( txt == args.text){
+               alert('Embed Code Copied');
+            }else{
+               alert('Question URL Copied');
+            }
+		} );
+                
+        var clip1 = new ZeroClipboard( document.getElementById("copy_clipboard1"), {
+        moviePath: "<%= asset_path('responsive/ZeroClipboard.swf') %>"
+		} );
+		clip1.on( 'complete', function(client, args) {
+			alert('Question URL Copied');
+		} );
+
+
+	});

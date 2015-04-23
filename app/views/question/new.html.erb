@@ -1,0 +1,8 @@
+<% content_for :title, "Create Question" %>
+<% unless current_user.restrict_question_privilege  %>
+<% benchmark '##Render new Question form' do %>
+<%= render 'form', :question => @question, :custom_url => @custom_url, :user_business_type => @user_business_type, :user_role => @user_role, :category_types => @category_types, :expiration => @expiration, :question_id => @question_id %>
+<% end %>
+<% else %>
+    You have reached your maximum Question limit
+<% end %>

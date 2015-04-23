@@ -1,0 +1,26 @@
+<%= form_for(@questions,:url => {:action => "answer"} ) do |f| %><p>
+    <%=@questions.question%>
+
+    <% if @questions.question_type_id == 1 || @questions.question_type_id == 3%>
+        <br/><% @question_options  && @question_options.each do |s|%>
+            <br/><%= radio_button_tag(:s,s) %><%= s %>
+        <% end%>
+    <% elsif @questions.question_type_id == 2 %>
+        <br/><% @question_options && @question_options.each do |d|%>
+            <br/><%= check_box_tag  (:d)%><%= d %>
+        <% end%>
+    <% else %>
+        <%= text_area_tag :comments%>
+    <% end %>
+
+    <br/><%if @questions.include_other%>
+        <%= radio_button_tag(:include_other,"other") %>Others
+    <% end %>
+
+    <br/><%if @questions.include_text%>
+        <%= radio_button_tag(:include_text,"text") %><%=  text_field_tag :include_text %>
+    <% end %>
+    <div class="actions">
+      <%= f.submit "submit" %>
+    </div>
+<% end %>

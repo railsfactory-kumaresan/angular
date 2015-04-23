@@ -1,0 +1,155 @@
+<%= javascript_include_tag 'responsive/code_mirror/lib/codemirror', 'responsive/code_mirror/mode/xml/xml', 'responsive/code_mirror/mode/javascript/javascript', 'responsive/code_mirror/mode/css/css','responsive/code_mirror/mode/htmlmixed/htmlmixed' %>
+<%= stylesheet_link_tag 'responsive/code_mirror/lib/codemirror'%>
+<%= stylesheet_link_tag 'responsive/email_share'%>
+<div class="btn-group" style="margin:0px 7px 16px 30px;">
+  <button type="button" class="btn btn-default" id="text-email">Text</button>
+  <button type="button" class="btn btn-default" id="html-email">HTML</button>
+</div>
+<span id="error_email" style="color:red;margin-left:155px;"></span>
+<div id="success" class="alert alert-warning fade in" >
+  <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+  <p class="notice">Your email has been shared successfully</p>
+  <a href="javascript:void(0);" class="close_flash"></a>
+</div>
+<!--Wrapper -->
+<div class="modal fade" id="report_model" aria-hidden="true" tabindex='-1'>
+  <div class="modal-dialog signup modal-size">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &nbsp;
+        </button>
+				<h4 class="modal-title">Email Report</h4>
+      </div>
+      <div class="modal-body signin">
+        <div class="">
+          <div class="cancel_head" id="qustion_suggestion_list" style="margin: 38px 0px 0px 55px;height: 155px;">
+            <%= form_tag mandril_report_share_index_path, :method => :post, :class => 'mail-report' do%>
+              <!--  <form action="<%#=mandril_report_share_index_path%>" method="post" class="mail-report">-->
+               <%= hidden_field_tag "email", current_user.email%>
+                <div class="col-lg-5 col-md-12 col-sm-4 col-xs-12">
+                  <label>From</label>
+                  <div class="form-group">
+                    <div class="date-picker">
+                      <label class="sr-only" for="exampleInputPassword2"><%#=t.strftime("%Y/%m/%d")%></label>
+                      <input type="text" class="form-control date datepicker fliter-from-date" name="from_date" value="<%=params[:from_date] ? params[:from_date].to_date.strftime("%Y/%m/%d") : Time.now.strftime("%Y/%m/%d")%>" id="from_date" readonly />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-5 col-md-12 col-sm-4 col-xs-12">
+                  <label>To</label>
+                  <div class="form-group">
+                    <div class="date-picker">
+                      <label class="sr-only" for="exampleInputPassword2"><%#=t.strftime("%Y/%m/%d")%></label>
+                      <input type="text" class="form-control date datepicker fliter-end-date" name="to_date" value="<%=params[:to_date] ? params[:to_date].to_date.strftime("%Y/%m/%d") :  Time.now.strftime("%Y/%m/%d")%>" id="to_date" readonly />
+                    </div>
+                  </div>
+                </div>
+                <div class="btn-wrap text-center" style="float: left;margin: 0 15px;">
+                  <span class="date-range-start-end error" style="display:none; margin: 12px 0 0 25px;">From date should be before To date </span>
+                  <a id="email_report"  class="button medium orange" href="#">
+                    Submit
+                  </a>
+                  <a id="share_question_close"  class="btn btn-link" href="#" aria-hidden="true" data-dismiss="modal">
+                    Cancel
+                  </a>
+
+                </div>
+
+                <!--</form>--><%end%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="tab-wrapper">
+  <form method="post" action="" accept-charset="UTF-8">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="clearfix">
+          <label>To</label>
+          <span class="link-add-email">
+            <%= email_contact_list_path.html_safe %>
+          </span>
+          <span class="link-add-email" style="float:right">
+            <a href= "#" class="btn-link" data-toggle="modal" data-target="#report_model" id="cc_avenue_cancel" title="Email report"><span class="glyphicon glyphicon-book"></span></a>
+          </span>
+        </div>
+        <div class="form-group" id="">
+          <label for="InputTo" class="sr-only">Click to add an email address</label>
+          <input type="text" id="email_value" name="to" class="form-control input-medium" value="Click to add email address" onFocus="if (this.value == 'Click to add email address') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Click to add email address';}"  tabindex="1"autofocus="true" readonly/>
+          <input type="hidden" id="biz_cus_ids" name="customer_ids" class="form-control input-medium" />
+          <input type="hidden" id="unchecked_ids" name="unchecked_cus_ids" class="form-control input-medium" />
+          <input type="hidden" id="selected_customers" value="">
+          <input type="hidden" id="unselected_customers" value="">
+          <input type="hidden" id="select-all" value="">
+        </div>
+        <p class="email_value_error_message" style="display:none;">Please select at least one email address</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8">
+        <label>Subject</label>
+        <div class="form-group">
+          <label for="InputSubject" class="sr-only">Powered by Inquirly</label>
+          <input type="text" id="email_subject" class="form-control input-medium" value="Powered by Inquirly" onFocus="if(this.value == 'Powered by Inquirly') {this.value = '';}" onBlur="if (this.value == '') {this.value = 'Powered by Inquirly';}" tabindex="2"/>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-8">
+        <label>Body</label>
+        <div class="form-group">
+          <label for="InputTo" class="sr-only">Click to add an email address</label>
+          <textarea class="form-control" id="email_text_area" rows="4" tabindex="3"></textarea>
+          <div id="custom-template" style="display: none; border: 1px solid #808080;"><textarea name="data[html]" id="html_content"></textarea></div>
+        </div>
+      </div>
+    </div>
+    <div class="btn-wrap" id="text-email-action">
+      <button type="submit" class="button medium orange question_send_email_share_submit" id="create_email" tabindex="4">Send Email</button>
+      <a href="javascript:void(0);" id="email_preview"  class="btn btn-link">Preview</a>
+    </div>
+    <div class="btn-wrap" id="html-email-action">
+      <button type="submit" class="button medium orange question_send_email_share_submit" id="create_email" tabindex="4">Send Email</button>
+      <a href="javascript:void(0);" id="html_email_preview"  class="btn btn-link">Preview</a>
+    </div>
+  </form>
+</div>
+<!--End wrapper-->
+<div class="modal" id="user_info_list" class="user-info-list-dialog" style="width:auto !important;">
+  <div class="modal-dialog">
+    <%#= stylesheet_link_tag    "kendoui/kendo.common-bootstrap.min", "kendoui/kendo.bootstrap.min"%>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close close-cus-info-popup" data-dismiss="modal" aria-hidden="true">&nbsp;</button>
+        <h4 class="modal-title">Add Emails</h4>
+      </div>
+      <!-- start kendo grid -->
+      <div id="email-template-grid">
+      </div>
+      <!-- end grid -->
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="html-email-container" style="display:none;">
+  <div class="modal-dialog" style="width: 700px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &nbsp;
+        </button>
+        <h4 class="modal-title text-center">Email Preview</h4>
+      </div>
+      <div class="modal-body">
+        <iframe id="html-preview"></iframe>
+        <br />
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<input type="hidden" id="question_id" class="form-control input-medium" value="<%= params[:id] %>" />
+<%= render :partial => 'json_grid', :locals => {:type => 'email'} %>
+<%= render :partial => 'email_share/email_preview', :locals => { :question => @question } %>
+<%= javascript_include_tag 'responsive/email_share' %>

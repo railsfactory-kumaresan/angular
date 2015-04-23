@@ -1,0 +1,25 @@
+<div class="main-content">
+	<div class="container">
+		<div class="wrap-box">
+			<div class="wrap-box-head clearfix">
+					<h2>Share Call</h2>
+			</div>
+			<div class="wrap-box-cont">
+				<div>
+					<h2 class="alert alert-success">Call Was Initiated Successfully, Customer will get a call soon...</h2>
+					<div class="make_call_img" style="max-width:400px;height:128px; margin: 0 auto;">
+					<%= image_tag("responsive/makecall-v2.gif",class: "img-responsive")%>
+						<!--<img src="/assets/responsive/makecall-v2.gif" class="img-responsive">-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+ </div>
+<script>
+  jQuery(document).ready(function(){
+    window.setTimeout(function() {
+      window.location.href = '<%= Bitly_url["url"]%>/share/<%= @question.slug%>';
+    }, 5000);
+  });
+</script>

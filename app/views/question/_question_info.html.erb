@@ -1,0 +1,31 @@
+<h2 class="header small-text">Question list</h2>
+<span style="float:right;font-weight:bold;">Total Count: <%=question_count%></span>
+<span style="font-weight:bold;" id="success" style="display:none;"></span>
+<table class="master_list" style="margin-top:32px;">
+	<thead>
+		<tr>
+			<th>Question</th>
+			<th width='75'>Active</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%question.each_with_index do |question, index|%>
+		<tr>
+			<td><%=question.question ? question.question : '-NIL-'%></td>
+			<!--td width='75' class="check"><%#= radio_button_tag(:age, question.id) %><label for="age_<%#=question.id %>"><span></span>Check Box 1</label></td-->
+			<td width='75' class="check"><%= radio_button_tag(:age, question.id) %><label for="age_<%=question.id %>"><span></span></label></td>
+	</tr>
+	<%end%>
+	</tbody>
+</table>
+<%= will_paginate(question)%>
+<script>
+jQuery(document).ready(function() {
+    jQuery('.pagination a').attr('data-remote', 'true');
+});
+</script>
+<style>
+.heading_item{font-weight:bold;}
+</style>
+<%= button_tag(:Activate,:id=>'active_btn',:class=>'btn btn2 rc_5',:style=>'margin-top:10px;margin-left:250px;width:100px;') %>
+

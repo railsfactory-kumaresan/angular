@@ -1,0 +1,44 @@
+<%= semantic_form_for :view_logs, url: views_question_view_logs_path, method: :get, html: { class: 'filter_form' } do |f| %>
+    <div class="filter_form_field filter_string select_and_search">
+    <%= f.label 'country' %>
+    <%= f.select 'country', options_for_select(@filters["countries"], @filter_params["country"]), :include_blank => true %>
+  </div>
+  <div class="filter_form_field filter_string select_and_search">
+    <%= f.label 'state' %>
+    <%= f.select 'state', options_for_select(@filters["states"], @filter_params["state"]) , :include_blank => true%>
+  </div>
+  <div class="filter_form_field filter_string select_and_search">
+    <%= f.label 'city' %>
+    <%= f.select 'city', options_for_select(@filters["cities"], @filter_params["city"]), :include_blank => true %>
+  </div>
+  <div class="filter_form_field filter_string select_and_search">
+    <%= f.label 'gender' %>
+    <%= f.select 'gender', options_for_select(@filters["genders"], @filter_params["gender"]), :include_blank => true %>
+  </div>
+    <div class="filter_form_field filter_string select_and_search">
+    <%= f.label 'provider' %>
+    <%= f.select 'provider_name', options_for_select(@filters["providers"], @filter_params["provider_name"]), :include_blank => true %>
+  </div>
+  <%unless params[:id].present?%>
+  <div class="filter_form_field filter_string select_and_search">
+    <%= f.label 'Tenant' %>
+    <%= f.select 'tenant_name', options_for_select(@filters["tenants"], @filter_params["tenant_name"]), :include_blank => true %>
+  </div>
+  <%end%>
+    <div class="filter_form_field filter_string select_and_search">
+      <%= f.label 'Custom Field' %>
+      <%= f.select 'custom_field', options_for_select(@filters["custom_field"], @filter_params["custom_field"]), :include_blank => true %>
+    </div>
+    <%= hidden_field_tag 'slug',"#{params[:slug]}"%>
+   <!--<div class="filter_form_field filter_date_range"><label class="label">Viewed at</label>
+<input class="datepicker" id="q_viewed_at_gteq" max="10" name="q[viewed_at_gteq]" size="12" type="text" value="">
+<span class="seperator">-</span>
+<input class="datepicker" id="q_viewed_at_lteq" max="10" name="q[viewed_at_lteq]" size="12" type="text" value=""></div>
+  <div class="buttons">-->
+    <%= f.submit 'Filter' %>
+    <%link = params[:slug].present? ? "/views/question_view_logs?slug=#{params[:slug]}" : "/views/question_view_logs"%>
+    <a href="<%=link%>">Clear Filters</a>
+    <%= hidden_field_tag 'order', params[:order] %>
+  </div>
+<% end %>
+

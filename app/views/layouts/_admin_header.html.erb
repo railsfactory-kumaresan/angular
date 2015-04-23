@@ -1,0 +1,41 @@
+<div class="header navbar navbar-inverse bs-docs-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button data-target=".bs-navbar-collapse" data-toggle="collapse" type="button" class="navbar-toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">
+			<!-- rails4_image_tag_impact -->
+			<%= image_tag("responsive/logo-inquirly.png", alt: "inquirly") %>
+			<!--<img alt="Inquirly" src="/assets/responsive/logo-inquirly.png">--></a>
+    </div>
+    <% if user_signed_in? %>
+    <div class="user-info clearfix">
+      <a href="javascript:void(0);">
+			<!-- rails4_image_tag_impact -->
+			<%= image_tag("responsive/user.jpg", class: "user-picture") %>
+			<!--<img src="/assets/responsive/user.jpg" class="user-picture">-->
+			<span>
+			<%= current_user.first_name %> <%= current_user.last_name %>
+			</span> <span class="arrow-down">&nbsp;</span> </a>
+      <div class="sub-menu">
+        <a href="<%=ENV["FRESH_DESK_URL"]%>" target="_blank" >Help</a>
+        <%= link_to "Logout", destroy_user_session_path, :class => "last" %>
+      </div>
+    </div>
+    <% end %>
+    <div class="collapse navbar-collapse bs-navbar-collapse" id="main-navigation">
+      <ul class="nav navbar-nav">
+          <% a=controller.action_name %>
+          <% c=controller.controller_name %>
+          <li class="<%= (c == "pricing_plans")  ? "active" : ""%>"><a href="/admin/pricing_plans"><span class="glyphicon glyphicon-user"></span>Pricing Plans</a></li>
+          <li class="<%= (c == "permissions")  ? "active" : ""%>"><a href="/admin/permissions"><span class="glyphicon glyphicon-user"></span>Permissions</a></li>
+          <li class="<%= (c == "payments")  ? "active" : ""%>"><a href="/payments/new"><span class="glyphicon glyphicon-user"></span>Payments</a></li>
+          <li class="<%= (c == "client_settings")  ? "active" : ""%>"><a href="/admin/client_settings"><span class="glyphicon glyphicon-user"></span>Client Settings</a></li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,149 @@
+<div class="modal fade" id="share_detaill" aria-hidden="true" tabindex='-1'>
+  <div class="modal-dialog signup modal-size">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &nbsp;
+        </button>
+        <h4 class="modal-title">Share Article</h4>
+      </div>
+      <div class="modal-body signin">
+        <div class="">
+          <div class="cancel_head" id="qustion_suggestion_list" style="margin: 31px 0px 0px 42px !important;height: 305px !important; font-size: 15px !important;
+                  font-family: cursive !important;">
+            <form action="<%#=save_keywords_admin_listener_path(:id => current_user.id)%>" method="post" id="send_email">
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>"/>
+              <input type="hidden" name="keywords_content" id="keyword_id"/>
+              <input type="hidden" name="type_of_email" id="type_of_email"/>
+
+              <div class="col-md-12">
+                <label for="share_email">To:</label><br>
+                <input type="text" class="form-control" id="share_email" maxlength="" name="share_email" style="width:300px;"/>
+                <label for="share_email" id="error_email"></label>
+              </div>
+              <div class="col-md-12">
+                <label for="share_subject">Subject:</label><br>
+                <input type="text" class="form-control" id="share_subject" maxlength="" name="share_subject" style="width:300px;"/>
+                <label for="share_email" id="error_subject"></label>
+              </div>
+              <div class="col-md-12">
+                <label for="share_message">Message:</label><br>
+                <textarea row=10 class="form-control" value="" id="share_message" name="share_message" style="width:410px;"></textarea>
+                <label for="share_email" id="error_message"></label>
+              </div>
+              <div class="btn-wrap text-center">
+                <a id="sent_email" class="nt-nw" href="#">
+                  Send
+                </a>
+                <a id="share_question_close" class="nt-nw" href="#" aria-hidden="true" data-dismiss="modal">
+                  Cancel
+                </a>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>	
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="messages">
+        <div style="float:right;display:none" class ="show_filter"><%= render :partial => "listener_filter", :locals => {:remove_word => "no_words"}%></div>
+        <ul id="tabs" class="nav nav-tabs" role="tablist">
+          <li id="live_listen" class="active"><a href="#live_listen" role="tab" data-toggle="tab" class="idchange" onclick="add_remove_class(this)"> Live Listens</a></li>
+
+        </ul>
+        <div id="myTabContent" class="tab-content" style="">
+          <div class="tab-pane fade active in canchange live_listen  linklive_listen" id="live_listeni">
+          <div class="search-filter">
+            <input class="search_new_keyword" type="text" style ="width:300px;border:none;font-weight: bold;" placeholder="What do you want to listen to today?" />
+            <span class="search-filter-title">  </span>
+              <%= render :partial => "listener_filter" , :locals => {:remove_word => ""}%>
+            <span style="float:right;"><input type="button" value="Save" style="height:35px; padding: 0;" class="button medium listen save_keywords"/><input type="button" value="Search" style="height:35px;display:none;" class="button medium orange search_new_keyword_butt"/></span>
+          </div> <br/><br/>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div class="loading">-->
+  <!--<div class="loader"></div>-->
+  <!--<div class="loading-overlay"></div>-->
+<!--</div>-->
+
+<!--<p id="back-top">-->
+  <!--<a href="#top"><span></span></a>-->
+<!--</p>-->
+
+<script>
+//    var $input = $('.search_new_keyword'),
+//            $register = $('.save_keywords');
+//
+//    $register.attr('disabled', true);
+//    $input.keyup(function() {
+//        var trigger = false;
+//        $input.each(function() {
+//            if ($(this).val().length == 0 ) {
+//                trigger = true;
+//            }
+//        });
+//        trigger ? $register.attr('disabled', true) : $register.removeAttr('disabled');
+//    });
+    $('body').on('click', '.modal_click', function () {
+        var class_nm = jQuery(this).attr("class")
+        var cont = jQuery("."+class_nm.split(" ")[2]+"_share").html();
+        jQuery("#keyword_id").val(cont);
+    });
+
+    function initSourceMenu(ele) {
+        function updateUI(ele, update) {
+            var input = $(ele).find('input[type="checkbox"]');
+            if(!update) {
+                //toggle
+                input.prop("checked", !input.prop("checked"));
+            }
+            var checked = $(input).is(':checked');
+            if( checked ) {
+                $(ele).find('.source-enabled').show();
+                jQuery(".advance_search").show();
+            } else {
+                $(ele).find('.source-enabled').hide();
+            }
+            return false;
+        }
+
+        $(ele).find('.source-menu-item').each(function(){
+            updateUI(this, true);
+            $(this).click(function(){
+                //TODO: add callback
+                return updateUI(this)
+            });
+        });
+    }
+
+    $(document).ready(function() {
+        $('.source-menu').each(function(){
+            initSourceMenu(this);
+        });
+
+//        $('.scroll_saved').enscroll({
+//            showOnHover: true,
+//            verticalTrackClass: 'track3',
+//            verticalHandleClass: 'handle3'
+//        });
+    });
+</script>
+
+
+
+

@@ -1,0 +1,1532 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TimeTurner v1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-23 18:09+0100\n"
+"PO-Revision-Date: 2013-10-24 14:07:02+0000\n"
+"Last-Translator: \n"
+"Language-Team: Tomas Toman\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%100/10==1 ? 2 : n%10==1 ? 0 : (n+9)%10>3 ? 2 : 1;\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: 404.php:16
+#: search.php:49
+#@ timeturner
+msgid "Nothing Found"
+msgstr "Nenalezeno"
+
+#: 404.php:24
+#@ timeturner
+msgid "Apologies, but no results were found for your request. Perhaps searching will help you to find a related content."
+msgstr "Je nám líto, ale nebyly nalezeny žádné výsledky pro váš požadavek. Možná, že vyhledávání vám pomůže najít související obsah."
+
+#: archive.php:19
+#, php-format
+#@ timeturner
+msgid "Daily Archives: %s"
+msgstr "Archiv článků ze dne: %s"
+
+#: archive.php:21
+#, php-format
+#@ timeturner
+msgid "Monthly Archives: %s"
+msgstr "Archiv článků za měsíc: %s"
+
+#: archive.php:23
+#, php-format
+#@ timeturner
+msgid "Yearly Archives: %s"
+msgstr "Archiv článků za rok: %s"
+
+#: archive.php:25
+#@ timeturner
+msgid "Archives"
+msgstr "Archivy"
+
+#: author.php:18
+#, php-format
+#@ timeturner
+msgid "Author Archives: %s"
+msgstr "Archiv autora: %s"
+
+#: author.php:34
+#, php-format
+#@ timeturner
+msgid "About %s"
+msgstr "O autorovi %s"
+
+#: class-tgm-plugin-activation.php:156
+#: functions.php:439
+#@ timeturner
+msgid "Install Required Plugins"
+msgstr "Instalovat vyžadované pluginy"
+
+#: class-tgm-plugin-activation.php:157
+#: functions.php:440
+#@ timeturner
+msgid "Install Plugins"
+msgstr "Instalovat pluginy"
+
+#: class-tgm-plugin-activation.php:158
+#: functions.php:444
+#, php-format
+#@ timeturner
+msgid "Installing Plugin: %s"
+msgstr "Instalace pluginu: %s"
+
+#: class-tgm-plugin-activation.php:159
+#@ timeturner
+msgid "Something went wrong."
+msgstr "Něco se pokazilo."
+
+#: class-tgm-plugin-activation.php:170
+#: functions.php:450
+#@ timeturner
+msgid "Return to Required Plugins Installer"
+msgstr "Návrat na instalaci vyžadovaných pluginů."
+
+#: class-tgm-plugin-activation.php:171
+#@ timeturner
+msgid "Return to the dashboard"
+msgstr "Návrat na Nástěnku"
+
+#: class-tgm-plugin-activation.php:172
+#: class-tgm-plugin-activation.php:1840
+#@ timeturner
+msgid "Plugin activated successfully."
+msgstr "Plugin byl úspěšně aktivován."
+
+#: class-tgm-plugin-activation.php:174
+#, php-format
+#@ timeturner
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr "Všechny pluginy byly úspěšně nainstalovány a aktivovány. %1$s"
+
+#: class-tgm-plugin-activation.php:175
+#@ timeturner
+msgid "Dismiss this notice"
+msgstr "Skrýt toto oznámení"
+
+#: class-tgm-plugin-activation.php:1085
+#@ timeturner
+msgid "External Link"
+msgstr "Externí odkaz"
+
+#: class-tgm-plugin-activation.php:1090
+#@ timeturner
+msgid "Private Repository"
+msgstr "Vlastní adresář"
+
+#: class-tgm-plugin-activation.php:1093
+#@ timeturner
+msgid "Pre-Packaged"
+msgstr "Předpřipravený"
+
+#: class-tgm-plugin-activation.php:1097
+#@ timeturner
+msgid "WordPress Repository"
+msgstr "Adresář WordPress"
+
+#: class-tgm-plugin-activation.php:1100
+#@ timeturner
+msgid "Required"
+msgstr "Vyžadovaný"
+
+#: class-tgm-plugin-activation.php:1100
+#@ timeturner
+msgid "Recommended"
+msgstr "Doporučený"
+
+#: class-tgm-plugin-activation.php:1103
+#@ timeturner
+msgid "Not Installed"
+msgstr "Nenainstalovaný"
+
+#: class-tgm-plugin-activation.php:1105
+#@ timeturner
+msgid "Installed But Not Activated"
+msgstr "Nainstalovaný, ale neaktivní"
+
+#: class-tgm-plugin-activation.php:1275
+#, php-format
+#@ timeturner
+msgid "No plugins to install or activate. <a href=\"%1$s\" title=\"Return to the Dashboard\">Return to the Dashboard</a>"
+msgstr "Žádné pluginy k instalaci či aktivaci. <a href=\"%1$s\" title=\"Zpět na Nástěnku\">Zpět na Nástěnku</a>"
+
+#: class-tgm-plugin-activation.php:1291
+#@ timeturner
+msgid "Plugin"
+msgstr "Plugin"
+
+#: class-tgm-plugin-activation.php:1292
+#@ timeturner
+msgid "Source"
+msgstr "Zdroj"
+
+#: class-tgm-plugin-activation.php:1293
+#@ timeturner
+msgid "Type"
+msgstr "Typ"
+
+#: class-tgm-plugin-activation.php:1294
+#@ timeturner
+msgid "Status"
+msgstr "Status"
+
+#: class-tgm-plugin-activation.php:1312
+#@ timeturner
+msgid "Install"
+msgstr "Instalace"
+
+#: class-tgm-plugin-activation.php:1313
+#@ timeturner
+msgid "Activate"
+msgstr "Aktivovat"
+
+#: class-tgm-plugin-activation.php:1823
+#@ timeturner
+msgid "Install package not available."
+msgstr "Instalační balík není k dispozici."
+
+#: class-tgm-plugin-activation.php:1824
+#, php-format
+#@ timeturner
+msgid "Downloading install package from <span class=\"code\">%s</span>&#8230;"
+msgstr "Stahování instalačního balíku z <span class=\"code\">%s</span>&#8230;"
+
+#: class-tgm-plugin-activation.php:1825
+#@ timeturner
+msgid "Unpacking the package&#8230;"
+msgstr "Rozbalování instalačního balíku&#8230;"
+
+#: class-tgm-plugin-activation.php:1826
+#@ timeturner
+msgid "Installing the plugin&#8230;"
+msgstr "Instalace pluginu&#8230;"
+
+#: class-tgm-plugin-activation.php:1827
+#@ timeturner
+msgid "Plugin install failed."
+msgstr "Instalace pluginu se nezdařila."
+
+#: class-tgm-plugin-activation.php:1828
+#@ timeturner
+msgid "Plugin installed successfully."
+msgstr "Plugin byl úspěšně nainstalován."
+
+#: class-tgm-plugin-activation.php:1839
+#@ timeturner
+msgid "Plugin activation failed."
+msgstr "Aktivace pluginu se nezdařila."
+
+#: class-tgm-plugin-activation.php:1949
+#@ timeturner
+msgid "The installation and activation process is starting. This process may take a while on some hosts, so please be patient."
+msgstr "Proces instalace a aktivace byl zahájen. Prosím buďte trpěliví, neboť proces může chvíli trvat."
+
+#: class-tgm-plugin-activation.php:1950
+#, php-format
+#@ timeturner
+msgid "%1$s installed and activated successfully."
+msgstr "%1$s byl úspěšně nainstalován a aktivován."
+
+#: class-tgm-plugin-activation.php:1950
+#: class-tgm-plugin-activation.php:1959
+#@ timeturner
+msgid "Show Details"
+msgstr "Ukázat detaily"
+
+#: class-tgm-plugin-activation.php:1950
+#: class-tgm-plugin-activation.php:1959
+#@ timeturner
+msgid "Hide Details"
+msgstr "Skrýt detaily"
+
+#: class-tgm-plugin-activation.php:1951
+#@ timeturner
+msgid "All installations and activations have been completed."
+msgstr "Všechny instalace a aktivace byly dokončeny."
+
+#: class-tgm-plugin-activation.php:1952
+#, php-format
+#@ timeturner
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr "Instalace a aktivace pluginu %1$s (%2$d/%3$d)"
+
+#: class-tgm-plugin-activation.php:1956
+#@ timeturner
+msgid "The installation process is starting. This process may take a while on some hosts, so please be patient."
+msgstr "Proces instalace byl zahájen. Prosím buďte trpěliví, neboť proces může chvíli trvat."
+
+#: class-tgm-plugin-activation.php:1957
+#, php-format
+#@ timeturner
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr "Během instalace %1$s došlo k chybě: <strong>%2$s</strong>."
+
+#: class-tgm-plugin-activation.php:1958
+#, php-format
+#@ timeturner
+msgid "The installation of %1$s failed."
+msgstr "Instalace %1$s se nezdařila."
+
+#: class-tgm-plugin-activation.php:1959
+#, php-format
+#@ timeturner
+msgid "%1$s installed successfully."
+msgstr "%1$s úspěšně nainstalován."
+
+#: class-tgm-plugin-activation.php:1960
+#@ timeturner
+msgid "All installations have been completed."
+msgstr "Instalace byly dokončeny."
+
+#: class-tgm-plugin-activation.php:1961
+#, php-format
+#@ timeturner
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr "Instalace pluginu %1$s (%2$d/%3$d)"
+
+#: class-tgm-plugin-activation.php:2052
+#@ timeturner
+msgid "Return to the Dashboard"
+msgstr "Návrat na Nástěnku"
+
+#: comments.php:29
+#@ timeturner
+msgid "Comment navigation"
+msgstr "Navigace mezi komentáři"
+
+#: comments.php:30
+#@ timeturner
+msgid "&larr; Older Comments"
+msgstr "&larr; Starší komentáře"
+
+#: comments.php:31
+#@ timeturner
+msgid "Newer Comments &rarr;"
+msgstr "Novější komentáře &rarr;"
+
+#: comments.php:36
+#@ timeturner
+msgid "Comments are closed."
+msgstr "Přidávání komentářů není povoleno."
+
+#: comments.php:41
+#@ timeturner
+msgid "Your name"
+msgstr "Vaše jméno"
+
+#: comments.php:42
+#@ timeturner
+msgid "Website"
+msgstr "Web"
+
+#: comments.php:43
+#@ timeturner
+msgid "Comment..."
+msgstr "Komentář..."
+
+#: comments.php:47
+#@ timeturner
+msgid "Leave a Comment"
+msgstr "Napsat komentář"
+
+#: comments.php:18
+#, php-format
+#@ timeturner
+msgid "Comment (1)"
+msgid_plural "Comments (%1$s)"
+msgstr[0] "Komentáře (%1$s)"
+msgstr[1] "Komentáře (%1$s)"
+msgstr[2] "Komentáře (%1$s)"
+
+#: content-archives.php:10
+#: index.php:221
+#@ timeturner
+msgid "Author"
+msgstr "Autor"
+
+#: content-archives.php:10
+#: index.php:221
+#@ timeturner
+msgid "Category"
+msgstr "Rubrika"
+
+#: content-archives.php:10
+#: index.php:221
+#@ timeturner
+msgid " | Tags: "
+msgstr " | Štítky: "
+
+#: content-archives.php:21
+#: index.php:232
+#@ timeturner
+msgid " | Comments: "
+msgstr " | Komentáře: "
+
+#: functions.php:108
+#@ timeturner
+msgid "Header Menu"
+msgstr "Navigace v záhlaví"
+
+#: functions.php:109
+#@ timeturner
+msgid "Sidebar Menu"
+msgstr "Navigace v postranním sloupci"
+
+#: functions.php:121
+#@ timeturner
+msgid "Index-blog Sidebar"
+msgstr "Postranní sloupec v sekci Blog"
+
+#: functions.php:123
+#@ timeturner
+msgid "Right sidebar which appears on index page in Blog section."
+msgstr "Pravý postranní sloupec, který se objeví v sekci Blog na úvodní stránce."
+
+#: functions.php:130
+#@ timeturner
+msgid "Main Sidebar"
+msgstr "Hlavní postranní sloupec"
+
+#: functions.php:132
+#@ timeturner
+msgid "Right sidebar which appears on posts and pages."
+msgstr "Pravý postranní sloupec, který se objeví u všech stránek a příspěvků."
+
+#: functions.php:139
+#@ timeturner
+msgid "Footer left widget area"
+msgstr "Levá oblast pro widgety v zápatí"
+
+#: functions.php:141
+#@ timeturner
+msgid "Left column with widgets in footer."
+msgstr "Levý sloupec s widgety v zápatí."
+
+#: functions.php:148
+#@ timeturner
+msgid "Footer middle widget area"
+msgstr "Prostřední oblast pro widgety v zápatí"
+
+#: functions.php:150
+#@ timeturner
+msgid "Middle column with widgets in footer."
+msgstr "Prostřední sloupec s widgety v zápatí."
+
+#: functions.php:157
+#@ timeturner
+msgid "Footer right widget area"
+msgstr "Pravá oblast pro widgety v zápatí"
+
+#: functions.php:159
+#@ timeturner
+msgid "Right column with widgets in footer."
+msgstr "Pravý sloupec s widgety v zápatí."
+
+#: functions.php:166
+#@ timeturner
+msgid "Footer notices"
+msgstr "Informace v zápatí"
+
+#: functions.php:168
+#@ timeturner
+msgid "The line for copyright and other notices below the footer widget areas. Insert here one Text widget. The \"Title\" field at this widget should stay empty."
+msgstr "Řádek pro informace o autorství a další poznámky pod oblastmi pro widgety v zápatí. Vložte sem jeden textový widget. Pole \"Název\" by u tohoto widgetu mělo zůstat prázdné."
+
+#: functions.php:175
+#@ timeturner
+msgid "Homepage slideshow"
+msgstr "Slideshow na úvodní stránce"
+
+#: functions.php:177
+#@ timeturner
+msgid "The area for Cyclone Slider Widget which displays a slideshow on your homepage."
+msgstr "Oblast určená pro vložení Cyclone Slider Widgetu pro zobrazení slideshow na úvodní stránce."
+
+#: functions.php:184
+#@ timeturner
+msgid "About Section boxes on homepage"
+msgstr "Boxy v sekci O nás na úvodní stránce"
+
+#: functions.php:186
+#@ timeturner
+msgid "Insert here as many Text widgets as you want for displaying boxes in About Section on your homepage."
+msgstr "Vložte sem libovolný počet textových widgetů pro zobrazení boxů v sekci O nás na úvodní stránce."
+
+#: functions.php:205
+#: functions.php:219
+#@ timeturner
+msgid "Post navigation"
+msgstr "Navigace mezi příspěvky"
+
+#: functions.php:206
+#@ timeturner
+msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
+msgstr "<span class=\"meta-nav\">&larr;</span> Starší příspěvky"
+
+#: functions.php:207
+#@ timeturner
+msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Novější příspěvky <span class=\"meta-nav\">&rarr;</span>"
+
+#: functions.php:220
+#@ timeturner
+msgid "&larr; Previous post"
+msgstr "&larr; Předchozí příspěvek"
+
+#: functions.php:221
+#@ timeturner
+msgid "Next post &rarr;"
+msgstr "Další příspěvek &rarr;"
+
+#: functions.php:237
+#@ timeturner
+msgid "Pingback:"
+msgstr "Pingback:"
+
+#: functions.php:237
+#@ timeturner
+msgid "(Edit)"
+msgstr "(Upravit)"
+
+#: functions.php:250
+#@ timeturner
+msgid "(Post author)"
+msgstr "(Autor)"
+
+#: functions.php:256
+#, php-format
+#@ timeturner
+msgid "%1$s at %2$s"
+msgstr "%1$s v %2$s"
+
+#: functions.php:262
+#@ timeturner
+msgid "Your comment is awaiting moderation."
+msgstr "Váš komentář čeká na schválení."
+
+#: functions.php:267
+#@ timeturner
+msgid "Edit"
+msgstr "Upravit"
+
+#: functions.php:271
+#@ timeturner
+msgid "Reply"
+msgstr "Odpovědět"
+
+#: functions.php:334
+#@ timeturner
+msgid "Read more"
+msgstr "Čtěte více"
+
+#: functions.php:441
+#, php-format
+#@ timeturner
+msgid "The %1$s plugin is required for this theme. Click on the big blue button below to install and activate %1$s."
+msgstr "Plugin %1$s je vyžadován pro tuto šablonu. Klikněte na velké modré tlačítko níže pro nainstalování pluginu %1$s."
+
+#: functions.php:442
+#, php-format
+#@ timeturner
+msgid "The %1$s is installed but currently inactive. Please go to the <a href=\"%2$s\">plugin administration page</a> page to activate it."
+msgstr "Plugin %1$s byl nainstalován, ale nyní je neaktivní. Přejděte prosím na <a href=\"%2$s\">stránku s administrací pluginů</a> a aktivujte jej."
+
+#: functions.php:443
+#, php-format
+#@ timeturner
+msgid "Install %s Now"
+msgstr "Instalovat %s nyní"
+
+#: functions.php:445
+#@ timeturner
+msgid "Something went wrong with the plugin API."
+msgstr "Něco se pokazilo s API pluginu."
+
+#: functions.php:446
+#, php-format
+#@ timeturner
+msgid "This theme requires the %1$s plugin. <a href=\"%2$s\"><strong>Click here to begin the installation process</strong></a>. You may be asked for FTP credentials based on your server setup."
+msgstr "Tato šablona vyžaduje plugin %1$s. <a href=\"%2$s\"><strong>Klikněte zde pro zahájení instalace</strong></a>. V závislosti na nastavení Vašeho serveru budete možná vyzváni k zadání přístupových údajů k FTP."
+
+#: functions.php:448
+#, php-format
+#@ timeturner
+msgid "This theme requires the %1$s plugin. That plugin is currently inactive, so please go to the <a href=\"%2$s\">plugin administration page</a> to activate it."
+msgstr "Tato šablona vyžaduje plugin %1$s. Tento plugin je nyní neaktivní, proto prosím přejděte na <a href=\"%2$s\">stránku s administrací pluginů</a>a aktivujte jej."
+
+#: index.php:30
+#@ timeturner
+msgid "How to edit these boxes?"
+msgstr "Jak editovat tyto boxy?"
+
+#: index.php:32
+#@ timeturner
+msgid "For editing these boxes, go to the Appearance > Widgets menu and insert as many Text widgets as you like into \"About Section boxes on homepage\" widget area."
+msgstr "Pro úpravy těchto boxů přejděte do nabídky Vzhled > Widgety a vložte libovolný počet textových widgetů do panelu \"Boxy v sekci O nás na úvodní stránce\"."
+
+#: index.php:33
+#: index.php:48
+#: index.php:63
+#@ timeturner
+msgid "READ MORE"
+msgstr "ČÍST VÍCE"
+
+#: index.php:45
+#@ timeturner
+msgid "Useful shortcodes"
+msgstr "Užitečné shortcody"
+
+#: index.php:47
+#@ timeturner
+msgid "To insert a picture or \"Read more\" button, you can use these shortcodes:<br />[image src=\"<em>image URL</em>\"]<br />[more-button link=\"<em>URL address</em>\"]<em>READ MORE</em>[/more-button]"
+msgstr "Pro vložení obrázku nebo tlačítka \"Číst více\" můžete použít následující shortcody:<br />[image src=\"<em>URL obrázku</em>\"]<br />[more-button link=\"<em>URL adresa</em>\"]<em>ČÍST VÍCE</em>[/more-button]"
+
+#: index.php:60
+#@ timeturner
+msgid "How to remove this area?"
+msgstr "Jak skrýt tuto oblast?"
+
+#: index.php:62
+#@ timeturner
+msgid "If you do not want to display this area, go to the \"Theme Options\" panel. In \"Homepage Settings\", you can hide this area. Same way you can rename or hide the other areas, too."
+msgstr "Jestliže nechcete zobrazovat tuto oblast, přejděte do panelu \"Nastavení šablony\". V  \"Nastavení úvodní stránky\" můžete tuto oblast skrýt. Stejným způsobem můžete přejmenovat či skrýt i ostatní oblasti."
+
+#: index.php:125
+#@ timeturner
+msgid "Portfolio Item 1"
+msgstr "Položka 1"
+
+#: index.php:136
+#@ timeturner
+msgid "Portfolio Item 2"
+msgstr "Položka 2"
+
+#: index.php:147
+#@ timeturner
+msgid "Portfolio Item 3"
+msgstr "Položka 3"
+
+#: index.php:158
+#@ timeturner
+msgid "Portfolio Item 4"
+msgstr "Položka 4"
+
+#: index.php:169
+#@ timeturner
+msgid "Portfolio Item 5"
+msgstr "Položka 5"
+
+#: index.php:180
+#@ timeturner
+msgid "Portfolio Item 6"
+msgstr "Položka 6"
+
+#: searchform.php:9
+#@ timeturner
+msgid "Search..."
+msgstr "Hledat..."
+
+#: search.php:17
+#, php-format
+#@ timeturner
+msgid "Search Results for: %s"
+msgstr "Výsledky vyhledávání pro: %s"
+
+#: search.php:25
+#@ timeturner
+msgid "Number of Results: "
+msgstr "Počet výsledků: "
+
+#: search.php:38
+#@ timeturner
+msgid "Search results navigation"
+msgstr "Navigace mezi výsledky vyhledávání"
+
+#: search.php:39
+#@ timeturner
+msgid "<span class=\"meta-nav\">&larr;</span> Previous results"
+msgstr "<span class=\"meta-nav\">&larr;</span> Předchozí výsledky"
+
+#: search.php:40
+#@ timeturner
+msgid "Next results <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Další výsledky <span class=\"meta-nav\">&rarr;</span>"
+
+#: search.php:57
+#@ timeturner
+msgid "Sorry, but nothing matched your search criteria. Please try again with some different keywords."
+msgstr "Je nám líto, ale Vašim kritériím nevyhovuje žádný výsledek. Zkuste to prosím znovu s jiným vyhledávacím dotazem."
+
+#: sidebar.php:11
+#@ timeturner
+msgid "Navigation"
+msgstr "Menu"
+
+#: single.php:30
+#@ timeturner
+msgid "Pages:"
+msgstr "Stránky:"
+
+#: tag.php:17
+#, php-format
+#@ timeturner
+msgid "Tag Archives: %s"
+msgstr "Archiv štítku: %s"
+
+#: cycloneslider/dark/slider.php:43
+#@ cycloneslider
+msgid "View Larger Image"
+msgstr "Zobrazit větší obrázek"
+
+#: cycloneslider/dark/slider.php:46
+#: cycloneslider/dark/slider.php:48
+#@ cycloneslider
+msgid "Learn More"
+msgstr "Dozvědět se víc"
+
+#: cycloneslider/default/slider.php:62
+#: cycloneslider/default/slider.php:66
+#: cycloneslider/default/slider.php:70
+#: cycloneslider/standard/slider.php:70
+#@ cycloneslider
+msgid "Slide type not supported."
+msgstr "Tento typ slideru není podporován."
+
+#: functions/be/cz/fw-options.php:1204
+#: functions/be/fw-options.php:1204
+#@ timeturner
+msgid "settings reset."
+msgstr "nastavení resetováno."
+
+#: functions/be/cz/fw-setup.php:51
+#: functions/be/fw-setup.php:51
+#@ timeturner
+msgid "Theme Options"
+msgstr "Nastavení šablony"
+
+#: functions/fe/library.php:38
+#@ timeturner
+msgid "<strong>Posted</strong>: "
+msgstr "<strong>Publikováno</strong>: "
+
+#: functions/fe/library.php:41
+#: functions/fe/library.php:58
+#: functions/fe/library.php:61
+#@ timeturner
+msgid " | "
+msgstr " | "
+
+#: functions/fe/library.php:48
+#@ timeturner
+msgid "<strong>Category</strong>: "
+msgstr "<strong>Rubrika</strong>: "
+
+#: functions/fe/library.php:55
+#@ timeturner
+msgid "<strong>Author</strong>: "
+msgstr "<strong>Autor</strong>: "
+
+#: functions/fe/social-widget.php:12
+#@ timeturner
+msgid "A Social widget by TimeTurner"
+msgstr "Widget sociálních sítí pro TimeTurner"
+
+#: functions/fe/social-widget.php:14
+#@ timeturner
+msgid "TimeTurner Social Widget"
+msgstr "TimeTurner Social Widget"
+
+#: functions/fe/social-widget.php:86
+#: functions/fe/twitter-widget.php:39
+#@ timeturner
+msgid "Title:"
+msgstr "Titulek:"
+
+#: functions/fe/social-widget.php:93
+#@ timeturner
+msgid "Twitter:"
+msgstr "Twitter:"
+
+#: functions/fe/social-widget.php:97
+#@ timeturner
+msgid "Insert the full URL of your Twitter profile."
+msgstr "Vložte celou URL adresu Vašeho Twitter profilu."
+
+#: functions/fe/social-widget.php:103
+#@ timeturner
+msgid "Facebook:"
+msgstr "Facebook:"
+
+#: functions/fe/social-widget.php:107
+#@ timeturner
+msgid "Insert the full URL of your Facebook profile, page or group."
+msgstr "Vložte celou URL adresu Vašeho Facebook profilu, stránky nebo skupiny."
+
+#: functions/fe/social-widget.php:113
+#@ timeturner
+msgid "RSS:"
+msgstr "RSS:"
+
+#: functions/fe/social-widget.php:117
+#@ timeturner
+msgid "Insert the Url of your RSS. You may include your RSS from Feedburner."
+msgstr "Vložte URL adresu Vašeho RSS kanálu. Můžete vložit Vaše RSS z Feedburneru."
+
+#: functions/fe/social-widget.php:123
+#@ timeturner
+msgid "Google Plus:"
+msgstr "Google Plus:"
+
+#: functions/fe/social-widget.php:127
+#@ timeturner
+msgid "Insert the full URL of your Google Plus profile"
+msgstr "Vložte celou URL adresu Vašeho Google Plus profilu."
+
+#: functions/fe/social-widget.php:133
+#@ timeturner
+msgid "You Tube:"
+msgstr "You Tube:"
+
+#: functions/fe/social-widget.php:137
+#@ timeturner
+msgid "Insert the full URL of your YouTube profile."
+msgstr "Vložte celou URL adresu Vašeho YouTube profilu."
+
+#: functions/fe/social-widget.php:143
+#@ timeturner
+msgid "Linkedin:"
+msgstr "Linkedin:"
+
+#: functions/fe/social-widget.php:147
+#@ timeturner
+msgid "Insert the full URL of your Linkedin profile."
+msgstr "Vložte celou URL adresu Vašeho Linkedin profilu."
+
+#: functions/fe/social-widget.php:153
+#@ timeturner
+msgid "Delicious:"
+msgstr "Delicious:"
+
+#: functions/fe/social-widget.php:157
+#@ timeturner
+msgid "Insert the full URL of your Delicious profile."
+msgstr "Vložte celou URL adresu Vašeho Delicious profilu."
+
+#: functions/fe/social-widget.php:163
+#@ timeturner
+msgid "Pinterest:"
+msgstr "Pinterest:"
+
+#: functions/fe/social-widget.php:167
+#@ timeturner
+msgid "Insert the full URL of your Pinterest profile."
+msgstr "Vložte celou URL adresu Vašeho Pinterest profilu."
+
+#: functions/fe/social-widget.php:173
+#@ timeturner
+msgid "Flickr:"
+msgstr "Flickr:"
+
+#: functions/fe/social-widget.php:177
+#@ timeturner
+msgid "Insert the full URL of your Flickr profile."
+msgstr "Vložte celou URL adresu Vašeho Flickr profilu."
+
+#: functions/fe/twitter-widget.php:13
+#@ timeturner
+msgid "Twitter widget by TimeTurner"
+msgstr "Twitter widget pro TimeTurner"
+
+#: functions/fe/twitter-widget.php:15
+#@ timeturner
+msgid "TimeTurner Twitter Widget"
+msgstr "TimeTurner Twitter Widget"
+
+#: functions/fe/twitter-widget.php:25
+#@ timeturner
+msgid "Join us on Twitter"
+msgstr "Připojte se k nám na Twitteru"
+
+#: functions/fe/twitter-widget.php:46
+#@ timeturner
+msgid "Twitter Username:"
+msgstr "Twitter uživatelské jméno:"
+
+#: functions/fe/twitter-widget.php:50
+#@ timeturner
+msgid "Insert your Twitter username. (ex: timeturner)."
+msgstr "Vložte Vaše uživatelské jméno na síti Twitter. (příklad: timeturner)."
+
+#: content-archives.php:21
+#: index.php:232
+#@ timeturner
+msgid "Published: "
+msgstr "Publikováno: "
+
+#: archive.php:21
+#@ timeturner
+msgctxt "monthly archives date format"
+msgid "F Y"
+msgstr ""
+
+#: archive.php:23
+#@ timeturner
+msgctxt "yearly archives date format"
+msgid "Y"
+msgstr ""
+
+#: class-tgm-plugin-activation.php:160
+#, php-format
+#@ timeturner
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: class-tgm-plugin-activation.php:161
+#, php-format
+#@ timeturner
+msgid "This theme recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#. gettext fix: identical singular and plural forms found, that may be ambiguous! Please check the code!
+#: class-tgm-plugin-activation.php:162
+#: functions.php:447
+#, php-format
+#@ timeturner
+msgid "Sorry, but you do not have the correct permissions to install the %s plugin. Contact the administrator of this site for help on getting the plugin installed."
+msgid_plural "Sorry, but you do not have the correct permissions to install the %s plugins. Contact the administrator of this site for help on getting the plugins installed."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: class-tgm-plugin-activation.php:163
+#, php-format
+#@ timeturner
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: class-tgm-plugin-activation.php:164
+#, php-format
+#@ timeturner
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#. gettext fix: identical singular and plural forms found, that may be ambiguous! Please check the code!
+#: class-tgm-plugin-activation.php:165
+#: functions.php:449
+#, php-format
+#@ timeturner
+msgid "Sorry, but you do not have the correct permissions to activate the %s plugin. Contact the administrator of this site for help on getting the plugin activated."
+msgid_plural "Sorry, but you do not have the correct permissions to activate the %s plugins. Contact the administrator of this site for help on getting the plugins activated."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: class-tgm-plugin-activation.php:166
+#, php-format
+#@ timeturner
+msgid "The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s."
+msgid_plural "The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: class-tgm-plugin-activation.php:167
+#, php-format
+#@ timeturner
+msgid "Sorry, but you do not have the correct permissions to update the %s plugin. Contact the administrator of this site for help on getting the plugin updated."
+msgid_plural "Sorry, but you do not have the correct permissions to update the %s plugins. Contact the administrator of this site for help on getting the plugins updated."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: class-tgm-plugin-activation.php:168
+#@ timeturner
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: class-tgm-plugin-activation.php:169
+#@ timeturner
+msgid "Activate installed plugin"
+msgid_plural "Activate installed plugins"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#. gettext fix: identical singular and plural forms found, that may be ambiguous! Please check the code!
+#: class-tgm-plugin-activation.php:1538
+#: class-tgm-plugin-activation.php:173
+#@ timeturner
+msgid "The following plugin was activated successfully:"
+msgid_plural "The following plugins were activated successfully:"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: functions/fe/headerdata.php:108
+#: functions/fe/headerdata.php:110
+#: functions/fe/headerdata.php:112
+#: functions/fe/headerdata.php:114
+#: functions/fe/headerdata.php:116
+#@ timeturner
+msgid "body, #wrapper #wrapper-menu, #wrapper #wrapper-header, #wrapper #wrapper-about, #wrapper #wrapper-blog, #wrapper #wrapper-content, #wrapper #wrapper-portfolio, #wrapper #wrapper-footer, #wrapper #header-logo .background-pattern { background-image: url("
+msgstr ""
+
+#: functions/fe/headerdata.php:108
+#@ timeturner
+msgid "/images/pattern-2.png); }"
+msgstr ""
+
+#: functions/fe/headerdata.php:110
+#@ timeturner
+msgid "/images/pattern-3.png); }"
+msgstr ""
+
+#: functions/fe/headerdata.php:112
+#@ timeturner
+msgid "/images/pattern-4.png); }"
+msgstr ""
+
+#: functions/fe/headerdata.php:114
+#@ timeturner
+msgid "/images/pattern-5.png); }"
+msgstr ""
+
+#: functions/fe/headerdata.php:116
+#@ timeturner
+msgid "/images/pattern-6.png); }"
+msgstr ""
+
+#: functions/fe/headerdata.php:118
+#@ timeturner
+msgid "body, #wrapper #wrapper-menu, #wrapper #wrapper-header, #wrapper #wrapper-about, #wrapper #wrapper-blog, #wrapper #wrapper-content, #wrapper #wrapper-portfolio, #wrapper #wrapper-footer, #wrapper #header-logo .background-pattern { background-image: none; }"
+msgstr ""
+
+#: functions/fe/headerdata.php:126
+#@ timeturner
+msgid "#wrapper #wrapper-content #sidebar { display: none; } #wrapper #wrapper-content #content, #wrapper #wrapper-content .post-entry { width: 100%; }"
+msgstr ""
+
+#: functions/fe/headerdata.php:134
+#@ timeturner
+msgid "#header .description-wrapper { display: block; }"
+msgstr ""
+
+#: functions/fe/headerdata.php:142
+#@ timeturner
+msgid "#wrapper #wrapper-header #header .description-wrapper { display: none; }"
+msgstr ""
+
+#: functions/fe/headerdata.php:150
+#@ timeturner
+msgid "#wrapper #wrapper-blog #sidebar { display: none; } #wrapper #wrapper-blog #content, #wrapper #wrapper-blog .post-entry { width: 100%; }"
+msgstr ""
+
+#: functions/fe/headerdata.php:159
+#@ timeturner
+msgid "#wrapper #wrapper-menu #menu .menu-item-"
+msgstr ""
+
+#: functions/fe/headerdata.php:159
+#@ timeturner
+msgid " { margin-left: "
+msgstr ""
+
+#: functions/fe/headerdata.php:159
+#@ timeturner
+msgid "px; }"
+msgstr ""
+
+#: functions/fe/headerdata.php:167
+#@ timeturner
+msgid "#wrapper #wrapper-menu, #wrapper .scroll-top { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:167
+#: functions/fe/headerdata.php:175
+#: functions/fe/headerdata.php:183
+#: functions/fe/headerdata.php:191
+#: functions/fe/headerdata.php:199
+#: functions/fe/headerdata.php:207
+#: functions/fe/headerdata.php:215
+#: functions/fe/headerdata.php:223
+#: functions/fe/headerdata.php:231
+#: functions/fe/headerdata.php:239
+#: functions/fe/headerdata.php:247
+#: functions/fe/headerdata.php:255
+#: functions/fe/headerdata.php:263
+#: functions/fe/headerdata.php:271
+#: functions/fe/headerdata.php:279
+#: functions/fe/headerdata.php:280
+#: functions/fe/headerdata.php:288
+#: functions/fe/headerdata.php:296
+#: functions/fe/headerdata.php:304
+#: functions/fe/headerdata.php:312
+#: functions/fe/headerdata.php:313
+#: functions/fe/headerdata.php:321
+#: functions/fe/headerdata.php:329
+#: functions/fe/headerdata.php:337
+#: functions/fe/headerdata.php:345
+#: functions/fe/headerdata.php:353
+#: functions/fe/headerdata.php:361
+#: functions/fe/headerdata.php:369
+#: functions/fe/headerdata.php:370
+#: functions/fe/headerdata.php:378
+#: functions/fe/headerdata.php:386
+#: functions/fe/headerdata.php:394
+#: functions/fe/headerdata.php:402
+#: functions/fe/headerdata.php:410
+#: functions/fe/headerdata.php:418
+#: functions/fe/headerdata.php:426
+#: functions/fe/headerdata.php:427
+#: functions/fe/headerdata.php:435
+#: functions/fe/headerdata.php:443
+#: functions/fe/headerdata.php:451
+#: functions/fe/headerdata.php:459
+#: functions/fe/headerdata.php:460
+#: functions/fe/headerdata.php:468
+#: functions/fe/headerdata.php:477
+#: functions/fe/headerdata.php:481
+#: functions/fe/headerdata.php:497
+#: functions/fe/headerdata.php:506
+#: functions/fe/headerdata.php:510
+#: functions/fe/headerdata.php:519
+#: functions/fe/headerdata.php:523
+#: functions/fe/headerdata.php:531
+#: functions/fe/headerdata.php:540
+#: functions/fe/headerdata.php:544
+#: functions/fe/headerdata.php:560
+#: functions/fe/headerdata.php:569
+#: functions/fe/headerdata.php:573
+#: functions/fe/headerdata.php:582
+#: functions/fe/headerdata.php:586
+#: functions/fe/headerdata.php:594
+#: functions/fe/headerdata.php:602
+#: functions/fe/headerdata.php:610
+#: functions/fe/headerdata.php:618
+#: functions/fe/headerdata.php:634
+#: functions/fe/headerdata.php:642
+#: functions/fe/headerdata.php:650
+#@ timeturner
+msgid "; }"
+msgstr ""
+
+#: functions/fe/headerdata.php:175
+#@ timeturner
+msgid "#wrapper #wrapper-header { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:183
+#@ timeturner
+msgid "#wrapper #wrapper-content { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:191
+#@ timeturner
+msgid "#wrapper #wrapper-footer { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:199
+#@ timeturner
+msgid "#wrapper #wrapper-about { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:207
+#@ timeturner
+msgid "#wrapper #wrapper-portfolio { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:215
+#@ timeturner
+msgid "#wrapper #wrapper-blog { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:223
+#@ timeturner
+msgid "#wrapper #header-logo, #wrapper #header-logo .logo-inner-radius, #wrapper #header-logo .logo-outer-radius { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:231
+#@ timeturner
+msgid "#wrapper #header-logo .background-logo { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:239
+#@ timeturner
+msgid "#wrapper #header-logo .border-logo, #wrapper #header-logo .logo-outer-radius { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:247
+#@ timeturner
+msgid "#wrapper #wrapper-menu #menu ul ul { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:255
+#@ timeturner
+msgid "#wrapper #wrapper-menu #menu ul ul a:hover, #wrapper #wrapper-menu #menu ul ul :hover > a { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:263
+#@ timeturner
+msgid "#wrapper #wrapper-menu #menu ul ul { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:271
+#@ timeturner
+msgid "#wrapper #wrapper-header #header .site-description { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:279
+#@ timeturner
+msgid "#wrapper #wrapper-header #header .site-description { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:280
+#@ timeturner
+msgid "#wrapper #wrapper-header #header .dark-radius { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:288
+#@ timeturner
+msgid "#wrapper #wrapper-header #header .description-box { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:296
+#@ timeturner
+msgid "#wrapper #wrapper-header #header #slideshow-main-wrapper .slideshow-background, #wrapper #wrapper-header #header #slideshow-main-wrapper .slideshow-background .slideshow-radius { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:304
+#@ timeturner
+msgid "#wrapper #wrapper-content .container .content-headline { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:312
+#@ timeturner
+msgid "#wrapper #wrapper-content .container .headline-wrapper .content-headline { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:313
+#@ timeturner
+msgid "#wrapper #wrapper-content .container .headline-wrapper .dark-radius { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:321
+#@ timeturner
+msgid "#wrapper #wrapper-content .container .headline-wrapper .description-box { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:329
+#@ timeturner
+msgid "#wrapper .post-entry .post-thumbnail .attachment-post-thumbnail, #wrapper .post-entry .post-thumbnail .blog-radius { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:337
+#@ timeturner
+msgid "#wrapper .post-entry .post-thumbnail .attachment-post-thumbnail { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:345
+#@ timeturner
+msgid "#wrapper #searchform .searchform-wrapper, #wrapper #searchform .searchform-wrapper #s { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:353
+#@ timeturner
+msgid "#wrapper #searchform .searchform-wrapper { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:361
+#@ timeturner
+msgid "#wrapper #wrapper-about .headline-wrapper .about-headline { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:369
+#@ timeturner
+msgid "#wrapper #wrapper-about .headline-wrapper .about-headline { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:370
+#@ timeturner
+msgid "#wrapper #wrapper-about .headline-wrapper .dark-radius { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:378
+#@ timeturner
+msgid "#wrapper #wrapper-about .headline-wrapper .description-box { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:386
+#@ timeturner
+msgid "#wrapper #wrapper-about .about-box, #wrapper #wrapper-about .about-box .about-radius { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:394
+#@ timeturner
+msgid "#wrapper #wrapper-about .about-box, #wrapper #wrapper-about .about-box .about-box-inner, #wrapper #wrapper-about .about-box .about-radius { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:402
+#@ timeturner
+msgid "html #wrapper .read-more-button, html #wrapper .custom-button, html #wrapper input[type=\"submit\"], html #wrapper input[type=\"reset\"] { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:410
+#@ timeturner
+msgid "html #wrapper .read-more-button, html #wrapper .custom-button, html #wrapper input[type=\"submit\"], html #wrapper input[type=\"reset\"] { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:418
+#@ timeturner
+msgid "#wrapper #wrapper-portfolio .headline-wrapper .portfolio-headline { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:426
+#@ timeturner
+msgid "#wrapper #wrapper-portfolio .headline-wrapper .portfolio-headline { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:427
+#@ timeturner
+msgid "#wrapper #wrapper-portfolio .headline-wrapper .dark-radius { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:435
+#@ timeturner
+msgid "#wrapper #wrapper-portfolio .headline-wrapper .description-box { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:443
+#@ timeturner
+msgid "#wrapper #wrapper-portfolio .portfolio-box, #wrapper #wrapper-portfolio .portfolio-box .portfolio-radius { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:451
+#@ timeturner
+msgid "#wrapper #wrapper-blog .headline-wrapper .blog-headline { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:459
+#@ timeturner
+msgid "#wrapper #wrapper-blog .headline-wrapper .blog-headline { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:460
+#@ timeturner
+msgid "#wrapper #wrapper-blog .headline-wrapper .dark-radius { background-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:468
+#@ timeturner
+msgid "#wrapper #wrapper-blog .headline-wrapper .description-box { border-color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:477
+#: functions/fe/headerdata.php:479
+#@ timeturner
+msgid "html body { font-family: \""
+msgstr ""
+
+#: functions/fe/headerdata.php:477
+#@ timeturner
+msgid "\", Arial, Helvetica, sans-serif; color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:479
+#@ timeturner
+msgid "\", Arial, Helvetica, sans-serif; }"
+msgstr ""
+
+#: functions/fe/headerdata.php:481
+#@ timeturner
+msgid "html body { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:489
+#@ timeturner
+msgid "#wrapper #wrapper-header #header .site-title { font-family: \""
+msgstr ""
+
+#: functions/fe/headerdata.php:489
+#@ timeturner
+msgid "\", \"Times New Roman\", serif;}"
+msgstr ""
+
+#: functions/fe/headerdata.php:497
+#@ timeturner
+msgid "#wrapper #wrapper-header #header .site-title a { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:506
+#: functions/fe/headerdata.php:508
+#@ timeturner
+msgid "#wrapper #wrapper-header #header .site-description {font-family: \""
+msgstr ""
+
+#: functions/fe/headerdata.php:506
+#: functions/fe/headerdata.php:519
+#: functions/fe/headerdata.php:540
+#: functions/fe/headerdata.php:569
+#: functions/fe/headerdata.php:582
+#@ timeturner
+msgid "\", \"Times New Roman\", serif; color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:508
+#: functions/fe/headerdata.php:521
+#: functions/fe/headerdata.php:542
+#: functions/fe/headerdata.php:552
+#: functions/fe/headerdata.php:571
+#: functions/fe/headerdata.php:584
+#: functions/fe/headerdata.php:626
+#@ timeturner
+msgid "\", \"Times New Roman\", serif; }"
+msgstr ""
+
+#: functions/fe/headerdata.php:510
+#@ timeturner
+msgid "#wrapper #wrapper-header #header .site-description { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:519
+#: functions/fe/headerdata.php:521
+#@ timeturner
+msgid "#wrapper #wrapper-header #header .header-motto {font-family: \""
+msgstr ""
+
+#: functions/fe/headerdata.php:523
+#@ timeturner
+msgid "#wrapper #wrapper-header #header .header-motto { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:531
+#@ timeturner
+msgid "#wrapper .description-box h1, #wrapper .description-box h2 { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:540
+#: functions/fe/headerdata.php:542
+#@ timeturner
+msgid "#wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5, #wrapper h6 { font-family: \""
+msgstr ""
+
+#: functions/fe/headerdata.php:544
+#@ timeturner
+msgid "#wrapper h1, #wrapper h2, #wrapper h3, #wrapper h4, #wrapper h5, #wrapper h6 { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:552
+#@ timeturner
+msgid "#wrapper #content .post-entry .post-entry-headline { font-family: \""
+msgstr ""
+
+#: functions/fe/headerdata.php:560
+#@ timeturner
+msgid "#wrapper #content .post-entry .post-entry-headline a { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:569
+#: functions/fe/headerdata.php:571
+#@ timeturner
+msgid "#wrapper #sidebar .sidebar-widget .sidebar-headline { font-family: \""
+msgstr ""
+
+#: functions/fe/headerdata.php:573
+#@ timeturner
+msgid "#wrapper #sidebar .sidebar-widget .sidebar-headline { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:582
+#: functions/fe/headerdata.php:584
+#@ timeturner
+msgid "#wrapper #wrapper-footer #footer .footer-widget .footer-headline { font-family: \""
+msgstr ""
+
+#: functions/fe/headerdata.php:586
+#@ timeturner
+msgid "#wrapper #wrapper-footer #footer .footer-widget .footer-headline { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:594
+#@ timeturner
+msgid "#wrapper-footer #footer .footer-widget p, #wrapper-footer #footer .footer-widget ul li, #wrapper-footer #footer .footer-widget ol li, #wrapper #wrapper-footer .footer-signature .footer-signature-content p { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:602
+#@ timeturner
+msgid "#wrapper #content a { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:610
+#@ timeturner
+msgid "#wrapper #sidebar a { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:618
+#@ timeturner
+msgid "#wrapper #wrapper-footer #footer a, #wrapper #wrapper-footer .footer-signature .footer-signature-content a { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:626
+#@ timeturner
+msgid "#wrapper-menu #menu { font-family: \""
+msgstr ""
+
+#: functions/fe/headerdata.php:634
+#@ timeturner
+msgid "#wrapper-menu #menu a, #wrapper-menu #menu a:visited { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:642
+#@ timeturner
+msgid "#wrapper-menu #menu a:hover, #wrapper-menu #menu :hover > a { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:650
+#@ timeturner
+msgid "#wrapper #wrapper-menu #menu .current-menu-item > a, #wrapper #wrapper-menu #menu .current-menu-ancestor > a, #wrapper #wrapper-menu #menu .current_page_item > a, #wrapper #wrapper-menu #menu .current-page-ancestor > a { color: "
+msgstr ""
+
+#: functions/fe/headerdata.php:660
+#@ timeturner
+msgid "#wrapper #content .post-meta { display: none; }"
+msgstr ""
+
+#: functions/fe/library.php:69
+#@ timeturner
+msgid "<h1 class=\"header-motto\">"
+msgstr ""
+
+#: functions/fe/library.php:69
+#@ timeturner
+msgid "</h1>"
+msgstr ""
+

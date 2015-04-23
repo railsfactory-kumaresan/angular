@@ -1,0 +1,125 @@
+<%= content_for(:title, "Manage Users") %>
+<%= javascript_include_tag "multitenant"%>
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Admin</h2>
+      </div>
+      <div class="wrap-box-cont">
+        <div class="white-box-wrapper">
+          <div class="box-head clearfix">
+            <h3><span class="glyphicon glyphicon-cog"></span>Settings</h3>
+          </div>
+          <div class="white-box">
+            <!-- Nav tabs -->
+             <%= render "shared/admin_menus_header"%>
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div class="tab-pane active" id="account_settings">
+                <div class="tab-wrapper">
+                  <%if @corporate_users.present? %>
+                      <div class="table-responsive">
+                        <table class="table-bordered table-striped table-condensed cf">
+                          <thead class="cf">
+                          <tr>
+                            <th class="quescol">Email</th>
+                            <th class="text-center">First Name<a href="javascript:void(0);"><span class="glyphicon"></span></a></th>
+                            <th>Last Name<a href="javascript:void(0);"><span class="glyphicon"></span></a></th>
+                            <th>Tenant Name<a href="javascript:void(0);"><span class="glyphicon"></span></a></th>
+                            <th>Role Name<a href="javascript:void(0);"><span class="glyphicon"></span></a></th>
+                            <th class="th-actions">Actions</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <% @corporate_users.each do |user| %>
+                              <tr>
+                                <td class="quescol">
+                                  <%= user.email %>
+                                </td>
+                                <td class="text-center">
+                                  <span class="glyphicon"></span><%= user.first_name %>
+                                </td>
+                                <td>
+                                  <span class="glyphicon"></span><%= user.last_name %>
+                                </td>
+                                <td>
+                                  <span class="glyphicon"></span><%= User.tenant_name(user.tenant_id) %>
+                                </td>
+                                <td>
+                                  <span class="sts"> <%= User.role_name(user.role_id) %> </span>
+                                </td>
+                                <td>
+                                  <div class="action-items">
+                                    <a href="/corporate_users/<%= user.id %>/edit" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a>
+                                    <span class="label label-info reset_user_pwd"  title="Reset Password" id="reset_user_pwd" value="<%= user.id %>">Reset Password</span>
+                                    <span class="label label-info"  title="<%= user.is_active ? "Deactivate" : "Activate"%>" id="change_status_<%= user.id %>" onclick="change_user_status('<%= user.id %>','<%= user.is_active %>');"><%= user.is_active ? "Deactivate" : "Activate"%></span>
+                                  </div>
+                                </td>
+                              </tr>
+                          <% end %>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--//. end question list -->
+                      <div class="row">
+                        <div class="pull-right">
+                          <%= will_paginate @corporate_users, renderer: BootstrapPagination::Rails %>
+                        </div>
+                      </div>
+                  <%else%>
+                      <div class="table-responsive">
+                        <table class="table-bordered table-striped table-condensed cf no-data">
+                          <thead class="cf">
+                          <tr>
+                            <th class="quescol"></th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                            <td>No Users found!</td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                  <%end%>
+                </div>
+                <div class="btn-wrap text-center btn-update-info">
+                  <a href="/corporate_users/new" class="button medium orange">Create User</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(document).ready(function(){
+    <% reset_validation = check_role_level_permissions_js("corporate_users","reset_password")%>
+    var can_reset_password = "<%= reset_validation %>";
+    jQuery('.reset_user_pwd').click(function(){
+        var id = $(this).attr('value');
+    if(can_reset_password == 'false')
+      {
+        alert("<%=APP_MSG['authorization']['failure']%>");
+        return false;
+      }else{
+        reset_password(id)
+      }
+    });
+});
+
+function change_user_status(id, status){
+    <% change_user_status = check_role_level_permissions_js("corporate_users","change_user_status")%>
+    var can_change_status = "<%= change_user_status %>";
+    if(can_change_status == 'false')
+    {
+        alert("<%=APP_MSG['authorization']['failure']%>");
+        return false;
+    }else{
+        make_active(id,status)
+    }
+}
+</script>

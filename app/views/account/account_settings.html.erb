@@ -1,0 +1,48 @@
+<div class="site_wrapper clearfix">
+    <h2 class="header small-text">Account</h2>
+    <div class="question_form_header clearfix">
+        <% c=controller.controller_name%>
+			<% a=controller.action_name%>
+			<div id="account_controls_wrapper">
+					<a class="account_nav_button user <%= a=="update_company_info" ? "active" : "" %>" href="<%= edit_user_registration_path %>">Account Settings</a>
+					<a class="account_nav_button account <%= a=="company_settings" ? "active" : "" %>" href="/account/company_settings">Customer Data</a>
+					<!--<a class="account_nav_button manage_users <%#= a=="index" ? "active" : "" %>" href="/account/manage_user" style="display:<%#= @current_user.business_type_id == 1 ? "none;" : "block;"%>">Manage Users</a>-->
+					<!--a class="account_nav_button billing " href="">Billing Info</a-->
+			</div>
+    </div>
+    <div class="account-details">
+       <%= form_for :account, :url => { :action => "/account_update/#{@account.id}",:controller => "account"}, :method => :put do |f| %>
+            <div class="entry">
+                <div class="ac-form fl">
+                    <label>
+                        First Name
+                    </label>
+                    <!--input type="text" class="text_field rc_5"-->
+										  <%#= f.input_field :first_name, :class => "text_field rc_5" %>
+                </div>
+                <div class="ac-form fr">
+                    <label>
+                        Last Name
+                    </label>
+                    <!--input type="text" class="text_field rc_5"-->
+										<%#= f.input_field :last_name, :class => "text_field rc_5" %>
+                </div>
+            </div>
+            <div class="entry"  style= "display:<%= @current_user.provider.nil? ? 'block' : 'none' %>;">
+                <div class="ac-form fl">
+                    <label>
+                        Email Address
+                    </label>
+                    <!--input type="text" class="text_field rc_5"-->
+										<%# f.input_field :email, :class => "text_field rc_5" %>
+                </div>
+                <div class="ac-form fl">
+                    <a href="" class="change-pwd">Change Password</a>
+                </div>
+            </div>
+            <div class="entry">
+                <input type="button" class="btn rc_5 update-info" value="Update Info">
+            </div>
+        <% end %>
+    </div>
+</div><!--site wrapper-->

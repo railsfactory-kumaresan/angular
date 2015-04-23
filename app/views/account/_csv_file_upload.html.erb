@@ -1,0 +1,129 @@
+<%= javascript_include_tag "responsive/import"%>
+<div class="col-lg-12 col-sm-6 col-md-12 col-xs-12">
+  <div class="upload-section">
+    <div class="left">
+  <%= form_for(:business_customer_info, :url => '/imports/create_customer_info', :method => :post,:html => { :multipart => true, :style => "width: 50%;"}) do |f| %>
+      <h3>Upload and Import</h3>
+      <div class="form-group" id="csv_upload">
+        <label class="" for="datafile">Please choose a file: </label>
+        <span id="error" style="color:red;float:left;"></span>
+        <div class="optimize-upload">
+          <%= f.file_field(:datafile,id:"upload_csv_element")%>
+          <span id='val'></span>
+          <span class="btn-select">Select File</span>
+        </div>
+      </div>
+      <div class='upload-progress clearfix'>
+        <span class='spinner'></span><span class='upload-status'>Upload in progress</span>
+      </div>
+      <span id="error_file" style="color:red;float:left;"></span>
+      <div class="btn-wrap entry" style="margin-top: -45px;margin-left: 305px;">
+        <%= hidden_field_tag :csv_upload_status,current_user.is_csv_processed%>
+        <input type="submit" id="upload_file" class="button medium orange" value="Import" onclick="return validate_csv_file()">
+        <input type="button" id="csv_cancel" class="btn btn-link" value="Cancel">
+      </div>
+  <%end%>
+    </div>
+  <!-- Single button -->
+    <div class="right" style="float: right;margin-top: -45px;margin-right: 17px">
+  <div class="btn-group">
+    <button type="button" class="btn button medium orange dropdown-toggle" data-toggle="dropdown">
+      Download as <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <% if check_customer_info %><li><%= link_to "CSV (with data)", customer_data_imports_path(format: "csv") %></li><% end %>
+      <li><%= link_to "Template", csv_template_imports_path(format: "csv") %></li>
+    </ul>
+  </div>
+      <br style="clear:both;"/>
+    </div>
+  </div>
+  <%= render :partial=>'share/customer_grid', :locals=>{:gridval => "customer_records_count",:button_msg => "Add Selected Emails", :customer_settings => true} %>
+</div>
+<div class="modal fade" id="delete_records" style="display:none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &nbsp;
+        </button>
+        <h4 class="modal-title text-center">Are you sure you want to delete the selected records?</h4>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">
+          <button type="button" class="button orange" id="yes-delete">YES</button>
+          <button type="button" class="btn btn-link" data-dismiss="modal">NO</button>
+        </div>
+        <br />
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+  $(document).ready(function(){
+      var max_count = '<%= current_user.get_maximum_limit("customer_records_count")%>'
+      email_share_kendo_ui_build("customer_records_count",max_count);
+      $('#csv_delete_records').click(function(){
+          if($(".checkbox.chk-box-row:checked").length == 0){
+              $("#error_file").show();
+              $("#error_file").html("Please select at least one record to delete");
+              $("#error_file").fadeOut(5000);
+              return false;
+          }else{
+              $('#delete_records').modal('show');
+          }
+          return false;
+      });
+
+      $('#yes-delete').click(function(){
+          var id = [];
+          var emails = [];
+          var all_selected = $("#chk_trigger_select_all").is(":checked");
+          $(".checkbox.chk-box-row:checked").each(function(i){
+              var data = $(this).val().split("?");
+              id[i] = data[0];
+              emails[i] = data[1];
+            });
+          jQuery.ajax({
+              type: 'POST',
+              url: '/customers/delete_selected',
+              data: {id: id, email: emails, bulk_delete: true, all_selected: all_selected},
+              dataType: "JSON",
+              success: function(data){
+                  $('#delete_records').modal('hide');
+                  window.location.reload();
+              }
+          });
+          return true;
+      });
+  });
+
+$('#upload_csv_element').change(function(){
+  var file = this.files[0];
+  if($('#upload_csv_element').val() == ''){
+    $("#val").text("");
+  }else{
+  var ext =file.name.split('.').pop().toLowerCase();
+  $("#val").text($('#upload_csv_element').val().replace(/C:\\fakepath\\/i, ''));
+  }
+  if(file.type == 'text/csv' || file.type == 'application/vnd.ms-excel')
+  {
+      if(file.size >= 5242880){
+          $("#error_file").show();
+          $("#upload_file").hide();
+          $("#error_file").html("CSV file size limit is 5 MB.");
+      }else{
+          $("#error_file").html("");
+          $("#upload_file").show();
+      }
+  }
+  else
+  {
+      this.value = '';
+      $("#error_file").show();
+      $("#error_file").html("Invalid CSV file format.");
+      $("#upload_file").hide();
+  }
+});
+</script>

@@ -1,0 +1,10 @@
+<% if @share_type == "email_count" %>
+	jQuery("#email-template-grid").html("<%= escape_javascript(render(:partial=>'share/customer_grid', :locals=>{:gridval => @share_type,:button_msg => "Add Selected Emails", :customer_settings => false }))%>");
+	email_share_kendo_ui_build("<%= @share_type%>","<%=@maximum_limit%>");
+<%elsif @share_type == "sms_count" %>
+	jQuery("#email-template-grid-sms-share").html("<%= escape_javascript(render(:partial=>'share/customer_grid', :locals=>{:gridval => @share_type,:button_msg => "Add Selected Mobile numbers", :customer_settings => false}))%>");
+	email_share_kendo_ui_build("<%= @share_type%>","<%=@maximum_limit%>");
+<%elsif @share_type == "call_count"%>
+	jQuery("#email-template-grid-make-call").html("<%= escape_javascript(render(:partial=>'share/customer_grid', :locals=>{:gridval => @share_type,:button_msg => "Add Selected Mobile numbers", :customer_settings => false}))%>");
+	email_share_kendo_ui_build("<%= @share_type%>","<%=@maximum_limit%>");
+<%end%>

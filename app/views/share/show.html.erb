@@ -1,0 +1,271 @@
+<%= stylesheet_link_tag "animation/pie-chart-animation" %>
+<!--<link rel="stylesheet" href="/assets/animation/pie-chart-animation.css"/>-->
+<%= javascript_include_tag "responsive/highchart","responsive/google_jsapi", "responsive/wordcumulus", "responsive/swfobject", "responsive/animation/easypiechart","responsive/animation/excanvas"%>
+<%= content_for(:title, "Share") %>
+<div class="main-content">
+  <div class="container">
+    <div class="row">
+		<% benchmark '##Render question header in show ' do %>
+      <%= render :partial => 'question/question_header', :locals => {:custom_url => @custom_url, :question_id => @question.id} %><%p @custom_url%>
+       <% end %>
+    </div>
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Share Question</h2>
+      </div>
+      <div class="wrap-box-cont">
+
+        <div class="question-wrapper">
+                  <div class="row">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                      <div class="questions">
+                        <div class="quest-category" id="status_ques">
+                          <span class="label label-primary"><%= @question.category_type.category_name%></span>
+                          <% lable_class = @question.status == "Closed" ? "label-closed" : (@question.status  == "Inactive" ? "label-inactive" :  "label-success")%>
+                            <span class="label <%= @question.status  == "Inactive" ? 'label-inactive' : lable_class%>" id="inactive_status"><%= (@question.present? && @question.status.present?) ? @question.status : ''%></span>
+
+                              <%if @question.status.include?("Inactive") %>
+                              <span class="label label-info<%#= lable_class%>"  id="activate_status" title="Activate the question" onclick="status_activate('<%=@question.slug %>');">Activate</span>
+                              <%end%>
+                        </div>
+                        <div class="title-ques">
+                          <%= @question.question%>
+                        </div>
+                        <div class="queslink">
+                          <a href="<%= ((@custom_url.present?) ? @custom_url : "#")%>" target="_blank"><%= (@custom_url.present? ? "Preview" : 'No URL') %></a>
+                        </div>
+                        <br/><br/>
+                        <div class="btn-wrap">
+                      <a href="javascript:void(0);" id="copy_clipboard1" class="button medium orange" data-clipboard-content="preview" data-clipboard-text="<%=@question.short_url %>?provider=Email">
+                        Copy Link
+                      </a>
+                    </div>
+                      </div>
+                    </div>
+                    <%if @question.status == "Active" %>
+                      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <div class="progress-block">
+                          <div class="valid-for text-center">Valid for</div>
+                          <span class="chart" data-percent="<%=@remaining_days == 0 ? 1 : @remaining_days%>">
+                            <span class="remaining_days"><%=@valid_days%></span>
+                          </span>
+                        </div>
+                      </div>
+                    <%end%>
+                  </div>
+                </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="white-box-wrapper">
+              <div class="box-head clearfix">
+                <h3><span class="glyphicon glyphicon-share-alt"></span>Share Options</h3>
+              </div>
+              <div class="white-box">
+                <ul id="myTabs" class="nav nav-tabs main-tabs">
+                  <%if @show_social%>
+                    <li>
+                      <a data-toggle="tab" href="#social" tabindex="3"><span class="glyphicon glyphicon-user"></span>Social</a>
+                    </li>
+                    <%end%>
+                    <%if @show_email%>
+                    <li>
+                      <a data-toggle="tab" href="#email" tabindex="4" id="email_share" onclick="<%=load_tab_details(@show_email,@question.slug,'email')%>"><span class="glyphicon glyphicon-envelope"></span>Email</a>
+                    </li>
+                    <%end%>
+                    <%if @show_embed%>
+                    <li>
+                      <a data-toggle="tab" href="#embed" id="active_embed_updatestatus" tabindex="5"><span class="glyphicon glyphicon-compressed"></span>Embed</a>
+                    </li>
+                    <%end%>
+                    <%if @show_sms%>
+                    <li>
+                      <a data-toggle="tab" href="#sms"  id="sms_share" tabindex="6" onclick="<%=load_tab_details(@show_sms,@question.slug,'sms')%>"><span class="glyphicon glyphicon-phone"></span>SMS</a>
+                    </li>
+                    <%end%>
+                    <%if @show_qr%>
+                    <li>
+                      <a data-toggle="tab" href="#qrcode"  id="qrcode_id" tabindex="7" ><span class="glyphicon glyphicon-qrcode"></span>QR Code</a>
+                    </li>
+                    <%end%>
+                    <%if current_user.check_privilege('call_count')%>
+                    <% if @question.check_make_call_visibility%>
+                      <li>
+                        <a data-toggle="tab" href="#makeacall" id="call_share" tabindex="8" onclick="<%=load_tab_details(@show_call,@question.slug,'call')%>"><span class="glyphicon glyphicon-phone-alt"></span>Make a Call</a>
+                      </li>
+                      <%else%>
+                       <li>
+                        <a data-toggle="tab" href="javascript:void(0);" tabindex="8" class="call-hide"><span class="glyphicon glyphicon-phone-alt"></span>Make a Call</a>
+                      </li>
+                    <%end%>
+                   <%end%>
+
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane" id="social">
+									<% benchmark '##Render share social network in show' do %>
+                    <%= render '/shared/share_social_network', :share_info => @share_info, :question => @question, :custom_url => @custom_url, :status => @status %>
+                  <% end %>
+
+										<%#= render 'share/share_social_network', :share_social_network_facebook => @share_social_network_facebook, :share_social_network_twitter => @share_social_network_twitter, :share_social_network_linkedin => @share_social_network_linkedin, :question => @question, :custom_url => @custom_url, :fb_status => @fb_status, :twitter_status => @twitter_status, :linkedin_status => @linkedin_status %>
+                  </div>
+                  <!--//. end social tab -->
+
+                  <div class="tab-pane" id="email">
+                    <div id="share-email-partial"></div>
+                  </div>
+                  <!--//. end email tab -->
+
+                  <div class="tab-pane" id="embed">
+                    <%= render :partial => 'share/embed', :locals => {:question => @question} %>
+                  </div>
+                  <!--//. embed tab dfgsgfsg -->
+
+                  <div class="tab-pane" id="sms">
+                    <div id="share-sms-ajax-update">
+                    </div>
+                     <%#= render :partial => 'share/sms',  :locals => { :user_info_lists => @user_info_lists, :question_id => @question.id } %>
+                  </div>
+                  <!--//. sms tab -->
+
+                  <div class="tab-pane" id="qrcode">
+                    <div class="tab-wrapper">
+                      <div class="qr-code-wrapper">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="qr-code-image">
+                              <input type="hidden" id="txt_qr_code" value="<%= qr_code_active_url(@question) %>"/>
+                              <%= render :partial => 'share/qr', :locals => { :question => @question } %>
+                            </div>
+                            <div class="btn-wrap" align="center">
+                              <%# unless browser.ie? %>
+                              <a href="javascript:void(0);"  title="Download Qr-code" id="download_qr" class="button medium orange">Download QR Code</a>
+                              <div class="highcharts-contextmenu" style="position: absolute; z-index: 1000; padding: 24px; display: none; right: -14px; top: 8px;" id="qr_code_download_menu">
+                                <div style="-webkit-box-shadow: rgb(136, 136, 136) 3px 3px 10px; box-shadow: rgb(136, 136, 136) 3px 3px 10px; border: 1px solid rgb(160, 160, 160); padding: 5px 0px; background: rgb(255, 255, 255);">
+                                  <div style="cursor: pointer; padding: 0px 10px; color: rgb(48, 48, 48); font-size: 11px; background: none;" onclick="download_qrcode('pdf');">Download as PDF document</div>
+                                  <div style="cursor: pointer; padding: 0px 10px; color: rgb(48, 48, 48); font-size: 11px; background: none;" onclick="download_qrcode('eps');">Download as EPS image</div>
+                                  <div style="cursor: pointer; padding: 0px 10px; color: rgb(48, 48, 48); font-size: 11px; background: none;" onclick="download_qrcode('ai');">Download as AI image</div>
+                                </div>
+                              </div>
+                              <a href="#Qr_code_list_pop_up" title="Map the Question" data-toggle="modal" id="Activate_question" class="button medium orange" >Map the Question</a>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="Qr_code_list_pop_up" aria-hidden="true">
+                    <div class="modal-dialog signup" id="question_list">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&nbsp;</button>
+                          <h4 class="modal-title">Question List</h4>
+                        </div>
+                        <div class="modal-body question-suggestion-lb" style="height:400px;overflow:auto;">
+                          <div id="success_msg" class="alert alert-success" style="display:none;">Selected question mapped to QR code successfully.</div>
+                          <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div class="img-responsive">
+                                <ul class="list-group">
+                                  <% @all_questions.each do |q| %>
+                                    <li class="list-group-item group-item row" <% if q.qrcode_status == "Active" %> style="background-color: #D8D9DA !important;" <%end%>><div class="col-lg-10"><div class="qr_status"><%= q.question %></div>  <%if q.qrcode_status && q.qrcode_status == "Active" && q.status.downcase == "closed" %> <div class="qr_status red-color"> (Question expired/closed)</div><% end %></div>
+                                      <span class="badge col-lg-2">
+                                        <input type="radio" name ="map_questio_qr" id="<%=q.id%>" value="<%=q.id%>" <%if q.qrcode_status && q.qrcode_status == "Active" %> checked <% end %>/>
+                                      </span>
+                                    </li>
+                                <%end%>
+                                </ul>
+                                <input type="button" class="button medium orange" id="activate_qr" onclick="map_question_qr_fn()" value="Activate" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                  </div><!-- /.modal -->
+                  <!--//. QR Code tab -->
+
+                  <div class="tab-pane" id="makeacall">
+                    <div id="share-maka-call-ajax-update">
+                    </div>
+                         <%#= render :partial => 'share/voice', :locals => {:user_info_lists => @user_info_lists, :voice_msg => @voice_msg, :question_id => @question.id}%>
+                  </div>
+                  <!--//. make a call tab -->
+                </div>
+                <!-- end tab-content -->
+              </div>
+            </div>
+            <!--//. recent activity -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(function() {
+    $('#myTabs a:first').tab('show')
+  });
+   function download_qrcode(type){
+       window.location.href = "/share/qrdownload?url=<%= @common_url%>&type="+ type +""
+   }
+  jQuery(document).ready(function () {
+
+     $('#download_qr').click(function(){
+         $("#qr_code_download_menu").slideToggle();
+          return false;
+     });
+    var qrcode_active_url = '<%= qr_code_active_url(@question) %>';
+    var active_qr_question = '<%= qr_code_active_question %>';
+    jQuery("div[id^='flash_']").fadeOut(4000);
+    jQuery("div[class^='flash_']").fadeOut(4000);
+    jQuery('#select_default').trigger('click');
+    jQuery("#activate_qr").prop('disabled',true).css('cursor','not-allowed');
+    jQuery("input:radio[name=map_questio_qr]").click(function(){
+        if($(this).val() == '<%= @question.id %>'){
+            jQuery("#activate_qr").prop('disabled',false).css('cursor','pointer');
+        }else if($(this).val() == active_qr_question ){
+            jQuery("#activate_qr").prop('disabled',true).css('cursor','not-allowed');
+        }else{
+            jQuery("#activate_qr").prop('disabled',false).css('cursor','pointer');
+        }
+     });
+    if(qrcode_active_url == ""){
+        jQuery("#download_qr").hide();
+        document.getElementById('qr').innerHTML =''
+    }else{
+        jQuery("#download_qr").show();
+        update_qrcode();
+    }
+  });
+
+  $(function() {
+    $('.chart').easyPieChart({
+      size: 125,
+      lineWidth: 15,
+      trackColor: '#DFDDDD',
+      barColor: '#EB9408',
+      scaleColor: false
+    });
+  });
+
+  /* Save Active Tab status */
+  $(function() {
+      var id = '<%= @question.slug %>';
+      //for bootstrap 3 use 'shown.bs.tab' instead of 'shown' in the next line
+      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+          localStorage.setItem('lastTab', $(e.target).attr('id'));
+      });
+      var lastTab = localStorage.getItem('lastTab');
+      if (lastTab) {
+          $('#'+lastTab).tab('show');
+          if (lastTab == "sms_share"){ share_sms_div_load(id)}
+          else if(lastTab == "call_share") { share_make_call_div_load(id) }
+          else if(lastTab == "email_share") { share_email_div_load(id) }
+      }
+  });
+</script>
+<%= javascript_include_tag "responsive/ZeroClipboard",'responsive/main' %>
+<%= javascript_include_tag 'responsive/json-grid' %>

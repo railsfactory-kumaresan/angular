@@ -1,0 +1,101 @@
+<%= form_tag(path, method: "get") do %>
+  <%= hidden_field_tag 'request','Filter'%>
+  <% t = Time.now %>
+  <% if path != "/" %>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="filter-wrapper">
+          <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                    Advanced Filter <span class="glyphicon glyphicon-chevron-down"></span>
+                  </a>
+                </h4>
+              </div>
+              <div id="collapseOne" class="<%=params[:request] && params[:request]=="Filter" ? "panel-collapse in" : "panel-collapse collapse"%>">
+                <div class="panel-body">
+                  <div class="filter-form">
+                    <form role="form">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <label>Category</label>
+                          <div class="form-group">
+                            <label>Filtered by : <%=CategoryType.find(category_type_id).category_name %></label>
+                            <input type="hidden" id="category_id" name="category" value="<%= category_type_id %>">
+                            <br><br>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <label>From</label>
+													<span class="date-range-start-end error" style="display:none;">From date should be before To date </span>
+                          <div class="form-group">
+                            <div class="date-picker">
+                              <label class="sr-only" for="exampleInputPassword2"><%=t.strftime("%Y/%m/%d")%></label>
+                              <input type="text" class="form-control date datepicker fliter-from-date" name="from_date" value="<%=params[:from_date] ? params[:from_date].to_date.strftime("%Y/%m/%d") : @question.created_at.strftime("%Y/%m/%d")%>" id="from_date" readonly />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <label>To</label>
+                          <div class="form-group">
+                            <div class="date-picker">
+                              <label class="sr-only" for="exampleInputPassword2"><%=t.strftime("%Y/%m/%d")%></label>
+                              <input type="text" class="form-control date datepicker fliter-end-date" name="to_date" value="<%=params[:to_date] ? params[:to_date].to_date.strftime("%Y/%m/%d") :  Time.now.strftime("%Y/%m/%d")%>" id="to_date" readonly />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <div class="btn-wrap text-center">
+                            <%= submit_tag "Apply Filter", :class=>"button medium orange search-date-range-valid" %>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <label>Filtered by</label>
+		<span class="date-range-start-end error" style="display:none;">From date should be before To date </span>
+    <div class="form-group">
+      <label class="sr-only" ></label>
+      <select class="form-control input-medium" name="category">
+
+        <option value="0" >All Categories</option>
+        <%@question_categories.each do |category|%>
+        <option value="<%=category.id%>" <%if params[:category] && params[:category]==category.id.to_s%>selected="true" <%end%>><%=category.category_name%></option>
+        <%end%>
+
+      </select>
+    </div>
+    <label>From</label>
+    <div class="form-group">
+      <div class="date-picker">
+        <label class="sr-only" for="exampleInputPassword2"><%=t.strftime("%Y/%m/%d")%></label>
+        <input type="text" class="form-control input-medium date datepicker fliter-from-date" name="from_date" value="<%= params[:from_date] ? params[:from_date].to_date.strftime("%Y/%m/%d") : @created_at.strftime("%Y/%m/%d")%>" id="from_date" readonly="readonly" />
+      </div>
+    </div>
+    <label>To</label>
+    <div class="form-group">
+      <div class="date-picker">
+        <label class="sr-only" for="exampleInputPassword2"><%=t.strftime("%Y/%m/%d")%></label>
+        <input type="text" class="form-control input-medium date datepicker fliter-end-date" name="to_date" value="<%=params[:to_date] ? params[:to_date].to_date.strftime("%Y/%m/%d") :  t.to_date.strftime("%Y/%m/%d")%>" id="to_date" readonly="readonly" />
+      </div>
+    </div>
+    <div class="btn-wrap">
+      <%= submit_tag "Search", :class=>"button medium orange search-date-range-valid" %>
+    </div>
+  <%end%>
+
+
+<% end %><!-- form end -->

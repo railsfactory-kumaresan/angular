@@ -1,0 +1,52 @@
+<%#= javascript_include_tag "http://maps.googleapis.com/maps/api/js?sensor=false" %>
+var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+        clearTimeout(timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
+function disable_response(){
+    delay(function(){
+        $("#response_email_modal").hide();
+        $(".modal-backdrop").remove();
+        window.location.href = "<%=user_redirect_url%>";
+    },5000);
+}
+ 
+<% if @errors.present?%>
+jQuery("#email_form").val('Submit');
+$("#email_form").prop('disabled', false).css('cursor','');
+jQuery('#email_error').show();
+jQuery("#email_error").html(' <%=escape_javascript(@errors[:email])%>');
+  <% if @cookie_result  %>
+    var cookie_result = "true";
+  <%else%>
+    var cookie_result = "false";
+  <% end %>
+<% else %>
+<% if @response == "Success" %> //&&
+<% if @view_log_error.blank? || @res_log_error.blank? %>
+  thanks_msg = '<%=escape_javascript(@thanks_msg.gsub("\r\n","!-!-!-!"))%>';
+  var cookie_result = "false";
+	jQuery('#success_msg').show();
+
+	jQuery("#response_email_verify_path").hide();
+    jQuery("#success").html(GetWrapedText(thanks_msg.replace(/(!-!-!-!)/gm,'<br/>'),40));
+<% else %>
+   jQuery("#response_email_verify_path").hide();
+   jQuery('#failure_msg').show();
+<% end %>
+  <%if params[:provider] != 'embed'%>
+    disable_response();
+    <%end%>
+<%elsif @response == "Error"%>
+    var cookie_result = "true";
+	jQuery("#form_container").html(' ');
+	jQuery('#failure_msg').show();
+	jQuery(".white_content").css("height","200px");
+    disable_response();
+<%else%>
+	jQuery("#form_container").html("<%= escape_javascript(render :partial => 'dashboard/user_info', :locals => { :question_id => @question.slug, :email => @email, :answer_id => @answer_id}) %>");
+<%end%>
+<% end%>

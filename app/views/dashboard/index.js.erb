@@ -1,0 +1,10 @@
+<%@category[:recent_activity].each_with_index do |key, i|%>
+	<%@new_key = key.first%>
+	jQuery("#recent_display").html("<%= escape_javascript(render :partial => 'dashboard/recent_question_list', :locals => { :recent_activity_value => key }) %>");
+	<%if key["offset"].to_i == 0 %>
+		jQuery("#prev").css("display","none");
+	<%end%>
+	<%if key["recent_activity_#{@categories.category_name}"].length < 3 %>
+		jQuery("#next").css("display","none");
+	<%end%>
+<%end%>

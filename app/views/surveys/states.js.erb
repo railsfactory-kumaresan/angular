@@ -1,0 +1,1 @@
+jQuery("#states").html('<%=escape_javascript(options_for_select([['Select states', '']]+@states.collect{|key,value| [value["name"],value["name"]]}) )%>');

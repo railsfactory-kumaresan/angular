@@ -1,0 +1,344 @@
+<%#= javascript_include_tag "responsive/transloadit" %>
+<%= form_for( @question,:url => {:action => "update"}, :html => {:class => "question_form", :id => "question_update"}) do |f| %>
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Edit Question</h2>
+      </div>
+      <div class="wrap-box-cont">
+        <div class="row">
+         <% benchmark '##Render Question header in edit page' do %>
+          <%= render :partial => "question/question_header", :locals => {:custom_url => @custom_url, :question_id => @question.id}%>
+         <% end %>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="white-box-wrapper">
+              <div class="box-head clearfix">
+                <h3><span class="glyphicon glyphicon-edit"></span>Write Question</h3>
+              </div>
+              <div class="white-box">
+                <!-- Tab panes -->
+								 <div class="row">
+                  <div class="col-md-12">
+                    <label>Write your Question</label>
+                    <%= f.text_area :question, :rows => 3, :class => "form-control" ,:id=> "question_body", :maxlength=>"140"%>
+                    <div class="form-group error-field error-msg-question-create question_error" style="display:none">
+                      <div class="error">Please enter the question</div>
+                    </div>
+                    <div class="char-count text-right"><span class="req" id="charCount"> </span></div>
+                  </div>
+                </div><!--row-->
+								<div class="form-horizontal">
+                <div class="row">
+                  <div class="col-lg-4 col-md-4">
+                    <div class="form-group">
+                     <%if @category_type.count > 1 || @user_role == "create" %>
+                      <label for="inputEmail3" class="col-sm-3 control-label">Type</label>
+                      <div class="col-sm-9">
+                        <%= f.select(:category_type_id, @category_type.collect {|u| [u.category_name, u.id] },{:selected=> @question.category_type_id},{:class => 'form-control input-small'} ) %>
+                      </div>
+                      <% else %>
+                      <input type="hidden" value="1" name="question[category_type_id]" />
+                      <% end %>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4">
+                    <div class="form-group">
+                      <label for="inputEmail3" class="col-sm-3 control-label">Expiration</label>
+                      <div class="col-sm-9">
+                        <%= f.select "expiration_id", options_for_select(@expiration, :selected=> @question.expiration_id),{} ,{:class => 'form-control input-small'}  %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4">
+                    <div class="form-group">
+                      <label for="inputLanguage" class="col-sm-6 text-left control-label">Select Language</label>
+                      <div class="col-sm-6">
+                        <select id="langlist" class="form-control input-small" onchange="setChar();"></select>
+                        <%= f.hidden_field :language,:id=>"language" %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="checkbox"><label> <%= f.check_box :private_access %>Make Question as Private (?)</label></div>
+									</div>
+								</div><!--row-->
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Video preview script file -->
+        <%= f.hidden_field :upload_video_url, :value => "" %>
+				<%if current_user.check_privilege('video_photo_count') %>
+        <%= render :partial => "/question/question_video_preview", :locals => { :user_business_type => @user_business_type, :f => f } %>
+				<%end%>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="white-box-wrapper">
+              <div class="box-head clearfix">
+                <h3><span class="glyphicon glyphicon-pencil"></span>Write your answer</h3>
+              </div>
+              <div class="white-box">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs main-tabs hidden-xs" id="myTabs">
+                  <li>
+                    <a href="#single_answer" data-toggle="tab" id="single_qst_tab" tabindex="15">
+                      <span class="glyphicon glyphicon-record"></span>
+                      Single Answer
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#multiple_answer" data-toggle="tab"  id="multiple_qst_tab" tabindex="16">
+                      <span class="glyphicon glyphicon-check"></span>
+                      Multiple Answer
+                    </a>
+
+                  </li>
+                  <li>
+                    <a href="#yes_no" data-toggle="tab"  id="yes_no_tab" tabindex="17">
+                      <span class="glyphicon glyphicon-thumbs-up"></span>
+                      Yes/No
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#comment" data-toggle="tab"  id="comment_tab" tabindex="18">
+                      <span class="glyphicon glyphicon-comment"></span>
+                      Comment
+                    </a>
+                  </li>
+                </ul>
+                <!--Dropdown for selecting the answer type -->
+                <select class="answer_navigation form-control visible-xs">
+                  <option value="Single Answer">Single Answer</option>
+                  <option value="Multiple Answer">Multiple Answer</option>
+                  <option value="Yes/No">Yes/No</option>
+                  <option value="Comment">Comment</option>
+                </select>
+                <input type="hidden" name="question[question_type_id]" id="question_type" value="1" />
+                <div class="col-lg-12">
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <!-- single question begin -->
+                    <div class="tab-pane active" id="single_answer">
+                    </div>
+                    <!-- single question end -->
+                    <!-- Multiple question begin -->
+                    <div class="tab-pane" id="multiple_answer">
+
+                    </div>
+                    <!-- multiple question end -->
+                    <!-- Yes/No begin -->
+                    <div class="tab-pane" id="yes_no">
+
+                    </div>
+                    <!-- Yes/No end -->
+                    <!-- Comment Begin -->
+                    <div class="tab-pane" id="comment">
+
+                    </div>
+                    <!-- Comment End -->
+                  </div>
+                  <!-- Tab panes end -->
+                </div>
+              </div>
+            </div>
+            <!--//. recent activity -->
+          </div>
+        </div>
+        <!--Write your answer -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="white-box-wrapper">
+              <div class="box-head clearfix">
+                <h3><span class="glyphicon glyphicon-pencil"></span>Add Thank You Message</h3>
+              </div>
+              <div class="white-box">
+                <!-- Tab panes -->
+                <div class="row">
+                  <div class="col-md-12">
+                    <%= f.text_area :thanks_response, :rows => "3", :class => "form-control" %>
+                  </div>
+                </div><!--row-->
+              </div>
+            </div>
+            <!--//. recent activity -->
+          </div>
+        </div>
+        <!--Thank you message -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="btn-wrap pull-right">
+              <input type="hidden" name="copy_video_url" id="copy_video_url" value="<%= @question.video_url%>" /> <!-- Copy Other question video/photo -->
+              <input type="hidden" name="copy_embed_url" id="copy_embed_url" value="<%= @question.embed_url%>" /> <!-- Copy Other question video/photo -->
+              <%= f.submit "Update", :class => "button medium orange", :id => "prv" ,:onclick => "return validate()"%>
+              <!--<button class="button medium orange" type="submit">Preview</button>
+              <button class="button medium grey" type="submit">Cancel</button>-->
+              <%= link_to "Cancel", question_index_path, :class => "button medium grey" %>
+            </div>
+          </div>
+        </div>
+        <!--Form Submit button -->
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+
+  <script type="text/javascript">
+  // // quill pad
+
+  selected_languages = [];
+  <%@languages.each do |language|%>
+       selected_languages.push("<%=language%>");
+  <%end%>
+    Quill.Config.client.defaultLanguage = "<%=@languages.first%>";
+
+  jQuery("body").delegate("#langlist","change", function(){
+    jQuery("#language").val(jQuery('#langlist').val());
+  })
+function setChar()
+	{
+	if ($("#langlist").val() == "English")
+	{
+	Quill.setCharLimit (140, 'question_body');
+	$("#charCount").text(Quill.getCharsLeft("question_body"));
+	}
+	else
+	{
+	$("#charCount").text(" ");
+	}
+	}
+
+  // question ajax
+  $(document).ready(function() {
+  var img_url = '<%= @question && @question.video_url %>';
+  jQuery("#val").text(img_url);
+
+    /* assign Hidden field value for question video and embed url */
+    <% if @question.video_url.present? %>
+      <% unless ["jpg", "jpeg", "png", "JPG", "JPEG", "PNG"].include?(@question.video_url.split(".").last) %>jQuery("#default_img").hide();<% end %>
+    <% end %>
+    reindex();
+    question_create_and_edit_tab_navigation() // For responsive view tab navigation
+   // Quill.Config.client.defaultLanguage = '<%= @question.language %>';
+
+    load_question_body_text("<%= @question.question.gsub("\r\n","!-!-!-!").html_safe %>");
+    load_thanks_response_text("<%= @question.thanks_response.gsub("\r\n","!-!-!-!").html_safe %>");
+
+    var question_answer_type = <%= @question.question_type_id %>
+    if (question_answer_type == 1){
+      single_qst_ajax (false,<%= @question.id%>);
+      $(".answer_navigation").val("Single Answer"); // For responsive view change function dropdown select
+    }else if(question_answer_type == 2) {
+      multiple_qst_ajax (false,<%= @question.id%>);
+      $(".answer_navigation").val("Multiple Answer"); // For responsive view change function dropdown select
+    }else if(question_answer_type == 3){
+      yes_no_ajax(false,<%= @question.id%>);
+      $(".answer_navigation").val("Yes/No"); // For responsive view change function dropdown select
+    }else {
+      comment_ajax(false);
+      $(".answer_navigation").val("Comment"); // For responsive view change function dropdown select
+    }
+    question_body_css();
+    tanks_response_css();
+    add_tab_index();
+		setTimeout(function() {
+		Quill.setFocus('question_body');
+		 if ($("#langlist").val() == "English")
+		 {
+    Quill.init('question_body', 'langlist', null);
+		Quill.setCharLimit (140, 'question_body');
+		$("#charCount").text(140-$("#question_body").val().length);
+		}
+    $("#Quillquestion_body_container").addClass("form-control quill-box"); // For design to class for quill pad dynamic div element
+});
+
+$("body").delegate("#Quillquestion_body_container","keydown", function(){
+		 if ($("#langlist").val() == "English")
+		 {
+   $("#charCount").text(Quill.getCharsLeft("question_body"));
+		}
+		});
+		 // jQuery('#question_update').unbind('submit.transloadit');
+      $("body").delegate("#single_qst_tab","click", function(){
+          single_qst_ajax (false,<%= @question.id%>);
+      });
+      $("body").delegate("#multiple_qst_tab","click", function(){
+          multiple_qst_ajax (false,<%= @question.id%>);
+      });
+      $("body").delegate("#yes_no_tab","click", function(){
+          yes_no_ajax(false,<%= @question.id%>);
+      });
+      $("body").delegate("#comment_tab","click", function(){
+          comment_ajax(false);
+      });
+  });
+
+
+  $("body").delegate("#add_another_button","click", function(){
+
+    reindex();
+    var increase_count = jQuery(".tab-content #another_answer :text").length;
+    jQuery("#another_answer").append("<div class='row' id='row_count_"+increase_count+"'><div class='col-lg-10 col-md-9 col-sm-9'><div class='form-group'><label class='sr-only' for='InputAnswer"+increase_count+"'>Answer</label><input type='text' class='form-control input-medium ans_count'  value='' id='single_ans_"+increase_count+"' placeholder='Answer' name='ans["+increase_count+"]'/></div></div></div>");
+    enable_button();
+    add_delete_button();
+    add_tab_index();
+    enable_quill_pad();
+  });
+
+  $(window).bind("load", function() {
+      <% if @question.embed_url.present? %>jQuery("#embed_url").trigger('change');<% end %>
+  });
+ </script>
+		<!-- rails4_image_tag_impact -->
+ <!-- background: url(/assets/attach-icon.png) no-repeat scroll 0 0;  -->
+<style>
+  .qr-file-attach {
+		background: url(attach-icon.png) no-repeat scroll 0 0;
+    width: 54px;
+    height: 49px;
+    display: block;
+    cursor: pointer;
+    border: none;
+    margin-top: 10px;
+  }
+
+  .video-upload-content {
+    width: 600px;
+  }
+
+  .video-upload-content h1 {
+    font-size: 13px;
+    color: #807E7E;
+    font-weight: 600;
+    float: left;
+    margin-top: 10px;
+  }
+
+  .video-upload-content input[type='radio'] {
+    margin-top: 10px;
+  }
+
+  .video-upload-content h1:last-of-type {
+    margin-right: 10px;
+  }
+
+  .video-upload-content .self-upload, .video-upload-content .embed-url {
+    margin-top: 15px;
+  }
+
+  .qr-input-txt {
+    width: 402px;
+    margin: 0 10px 0 0;
+    border: 1px solid #cbcbcb;
+    padding: 10px 10px;
+    background-color: #f6f6f6;
+  }
+</style>

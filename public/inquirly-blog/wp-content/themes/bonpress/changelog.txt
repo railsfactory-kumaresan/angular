@@ -1,0 +1,26 @@
+BonPress Theme
+http://www.wpzoom.com/themes/bonpress
+ 
+CHANGELOG
+---------
+
+v 2.0 (August 6, 2013)
+ 
+	- Fully re-written code
+	- Integrated ZOOM Framework
+	- All theme files were modified.
+ 
+
+v 1.2 (September 16, 2011)
+	
+	- bug fix in shortcodes manager: functions/js/shortcode-generator/js/dialog-js.php
+	
+ 
+v 1.1 (August 6, 2011)
+
+	- An important security fix: /scripts/timthumb.php has been updated to 2.0
+
+ 
+v 1.0  
+	
+	- initial release

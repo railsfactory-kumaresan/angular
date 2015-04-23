@@ -1,0 +1,148 @@
+<% k = params[:offset].blank? ? 0 : params[:offset].to_i%>
+<% if !@live_search_result.blank? %>
+    <!-- <div class="tab-pane fade active in" id="">-->
+    <% @live_search_result.each do |data| %>
+        <% color_chan = ''
+           sentiment_yellow_circle = ""; sentiment_green_circle = "";sentiment_red_circle = "";
+           if (data['sentiment'].to_i >= 2 && data['sentiment'].to_i < 3)
+             color_chan = 'message-card-yellow'
+             sentiment_yellow_circle = "fa-check-circle"
+             sentiment_green_circle = "fa-circle"
+             sentiment_red_circle = "fa-circle"
+           elsif (data['sentiment'].to_i >= 1 && data['sentiment'].to_i < 2)
+             color_chan = 'message-card-red'
+             sentiment_yellow_circle = "fa-circle"
+             sentiment_green_circle = "fa-circle"
+             sentiment_red_circle = "fa-check-circle"
+           elsif (data['sentiment'].to_i >= 3)
+             color_chan = 'message-card-green'
+             sentiment_yellow_circle = "fa-circle"
+             sentiment_green_circle = "fa-check-circle"
+             sentiment_red_circle = "fa-circle"
+           end
+           icon_name = "";
+           if (data["source"] == "Media")
+             icon_name = 'media-icon|fa-rss'
+           elsif (data["source"] == "Delicious")
+             icon_name =="facebook-icon|fa-delicious"
+           elsif (data["source"]=="Forums")
+             icon_name = "facebook-icon|fa-comments-o"
+           elsif (data["source"]=="GooglePlus")
+             icon_name = 'google_icon|fa-google-plus'
+           elsif (data["source"] == "Reddit")
+             icon_name='facebook-icon|fa-reddit'
+           elsif (data["source"] == "News")
+             icon_name='news-icon|fa-bullhorn'
+           elsif (data["source"] =="Facebook")
+             icon_name='facebook-icon|fa-facebook'
+           end
+
+           book_mark_class = ""
+           if (data['bookmark'])
+             book_mark_class ="fa-bookmark"
+             bookma = "delete_bookmark"
+             title = 'Un    Bookmark'
+           else
+             book_mark_class ="fa-bookmark-o"
+             bookma = "delete_bookmark"
+             title = 'Bookmark'
+           end
+        %>
+        <% current_tab = params[:tenant_id].blank? ? "#{params[:id]}tab" : "#{params[:id]}tab_#{params[:tenant_id]}" %>
+        <% published = Time.at(data["published"].to_s[0..-4].to_i).strftime("%d-%m-%Y") %>
+        <% tweet_id = data['url'].split("/") %>
+        <div class='message-card-container'>
+          <div class='title_listener <%= k %>_<%= current_tab %>_share' style='display:none'><%= data['title'] + "|" + data['url'] + "|" + data['content'] %></div>
+          <% if (data['source'] == "Twitter") %>
+              <div class='message-card container-fluid <%= color_chan %>'>
+                <div class='message-title row'>
+                  <div class='source-info-left col-lg-6 col-md-6'>
+                    <div class='source-icon twitter-icon'><i class='fa fa-twitter'></i></div>
+                    <div class='source-text'><!--twitter.com /  <%#=data['url'].split("/")[3] %>--></div>
+                    <div class='source-share-options'>
+                      <a title="Reply" href='#'
+                         onclick="window.open('https://twitter.com/intent/tweet?in_reply_to=<%= tweet_id[tweet_id.length-1] %>&original_referer=http://listener.inquirly2.railsfactory.com/index.php','replywindow','width=600,height=500,top=400,left=500')">
+                        <span class='glyphicon glyphicon-share-alt'></span></a><a title="Retweet" href='#' onclick="window.open('https://twitter.com/intent/retweet?tweet_id=<%= tweet_id[tweet_id.length-1] %>&original_referer=http://listener.inquirly2.railsfactory.com/index.php','retweetwindow','width=600,height=500,top=400,left=500')">
+                      <i class='fa fa-retweet'></i></a><a title="Favorite" href='#' onclick=window.open('https://twitter.com/intent/favorite?tweet_id=<%= tweet_id[tweet_id.length-1] %>','retweetwindow','width=600,height=500,top=400,left=500')><span class='glyphicon glyphicon-star'></span></a>
+                    </div>
+                  </div>
+                  <div class='source-info-right col-lg-6 col-md-6'>
+                    <div class='message-options'>
+                      <a title="View" href=" <%= data["url"] %> " target='_blank'><i class='fa fa-eye'></i></a><a title="<%=title%>" href='#' class='book_mark <%= bookma %>' id="<%= params[:tenant_id] %>_2_<%= data['id'] %>_<%= params[:user_id] %>_<%= current_tab.split("tab")[0] %>"><i class='fa <%= book_mark_class %>'></i></a>
+                      <a title="Share" href='#' class='shr-dtls-modal modal_click <%= k %>_<%= current_tab %>' data-toggle='modal' data-target='#share_detaill'><i class='fa fa-share-alt'></i></a>
+                    </div>
+                    <div class='message-date'><%= published %></div>
+                    <div class='message-rating'>
+                      <% if @result_frm.blank? || @result_frm == "addmore" %>
+                          <a title="Sentiment" href='javascript:void(0)' class='sentiment_score' id="<%= params[:tenant_id] %>_2_<%= data['id'] %>_<%= params[:user_id] %>"><i class='fa <%= sentiment_yellow_circle %> yellow circle_<%= data['id'] %>'></i></a><a title="Sentiment" href='javascript:void(0)' class='sentiment_score' id="<%= params[:tenant_id] %>_3_<%= data['id'] %>_<%= params[:user_id] %>"><i class='fa <%= sentiment_green_circle %> green circle_<%= data['id'] %>'></i></a><a title="Sentiment" href='javascript:void(0)' class='sentiment_score' id="<%= params[:tenant_id] %>_1_<%= data['id'] %>_<%= params[:user_id] %>"><i class='fa <%= sentiment_red_circle %> red circle_<%= data['id'] %>'></i></a>
+                      <% end %>
+                    </div>
+                  </div></div>
+                  <div class='message-text row'><%= data['content'] %></div>
+                  <% if (data['influence'].to_i > 0) %>
+                      <div class='message-fotter row'>
+                        <span class='influence-value'> <%= data['influence'] %></span><span class='influence-label'>influence</span>
+                      </div>
+                      <div style='width:<%= data['influence'] %>%' class='sentiment-bar'></div>
+
+                  <% end %>
+          <% else %>
+              <div class='message-card container-fluid <%= color_chan %>'>
+                <div class='message-title row'>
+                  <div class='source-info-left col-lg-6 col-md-6'>
+                    <div class='source-icon <%= icon_name.split("|")[0] %>'>
+                      <i class='fa <%= icon_name.split("|")[1] %>'></i></div>
+                    <div class='source-text'><%#=data["url"].split("/")[2]%></div>
+                    <div class='source-share-options'></div>
+                  </div>
+                  <div class='source-info-right col-lg-6 col-md-6'>
+                    <div class='message-options'>
+                      <a title="View" href=" <%= data["url"] %> " target='_blank'><i class='fa fa-eye'></i></a><a title="<%=title%>" href='#' class='book_mark <%= bookma %>' id="<%= params[:tenant_id] %>_2_<%= data['id'] %>_<%= params[:user_id] %>_<%= current_tab.split("tab")[0] %>"><i class='fa <%= book_mark_class %>'></i></a>
+                      <a title="Share" href='#' class='shr-dtls-modal modal_click <%= k %>_<%= current_tab %>' data-toggle='modal' data-target='#share_detaill'><i class='fa fa-share-alt'></i></a>
+                    </div>
+                    <div class='message-date'><%= published %></div>
+                    <div class='message-rating'>
+                      <% if @result_frm.blank? || @result_frm == "addmore"  %>
+                          <a title="Sentiment" href='javascript:void(0)' class='sentiment_score' id="<%= params[:tenant_id] %>_2_<%= data['id'] %>_<%= params[:user_id] %>"><i class='fa <%= sentiment_yellow_circle %> yellow circle_<%= data['id'] %>'></i></a><a title="Sentiment" href='javascript:void(0)' class='sentiment_score' id="<%= params[:tenant_id] %>_3_<%= data['id'] %>_<%= params[:user_id] %>"><i class='fa <%= sentiment_green_circle %> green circle_<%= data['id'] %>'></i></a><a title="Sentiment" href='javascript:void(0)' class='sentiment_score' id="<%= params[:tenant_id] %>_1_<%= data['id'] %>_<%= params[:user_id] %>"><i class='fa <%= sentiment_red_circle %> red circle_<%= data['id'] %>'></i></a>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+                <div class='message-text row'><%= data['content'] %></div>
+                <% if (data['influence'].to_i > 0) %>
+                    <div class='message-fotter row'>
+                      <span class='influence-value'> <%= data['influence'] %></span><span class='influence-label'>influence</span>
+                    </div>
+                    <div style='width:<%= data['influence'] %>%' class='sentiment-bar'></div>
+
+                <% end %>
+          <% end %>
+          </div>
+          </div>
+            </div>
+            <%k = k +1 %>
+    <% end %>
+    <%else%>
+    
+<% end %>
+<% messages = "Currently we do not have messages for '#{params[:keywords]}' keyword. Please save this keyword and try after few hours. Do you want to save?" %>
+<% if @live_search_result.blank?%>
+    <script>
+        if (confirm("<%= messages.html_safe %>") == true) {
+            var id = '<%=current_user.id%>'
+            var term = '<%=params[:keywords]%>'
+            $.ajax(
+                    {
+                        url: "/admin/listeners/" + id + "/save_keywords",
+                        type: "POST",
+                        data: {keywords: term},
+                        dataType: "script",
+                        success: function (data) {
+                        }
+
+                    });
+        } else {
+
+        }
+    </script>
+<% end %>

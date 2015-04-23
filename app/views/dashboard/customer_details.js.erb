@@ -1,0 +1,3 @@
+jQuery('#customerinfo').modal('show');
+jQuery('#user-modal-body-content').html('<%=escape_javascript(render "customer_info", :cust_count => @cust_count, :customers => @customers )%>');
+jQuery('.pagination a').attr('data-remote', 'true');

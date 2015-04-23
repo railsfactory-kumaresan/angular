@@ -1,0 +1,267 @@
+<div class="wrap-box-head clearfix">
+  <h2>Dailly Reports</h2>
+</div>
+<div class="wrap-box-cont">
+  <% content_for :title, "Daily Report" %>
+  <div class="white-box-wrapper">
+    <div class="box-head clearfix">
+      <h3><span class="glyphicon glyphicon-pencil"></span>Questions created by today</h3>
+    </div>
+    <div class="white-box">
+      <%#= @todays_sign_ins.inspect %>
+      <%if @questions_array.present? %>
+      <div class="form-head clearfix">
+        <div class="pull-right">
+          <%= link_to '<span class="glyphicon  glyphicon-circle-arrow-down"></span> Download top 3 Questions CSV'.html_safe, daily_report_admin_reports_path(:csv=>true, :questions_csv => @questions), :confirm => "Are you want to download?", :title => "Download report as CSV", :class => "primary-link" %>
+        </div>
+      </div>
+      <% end %>
+      <div class="question-table user-list created-quest-list" id="flip-scroll">
+        <table class="table-bordered table-striped table-condensed cf">
+          <thead class="cf">
+            <tr>
+              <th class="cl1">
+                <div class="qcatg">
+                  <span class="glyphicon glyphicon-question-sign"></span>
+                </div>
+              </th>
+              <th class="cl2">Questions</th>
+              <th class="cl3">User Name</th>
+              <th class="cl4">Views<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></th>
+              <th class="cl5">Response<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%if @questions_array.present? %>
+            <% @questions_array.each do |q| %>
+            <tr>
+              <td class="td-cat">
+                <div class="qcatg">
+                   <span class="glyphicon glyphicon-bullhorn"></span>
+                </div>
+              </td>
+              <td class="col-name">
+                <%if  q["question"].present? %>
+                <%= q["question"] %>
+                <%else %>
+                No question<% end %>
+              </td>
+              <td class="col-name">
+                <%= q["user_name"] %>
+              </td>
+              <td>
+                <span class="glyphicon glyphicon-eye-open"></span><%= q["view_count"] %>
+              </td>
+              <td>
+                <span class="glyphicon glyphicon-comment"></span><%= q["responce_count"] %>
+              </td>
+            </tr>
+            <% end %>
+            <% else %>
+            <tr>
+              <td colspan="5">
+                <div class="alert">
+                  <strong>No questions were created</strong>
+                </div>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+  <!--// Questions created by today -->
+
+  <div class="white-box-wrapper">
+    <div class="box-head clearfix">
+      <h3><span class="glyphicon glyphicon-user"></span>Today sign in Users list by today</h3>
+    </div>
+    <div class="white-box">
+      <%#= @todays_sign_ins.inspect %>
+      <%if @todays_sign_ins.present? %>
+      <div class="form-head clearfix">
+        <div class="pull-right">
+          <%= link_to '<span class="glyphicon  glyphicon-circle-arrow-down"></span> Click here to today\'s signins csv'.html_safe,daily_report_admin_reports_path(:csv=>true, :todays_sign_ins_csv => @todays_sign_ins), :confirm => "Are you want to download?", :title => "Download report as CSV" %>
+        </div>
+      </div>
+      <% end %>
+      <div class="question-table user-list new-signup-list" id="flip-scroll">
+        <table class="table-bordered table-striped table-condensed cf">
+          <thead class="cf">
+            <tr>
+              <th class="cl1">Company Name</th>
+              <th class="cl2">User name</th>
+              <th class=""cl3>Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%if @todays_sign_ins.present? %>
+            <% @todays_sign_ins.each do |t| %>
+            <tr>
+              <td class="col-name">
+                <%if t.company_name.present? %>
+                <%= t.company_name %>
+                <%else%>
+                <span class="no-data">No Company Name</span>
+                <%end%>
+              </td>
+              <td class="col-name">
+                <%= t.first_name %>
+                <%= t.last_name %>
+              </td>
+              <td class="col-email">
+                <%= t.email %>
+              </td>
+            </tr>
+            <% end %>
+            <% else %>
+            <tr>
+              <td colspan="4">
+                <div class="alert">
+                  <strong>No user sign ins.</strong>
+                </div>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+  <!--// end. Today sign in Users list by today -->
+
+  <div class="white-box-wrapper">
+    <div class="box-head clearfix">
+      <h3><span class="glyphicon glyphicon-user"></span>Today sign up Users list by today</h3>
+    </div>
+    <div class="white-box">
+      <%#= @todays_sign_ins.inspect %>
+      <%if @users_sign_ups.present? %>
+      <div class="form-head clearfix">
+        <div class="pull-right">
+          <%= link_to '<span class="glyphicon glyphicon-circle-arrow-down"></span> Download today\'s signups CSV'.html_safe, daily_report_admin_reports_path(:csv=>true, :users_sign_ups => @users_sign_ups), :confirm => "Are you want to download?", :title => "Download report as CSV" %>
+        </div>
+      </div>
+      <% end %>
+      <div class="question-table user-list new-signup-list" id="flip-scroll">
+        <table class="table-bordered table-striped table-condensed cf">
+          <thead class="cf">
+            <tr>
+              <th class="cl1">Company Name</th>
+              <th class="cl2">User name</th>
+              <th class="cl3">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%if @users_sign_ups.present? %>
+            <% @users_sign_ups.each do |t| %>
+            <tr>
+              <td class="col-name">
+                <%if t.company_name.present? %>
+                <%= t.company_name %>
+                <%else%>
+                <span class="no-data">No Company Name</span>
+                <%end%>
+              </td>
+              <td class="col-name">
+                <%= t.first_name %>
+                <%= t.last_name %>
+              </td>
+              <td class="col-email">
+                <%= t.email %>
+              </td>
+            </tr>
+            <% end %>
+            <% else %>
+            <tr>
+              <td colspan="3">
+                <div class="alert">
+                  <strong>No user signups.</strong>
+                </div>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!--// end. Today sign in Users list by today -->
+
+  <div class="white-box-wrapper">
+    <div class="box-head clearfix">
+      <h3><span class="glyphicon glyphicon-ok-circle"></span>Activated Questions</h3>
+    </div>
+    <div class="white-box">
+    <%#= @todays_sign_ins.inspect %>
+    <%if @active_questions_array.present? %>
+      <div class="form-head clearfix">
+        <div class="pull-right">
+          <%= link_to '<span class="glyphicon glyphicon-circle-arrow-down"></span> Download Active Questions CSV'.html_safe, daily_report_admin_reports_path(:csv=>true, :active_questions => @active_questions), :confirm => "Are you want to download?", :title => "Download report as CSV" %>
+        </div>
+      </div>
+    <% end %>
+      <div class="question-table user-list active-users" id="flip-scroll">
+      <table class="table-bordered table-striped table-condensed cf">
+        <thead class="cf">
+          <tr>
+            <th class="cl1">
+              <div class="qcatg">
+                <span class="glyphicon glyphicon-question-sign"></span>
+              </div>
+            </th>
+            <th class="cl2 quescol">Questions</th>
+            <th class="cl3 col-name">User Name</th>
+            <th class="cl4">Views<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></th>
+            <th class="cl4">Response<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%if @active_questions_array.present? %>
+          <% @active_questions_array.each do |q| %>
+          <tr>
+            <td class="td-cat">
+              <div class="qcatg">
+                 <span class="glyphicon glyphicon-bullhorn"></span>
+              </div>
+            </td>
+            <td class="col-name">
+              <%if  q["question"].present? %>
+              <%= q["question"] %>
+              <%else %>
+              <span class="no-data">No question</span>
+              <% end %>
+            </td>
+            <td class="col-name">
+              <%= q["user_name"] %>
+            </td>
+            <td>
+              <span class="glyphicon glyphicon-eye-open"></span><%= q["view_count"] %>
+            </td>
+            <td>
+              <span class="glyphicon glyphicon-comment"></span><%= q["responce_count"] %>
+            </td>
+          </tr>
+          <% end %>
+          <% else %>
+          <tr>
+            <td colspan="5">
+              <div class="alert">
+                <strong>No questions were created</strong>
+              </div>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    </div>
+  </div>
+
+  <!--<h1> Transactions by today </h1>-->
+  <%# @transactions.each do |q| %>
+  <%#= q.id %>
+  <%# end %>
+</div>

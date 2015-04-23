@@ -1,0 +1,114 @@
+<%= content_for(:title, "Settings") %>
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Account</h2>
+      </div>
+      <div class="wrap-box-cont">
+        <div class="white-box-wrapper">
+          <div class="box-head clearfix">
+            <h3><span class="glyphicon glyphicon-cog"></span>Settings</h3>
+          </div>
+          <div class="white-box">
+        <!-- Offline payment -->
+        <div class="link-downgrade">
+              <div class="btn-wrap">
+                <%= account_subscription(current_user) %>
+              </div>
+            </div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs main-tabs" id="myTabs">
+              <li>
+                <a href="<%= edit_user_registration_path %>"><span class="glyphicon glyphicon-cog"></span>Account Settings</a>
+              </li>
+              <li>
+                <a href="/account/company_settings"><span class="glyphicon glyphicon-tower"></span>Customer Data</a>
+              </li>
+              <%# if current_user[:business_type_id] == 2 %>
+              <!--li>
+                <a href="/account/manage_user"><span class="glyphicon glyphicon-user"></span>Manage Users</a>
+              </li-->
+              <%#end%>
+              <% if @subscribe != "false" %>
+              <li class="active">
+                <a  href="/account/transaction_history" class="account_nav_button billing"><span class="glyphicon glyphicon-credit-card"></span>Payment History</a>
+              </li>
+              <% end %>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div class="tab-pane active" id="account_settings">
+                <div class="tab-wrapper">
+                  <div class="question-table payment-history" id="flip-scroll">
+                    <% if @trasactionhistory.present? %>
+                    <table class="table-bordered table-striped table-condensed cf">
+                      <thead class="cf">
+                        <tr>
+                          <th class="colcat">
+                            <div class="qcatg">
+                              <span class="glyphicon glyphicon-link"></span>
+                            </div>
+                          </th>
+                          <th class="colplan">Current Plan Name</th>
+                          <th class="colamt">Amount<a href="#"></a></th>
+                          <th class="coldat">Date<a href="#"></a></th>
+                          <th class="colsts">Payment Status<a href="#"></a></th>
+                          <th class="colact">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% @trasactionhistory.each do |transaction| %>
+                        <tr>
+                          <td class="td-cat">
+                            <div class="qcatg">
+                              <span class="glyphicon glyphicon-user"></span>
+                            </div>
+                          </td>
+                          <td class="quescol"><%= get_plan_name(transaction.business_type_id) %></td>
+                          <td><span class="icon-rupee"></span> <%= transaction.amount %></td>
+                          <td><span class="glyphicon glyphicon-dashboard"></span><%= transaction.created_at.strftime("%b - %d - %Y") %></td>
+                          <td class="colstatus"><span class="sts closed"><%= transaction.payment_status %></span></td>
+                          <td>
+                            <div class="action-items">
+                              <span class="glyphicon"></span><%= transaction.action %>
+                            </div>
+                          </td>
+                        </tr>
+                        <% end %>
+                        <tr><%= will_paginate @trasactionhistory %></tr>
+                      </tbody>
+                    </table>
+                    <% else %>
+                    <div class="alert alert-warning">
+                      You have no transaction details yet..
+                    </div>
+                    <% end %>
+                  </div>
+                  <!--//. end question list -->
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <ul class="pagination pull-right">
+                        <%= will_paginate @trasactionhistory, renderer: BootstrapPagination::Rails %>
+                      </ul>
+                      <!--//. end pagination -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane" id="company_settings">
+                2
+              </div>
+              <div class="tab-pane" id="manage_users">
+                3
+              </div>
+              <div class="tab-pane" id="billing_info">
+                4
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<%= semantic_form_for :email_activity, url: email_opens_email_activities_path, method: :get, html: { class: 'filter_form' } do |f| %>
+    <div class="filter_form_field filter_string select_and_search">
+      <%= f.label 'country' %>
+      <%= f.select 'country', options_for_select(@filters["countries"], @filter_params["country"]), :include_blank => true %>
+    </div>
+    <div class="filter_form_field filter_string select_and_search">
+      <%= f.label 'state' %>
+      <%= f.select 'state', options_for_select(@filters["states"], @filter_params["state"]) , :include_blank => true%>
+    </div>
+    <div class="filter_form_field filter_string select_and_search">
+      <%= f.label 'city' %>
+      <%= f.select 'city', options_for_select(@filters["cities"], @filter_params["city"]), :include_blank => true %>
+    </div>
+    <div class="filter_form_field filter_string select_and_search">
+      <%= f.label 'gender' %>
+      <%= f.select 'gender', options_for_select(@filters["genders"], @filter_params["gender"]), :include_blank => true %>
+    </div>
+    <%unless params[:id].present?%>
+        <div class="filter_form_field filter_string select_and_search">
+          <%= f.label 'Tenant' %>
+          <%= f.select 'tenant_name', options_for_select(@filters["tenants"], @filter_params["tenant_name"]), :include_blank => true %>
+        </div>
+    <%end%>
+    <div class="filter_form_field filter_string select_and_search">
+      <%= f.label 'custom_field' %>
+      <%= f.select 'custom_field', options_for_select(@filters["custom_field"], @filter_params["custom_field"]), :include_blank => true %>
+    </div>
+    <% if email_open %>
+    <div class="filter_form_field filter_string select_and_search">
+      <%= f.label 'opens' %>
+      <%= f.select 'opens', options_for_select(@filters["opens"], @filter_params["opens"]), :include_blank => true %>
+    </div>
+    <% else %>
+     <div class="filter_form_field filter_string select_and_search">
+      <%= f.label 'clicks' %>
+      <%= f.select 'clicks', options_for_select(@filters["clicks"], @filter_params["clicks"]), :include_blank => true %>
+     </div>
+    <% end %>
+    <%= hidden_field_tag 'slug',"#{params[:slug]}"%>
+    <%= f.submit 'Filter' %>
+    <% link = email_open ? "/email_opens/email_activities?slug=#{params[:slug]}" : "/email_clicks/email_activities?slug=#{params[:slug]}" %>
+    <a href="<%= link %>">Clear Filters</a>
+    <%= hidden_field_tag 'order', params[:order] %>
+    </div>
+<% end %>

@@ -1,0 +1,17 @@
+<%= semantic_form_for :admin_question_view_logs, url: admin_question_view_logs_path, method: :get, html: { class: 'filter_form' } do |f| %>
+  <%= hidden_field_tag 'q', true %>
+    <div class="filter_form_field filter_string select_and_search">
+    <%= f.label 'country' %>
+    <%= f.select 'country', options_for_select(@countries) %>
+  </div>
+  <div class="filter_form_field filter_string select_and_search">
+    <%= f.label 'state' %>
+    <%= f.select 'state', options_for_select(@states) %>
+  </div>
+  <div class="buttons">
+    <%= f.submit 'Filter' %>
+    <%= link_to 'Clear Filters', admin_question_view_logs_path %>
+    <%= hidden_field_tag 'order', params[:order] %>
+  </div>
+<% end %>
+

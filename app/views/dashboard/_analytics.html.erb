@@ -1,0 +1,95 @@
+<%content_for :page_specific_head_content do%>
+  <%= stylesheet_link_tag "responsive/jq_cloud" %>
+  <%= javascript_include_tag "responsive/jq_cloud" %>
+<%end%>
+<div class="wrap-box-cont">
+  <div class="row">
+     <div class="col-md-8">
+      <% benchmark '##Render recent activity in analytics' do %>
+        <%= render :partial => 'dashboard/recent_activity', :locals => {:user =>  user, :recent_activity => category[:recent_activity]} %>
+      <% end %>
+    </div>
+    <div class="col-md-4">
+      <div class="white-box-wrapper has-bot">
+        <div class="box-head clearfix">
+          <h3><span class="glyphicon glyphicon-search"></span>Filter</h3>
+        </div>
+        <div class="white-box">
+          <div class="filter-form dashboard-filter">
+            <% benchmark '##Render filter report in analytics' do %>
+              <%= render :partial => 'dashboard/filter_report', :locals => {:user =>  user, :path =>"/"} %>
+            <% end %>
+          </div>
+        </div>
+        <div class="box-foot">
+          <ul class="foot-links list-inline">
+            <%from_date = !params[:from_date].blank? ? params[:from_date] : current_user.created_at.strftime("%d/%m/%Y")%>
+            <%to_date = !params[:to_date].blank? ? params[:to_date] : Date.today.strftime("%d/%m/%Y")%>
+            <!--<li><a href="<%#= download_csv_downloads_path(:format=>"xls",:from_date =>params[:from_date],:to_date =>params[:to_date],:category=>params[:category]) %>"><span class="glyphicon glyphicon-circle-arrow-down"></span>Download Excel</a></li>
+            <li><a href="<%#= download_csv_downloads_path(:format=>"pdf",:from_date =>params[:from_date],:to_date =>params[:to_date],:category=>params[:category]) %>" target="_blank"><span class="glyphicon glyphicon-circle-arrow-down"></span>Download PDF</a></li> -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--//. row 1 -->
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="white-box-wrapper">
+        <div class="box-head clearfix">
+          <h3><span class="glyphicon glyphicon-user"></span>Views &amp; Responses</h3>
+        </div>
+        <div class="white-box">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <%=render "/shared/total_count", :params => params%>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+              <%=render "/shared/high_chart_display"%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--//. row 2 -->
+  <div class="row">
+    <%=render :partial=>"/shared/providers",:locals=>{views: @views,responses: @responses}%>
+     <div class="col-md-4" id="word_cloud">
+           <div class="white-box-wrapper  has-bot">
+        <div class="box-head clearfix">
+          <h3><span class="glyphicon glyphicon-star"></span>Most viewed surveys</h3>
+        </div>
+        <%= render :partial=>"/shared/show_wordcloud"%>
+        </div>
+     </div>
+  </div>
+  <!--//. row 3 -->
+  <%=render "/shared/demographics", :age_wise_view_count =>  age_wise_view_count, :age_wise_response_count =>  age_wise_response_count %>
+  <!--//. demographics -->
+   <%=render "/shared/location", :params => params%>
+  <!--//. locations -->
+</div>
+
+<!--Modal-->
+<div class="modal fade" id="customerinfo" aria-hidden="true">
+  <div class="modal-dialog signup">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+          &nbsp;
+        </button>
+        <h4 class="modal-title">Customer Info</h4>
+      </div>
+      <div class="modal-body popup-wrapper">
+        <div class="container" id="user-modal-body-content">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End-->
+<!--Modal window for sentimental analysis -->
+<!--Modal window code moved to shared/_modal_sentimental_analysis.html.erb, common for dashboard and show pages-->
+<%= render :partial => "shared/modal_sentimental_analysis", :locals => { :status => "dashboard"} %>
+

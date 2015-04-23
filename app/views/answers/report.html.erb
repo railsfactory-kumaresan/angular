@@ -1,0 +1,84 @@
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Word Cloud Response</h2>
+      </div>
+      <div class="wrap-box-cont">
+        <div class="wc-response">
+          <div class="top-head clearfix">
+            <h3 class="pull-left"><%= @company_name %></h3>
+            <a href="/question/<%=params[:id]%>" class="btn-link pull-right"><span class="glyphicon glyphicon-arrow-left"></span>Back to Question Dashboard</a>
+           </div>
+          <div class="well cloud-response-header">
+            <div class="clearfix">
+              <div class="cloud-comp-logo">
+              <%attachment = @question.attachment%>
+                <%if Rails.env.include?("development")%>
+                                  <% if !@response.blank? && attachment%>
+                    <%=image_tag(attachment,:height=>'100',:width=>'100', :class => "resp-img")%>
+                  <% else%>
+                    <%=image_tag("responsive/no_image.png",:height=>'100',:width=>'100', :class => "resp-img")%>
+                  <% end%>
+                <% elsif Rails.env.include?("production") %>
+                  <% if !@response.blank? && attachment%>
+                    <%=image_tag(attachment,:height=>'100',:width=>'100', :class => "resp-img")%>
+                  <% else%>
+                    <%=image_tag("#{Bitly_url["url"]}/assets/responsive/no_image.png",:height=>'100',:width=>'100', :class => "resp-img")%>
+                  <% end%>
+                <% end%>
+              </div>
+              <div class="cloud-comp-ques">
+                  <h2><%= !@response.blank? ? @question.question : " "%></h2>
+                <p><span class="data-label">Answer Option:</span> <%=  !@response.blank? ? params[:word] : " "%></p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="question-table word-cloud-response">
+                <div class="table-responsive">
+                  <table class="table-bordered table-striped table-condensed cf">
+                    <thead>
+                      <tr>
+                        <th class="th-cus-name">Name</th>
+                        <th>Email</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Country</th>
+                        <th class="th-cus-date">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <%if !@response.blank?%>
+                      <% @response.each do |f| %>
+                        <tr>
+                          <td class="col-cus-name"><%= f.name %></td>
+                          <td class="col-cus-email"><span class="email-link"><%= f.email %></span></td>
+                          <td class="col-cus-age"><%= f.age %></td>
+                          <td class="col-cus-gend"><%= f.gender %></td>
+                          <td class="col-cus-cty"><%= find_country(f.country) %></td>
+                          <td class="col-cus-date"><span class="glyphicon glyphicon-dashboard"></span><%= f.question_created_at.strftime("%d-%B-%Y") %></td>
+                        </tr>
+                      <%end%>
+                    <%else%>
+                    <tr>
+                      <td class="col-cus-name" colspan="6">There is no data.</td>
+                    </tr>
+                        <%end%>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="pull-right">
+                   <%#= will_paginate @response, renderer: BootstrapPagination::Rails %>
+                </div>
+              </div>
+            </div>
+          </div>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>

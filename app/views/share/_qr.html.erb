@@ -1,0 +1,69 @@
+<%= javascript_include_tag  "/qrcode/qrcode" %>
+<%= javascript_include_tag  "/qrcode/sample" %>
+<div class="qr-img"  id="qr" >
+</div>
+<script>
+//QR-Code to set the active for the particular question
+function map_question_qr_fn()
+{
+ id = document.querySelector('input[name="map_questio_qr"]:checked').value;
+active_qr_code_current_question(id,"map");
+
+}
+function active_qr_code_current_question(id,status)
+  {
+    jQuery.ajax({
+          type: 'GET',
+          url: '/share/'+id+'/show_qr',
+          success: function(data){
+            var qrcode_url = data['body']['qr_code_url'];
+            jQuery('#txt_qr_code').val(qrcode_url);
+            if (status == "map"){
+                question_active_share_page()
+              if(data['header']['status'] == 200){	      
+               $(".alert.alert-success").show();
+	       setTimeout(function() {
+	            $(".alert.alert-success").hide();
+                     $("#Qr_code_list_pop_up").modal("hide");
+		}, 10000);
+              }
+            }
+          }
+      });
+  }
+
+//embed code update status change
+  function active_embed_code_current_question(id)
+  {
+    jQuery.ajax({
+          type: 'GET',
+          url: '/share/'+ id +'/show_embed_code',
+          success: function(data){
+            var status = jQuery('#inactive_status').text();
+            if(status != 'Active'){
+              question_active_share_page();
+            }
+           }
+      });
+  }
+
+  function question_active_share_page(){
+    jQuery('#inactive_status').text('');
+    jQuery('#activate_status').removeClass('label-info');
+    jQuery("#activate_status").addClass('label-success')
+    jQuery("#activate_status").text("Active");
+    jQuery('#compose_qst').attr('href','javascript:void(0)');
+    jQuery('#download_qr').show();
+    jQuery('#compose_qst').css('cursor','default');
+    update_qrcode();
+  }
+ /*Script for qr-code question status changes*/
+  jQuery(document).ready(function(){
+//    jQuery("#qrcode_id").click(function(){
+//      active_qr_code_current_question("<%= question.slug%>","default");
+//    });
+		jQuery("#active_embed_updatestatus").click(function(){
+//			active_embed_code_current_question("<%= question.slug%>");
+		});
+  });
+</script>

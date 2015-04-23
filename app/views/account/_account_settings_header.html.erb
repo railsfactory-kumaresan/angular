@@ -1,0 +1,22 @@
+<%= content_for(:title, "Settings") %>
+<% c=controller.controller_name%>
+<% a=controller.action_name%>
+<ul class="nav nav-tabs main-tabs" id="myTab">
+		<li class="<%= (c=="account" && a=="index") ? "active" : "" %>">
+			<a href="<%= edit_user_registration_path %>" tabindex="1"><span class="glyphicon glyphicon-cog"></span>Account Settings</a>
+		</li>
+		<li class = "<%= c=="account" && (a=="company_settings" || a =="update_company_info") ? "active" : "" %>">
+			<a href="/account/company_settings" tabindex="2"><span class="glyphicon glyphicon-tower"></span>Customer Data</a>
+		</li>
+		<% #if business_type == 2 %>
+		<!--<li class="<%#= a=="manageuser" && c=="account"? "active" : "" %>">
+		<a href="/account/manage_user"><span class="glyphicon glyphicon-user"></span>Manage Users</a>
+		</li>-->
+		<% #end %>
+		<!-- Offline payment process-->
+		<% if subscribe != "false" %>
+		<li>
+			<a  href="/account/transaction_history" class="account_nav_button billing" tabindex="4"><span class="glyphicon glyphicon-credit-card"></span>Payment History</a>
+		</li>
+		<% end %>
+</ul>

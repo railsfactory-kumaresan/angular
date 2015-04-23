@@ -1,0 +1,21 @@
+<%= javascript_include_tag "responsive/page_loaders/dashboard"%>
+<div class="question-dialog-box-wrap">
+<div class="question-dialog-box" id="success_msg1">
+  <!-- rails4_image_tag_impact -->
+  <%= image_tag("thank-u.png", alt: "", class: "fl") %>
+ <!-- <img src="/assets/thank-u.png" alt="" class="fl" > -->
+		<div class="box-info">
+				<p id = "sucess_new"></p>
+	</div>
+</div>
+<br>
+<div class="question-dialog-box" id="failure_msg">
+  <!-- rails4_image_tag_impact -->
+  <%= image_tag("stop.png", alt: "", class: "fl") %>
+  <!-- <img src="/assets/stop.png" alt="" class="fl" > -->
+		<div class="box-info">
+				<h4>You've already answered this question.</h4>
+				<p>Thanks for responding. Your feedback is important to us.</p>
+	</div>
+</div>
+</div>

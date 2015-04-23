@@ -1,0 +1,337 @@
+<%content_for :page_specific_head_content do %>
+  <link href="/stylesheets/uploadify.css" media="all" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="/javascripts/uploadify/jquery.uploadify.js"></script>
+  <script type="text/javascript" src="/images/uploadify/uploadify.swf"></script>
+<%end%>
+<div class="row">
+  <div class="col-md-12">
+      <div class="white-box-wrapper">
+        <div class="box-head clearfix">
+          <h3>
+            <input type="checkbox" onClick= "<%=load_tab_details(@show_video_photo,'','video_photo_count')%>" <%if @show_video_photo != 'disable'%>id="question_video_upload_checkbox"<%end%> name="question_video_upload" />
+            Add a Video/Photo
+          </h3>
+        </div>
+        <div class="white-box" id="question_upload">
+        <div class="upload-videos"  style="display:<%if current_user.check_privilege('video_photo_count')%>block;<%else%>none;<%end%>">
+            <div class="error" id="video_error" style="display:none;">Please Add video/Photo</div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="video-upload-files">
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                      <div class="radio">
+                        <label class="control-label">
+                          <input name="question[video_type]" type="radio"  value=1 id="chk_youtub_upload" name="optionsRadios"/>
+                          Paste URL
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-lg-9 col-lg-8 col-lg-7 col-lg-12">
+                      <div class="youtube-url" id="youtube_upload_video">
+                        <%= f.text_field :embed_url, :class => "form-control input-small",:placeholder=>"Youtube URL", :id=>"embed_url",:disabled=>true %>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                      <div class="radio">
+                        <label class="control-label">
+                          <input name="question[video_type]" type="radio" value=2 id="chk_self_upload" name="optionsRadios"/>
+                          Upload
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-lg-9 col-lg-8 col-lg-7 col-lg-12">
+                      <div class="self-upload" id="self-upload_hide">
+                        <div class="optimize-upload" id="self_upload_video" disabled="true">
+                          <%= f.file_field :video_url, :id=>"exampleInputFile", :disabled => true %>
+                          <span id='val'><%= @question.present? ? @question.video_url : ''%></span>
+                          <span id='select-video-button' disabled="true">Choose File</span>
+                        </div>
+                      </div>
+                      <span id="video-error" style="display: none; color: red;">"Invalid video file format.  Only .3gp, .mpeg, .mp4, .mov and .avi file extention accepted."</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="video-player">
+                  <div id="video_player">
+                    <%if @question.video_url.present?%>
+                      <%if image_file_format_check(@question.video_url) %>
+                        <img src="<%= @question.video_url %>" id="edit_image" width="100%" height="100%" />
+                        <video width="100%" height="100%" controls autoplay  id="source_video" style="visibility:hidden;">
+                          <source src="<%= @question.video_url %>" type="video/mp4">
+                        </video>
+                      <%else%>
+                         <video width="100%" height="100%" controls autoplay  id="source_video">
+                          <source src="<%= @question.video_url %>" type="video/mp4">
+                        </video>
+                      <%end%>
+                    <%else%>
+                     <iframe src="/assets/responsive/placeholder-video-320x180.png" width="100%" height="100%" id="youtube_source_video"></iframe>
+                      <video width="100%" height="100%" controls autoplay id="source_video">
+                          <source src="<%= @question.video_url %>" type="video/mp4">
+                        </video>
+                    <%end%>
+												<!-- rails4_image_tag_impact -->
+			                <%= image_tag("responsive/placeholder-video-320x180.png", width: "100%", height: "100%",id: "default_img", style: "display:none;") %>
+                    <!-- <img src="/assets/responsive/placeholder-video-320x180.png" width="100%" height="100%" id="default_img"  style="display:none;"/>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  jQuery(document).ready(function() {
+
+    $.ajaxSetup({
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
+      }
+    });
+
+  jQuery('#exampleInputFile').click(function(event){
+    event.preventDefault();
+  });
+
+  <%- @session_key_name = Rails.application.config.session_options[:key] -%>
+  <%- @session_key_value = Rails.application.config.session_options[:secret] -%>
+  var session_name = '<%= @session_key_name %>';
+  var session_value = '<%= @session_key_value %>';
+  var auth_token = '<%= current_user.authentication_token %>';
+
+  var csrf_token = $('meta[name=csrf-token]').attr('content');
+  var csrf_param = $('meta[name=csrf-param]').attr('content');
+
+  if($("#copy_video_url").val() == "" || $("#copy_embed_url").val() == "" ){
+  $(function() {
+    $("#exampleInputFile").uploadify({
+      'formData'      : { 'session_name': session_name, 'session_secret': session_value, 'authenticity_token' : encodeURIComponent('<%= u form_authenticity_token %>'), 'user_id': '<%= current_user.id%>', 'authentication_token': auth_token,'session_encoded' : '<%= session %>', 'id': '<%= params["id"]%>','csrf-token': csrf_token,'csrf-param': csrf_param,'format': 'json' },
+      'swf'           : '/images/uploadify/uploadify.swf',
+      'uploader'      : '/question/question_video_upload',
+      'height'        : 30,
+      'width'         : 120,
+      'fileTypeExts'  : '*.3gp;*.mpeg;*.mp4;*.mov;*.avi;*.jpg;*.jpeg;*.png;',
+      'fileSizeLimit' : '5mb',
+      'method'        : 'post',
+      'format'         : 'json',
+      'onUploadSuccess' : function(file, data) {
+        var video_params = JSON.parse(data);
+        var file_type = (file.name.split(".").pop()).toLowerCase();
+        if(file.type ==".png" || file.type == ".jpg" || file.type == ".jpeg" || file_type == 'jpg' || file_type == 'png' || file_type == 'jpeg')
+        {
+          jQuery("#default_img").show();
+          jQuery("#edit_image").hide();
+          jQuery("#source_video").hide();
+          jQuery("#val").text(video_params["preview_image"].split("/")[2]);
+          jQuery("#copy_video_url").val('');
+          jQuery("#copy_embed_url").val('');
+          jQuery("#default_img").attr("src",'<%= request.protocol+request.host_with_port %>'+video_params["preview_image"]);
+        }
+        else
+        {
+          jQuery("#default_img").hide();
+          jQuery("#edit_image").hide();
+          jQuery("#source_video").show();
+          jQuery("#source_video").css("visibility","visible");
+          jQuery("#val").text(video_params["preview_image"].split("/")[2]);
+          jQuery("#copy_video_url").val('');
+          jQuery("#copy_embed_url").val('');
+          jQuery("#source_video").attr("src",'<%= request.protocol+request.host_with_port %>'+video_params["preview_image"]);
+        }
+        jQuery('#question_upload_video_url').val('<%= request.protocol+request.host_with_port %>'+video_params["preview_image"]);
+      }
+    });
+  });
+  }
+  //youtube url upload
+
+  jQuery("#embed_url").bind("change keyup input", function() {
+      load_youtube_video(jQuery(this).val())
+  });
+
+   /* Load Video on Page Load */
+//   var yt_url = jQuery("#embed_url").val();
+//   if(yt_url != ""){
+//       jQuery("#embed_url").change();
+//       load_youtube_video(yt_url)
+//   }
+
+
+
+  //By default hide some id during page load
+  jQuery("#self-upload_hide").hide();
+  jQuery("#embed_url").attr("disabled",true);
+  jQuery("#source_video").hide();
+  jQuery("#youtube_source_video").hide();
+  jQuery("#default_img").show();
+
+  //Self upload click event actions
+  jQuery("#chk_self_upload").click(function(){
+
+    jQuery("#edit_img").hide();
+
+    jQuery("#embed_url").val('');
+    jQuery('#question_upload_video_url').val('');
+    jQuery(".uploadify-button-text").text('Choose File');
+    jQuery("#youtube_source_video").attr("src",'');
+    jQuery("#embed_url").attr("disabled",true);
+    jQuery("#youtube_source_video").hide();
+    jQuery("#self-upload_hide").show();
+    jQuery("#exampleInputFile").attr("disabled",false);
+     /* Reset the copy Video if new video */
+    if(jQuery("#val").text() != '<%= @question.video_url %>'){
+        jQuery("#val").text('');
+        jQuery("#copy_video_url").val('');
+        jQuery("#default_img").attr("src","/assets/responsive/placeholder-video-320x180.png").show();
+    }
+    if(jQuery("#source_video").length == 0)
+    {
+      jQuery("#video_player").append("<video width='100%' height='100%' controls autoplay id='source_video'><source src=' ' type='video/mp4'></video>");
+    }
+    if (jQuery("#edit_image").length > 0)
+    {
+      var img_url = '<%= @question && @question.video_url %>';
+       jQuery("#default_img").hide();
+       jQuery("#source_video").hide();
+       jQuery("#edit_image").attr("src",img_url).show();
+       jQuery("#val").text(img_url);
+    }
+    else
+    {
+      jQuery("#edit_image").hide();
+    }
+
+  });
+
+  //youtube link preview click event actions
+  jQuery("#chk_youtub_upload").click(function(){
+    jQuery("#source_video").hide();
+    jQuery("#edit_image").hide();
+    jQuery("#edit_image").attr("src",'');
+    if(jQuery("#embed_url").val() == ""){
+     jQuery("#default_img").attr("src","/assets/responsive/placeholder-video-320x180.png");
+     jQuery("#default_img").show();
+    }else{
+      if (jQuery("#embed_url").val() != '<%= @question.embed_url%>'){
+          jQuery("#copy_embed_url").val('');
+      }
+    }
+    jQuery("#source_video").attr('src','');
+    jQuery("#embed_url").attr("disabled",false);
+    jQuery('#question_upload_video_url').val('');
+    jQuery("#self-upload_hide").hide();
+    //jQuery("#youtube_source_video").show();
+    jQuery("#video_player").append("<iframe src='' width='100%' height='100%' id='youtube_source_video'></iframe>");
+  });
+
+   // Onchange the Youtube textbox to reset the value
+    jQuery("#embed_url").on('change', function(){
+         if (jQuery("#embed_url").val() != '<%= @question.embed_url%>'){
+             jQuery("#copy_embed_url").val('');
+         }
+     });
+
+  //Question edit page
+  //if embed url is present or not
+  var embed_value = jQuery("#embed_url").val();
+  if(embed_value){
+    var url = embed_value.split("=")[1];
+    jQuery("#youtube_source_video").show();
+    jQuery("#question_video_upload_checkbox").prop('checked', true);
+    jQuery("#default_img").hide();
+    jQuery("#question_upload").show();
+    jQuery("#chk_youtub_upload").prop('checked', true);
+    jQuery("#embed_url").attr("disabled",false);
+    jQuery("#youtube_source_video").attr("src",'https://www.youtube.com/embed/'+url);
+  }
+
+
+
+//Prevent default form submit for youtube url text box
+$("#embed_url").keypress(function(event){
+  var keycode = (event.keyCode ? event.keyCode : event.which);
+  if(keycode == '13'){
+      return false;
+  }
+});
+
+});
+jQuery(document).ready(function(){
+  //Question edit page
+  //if video url is present or not
+<%if @question.video_url.present?%>
+jQuery("#question_video_upload_checkbox").prop('checked', true);
+    var checkbox_checked = jQuery("#question_video_upload_checkbox").prop("checked");
+
+      jQuery("#source_video").show();
+      jQuery("#default_img").hide();
+      jQuery("#question_upload").show();
+      jQuery("#self-upload_hide").show();
+      jQuery("#chk_self_upload").prop('checked', true);
+      jQuery("#exampleInputFile").attr("disabled",false);
+      jQuery(".uploadify-button-text").text('Choose File');
+      jQuery('#self_upload_video').removeAttr('disabled');
+<%end%>
+
+ //When the page load the video radio button is enabled
+  if($('#chk_youtub_upload').is(':checked')) {
+    jQuery("#embed_url").attr("disabled",false);
+ }else if($('#chk_self_upload').is(':checked')){
+  jQuery("#chk_self_upload").trigger('click');
+ }
+
+  //Question create form submit remove ondeforeunload
+  $("#question_create").submit(function(e){
+    window.onbeforeunload = false;
+    return true;
+  });
+
+  //Question update form submit remove ondeforeunload
+  $('#question_update').submit(function(e){
+    window.onbeforeunload = false;
+    return true;
+  });
+
+  //ondeforeunload to restrict the user to navigate in the browser
+  var vals=0;
+  function displayMsg() {
+    alert('my text..');
+  }
+  window.onbeforeunload = function evens(evt) {
+  var message = "You haven't finished submitting your question. If you leave now, this question won't be shared.";
+    if (typeof evt == 'undefined') {
+        evt = window.event;
+    }
+    vals++;
+    if (evt) {
+        evt.returnValue = message ;
+        return message ;
+    }
+    trace(evt);
+  }
+
+});
+/* Validate Youtube URL */
+  function ytVidId(url) {
+      var p = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?(?=.*v=((\w|-){11}))(?:\S+)?$/;
+      return (url.match(p)) ? RegExp.$1 : false;
+  }
+  function load_youtube_video(video_url){
+      if(ytVidId(video_url))
+      {
+          var url = video_url.split("=")[1];
+          jQuery("#default_img").hide();
+          jQuery("#source_video").hide();
+          jQuery("#youtube_source_video").show();
+          jQuery("#youtube_source_video").attr("src",'https://www.youtube.com/embed/'+url);
+      }
+  }
+</script>

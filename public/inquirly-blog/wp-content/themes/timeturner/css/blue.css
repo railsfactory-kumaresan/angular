@@ -1,0 +1,60 @@
+/* Color scheme Blue
+----------------------------------------------- */
+body #wrapper-menu,
+body #wrapper-header,
+body #wrapper-portfolio,
+body #wrapper-footer,
+body #header-logo,
+#header-logo .logo-inner-radius,
+#header-logo .logo-outer-radius,
+body .scroll-top,
+body .about-headline,
+body .blog-headline,
+body .content-headline,
+body .read-more-button:hover,
+body .custom-button:hover,
+body input[type="submit"]:hover,
+body input[type="reset"]:hover {
+  background-color: #4bb5c1;              
+}
+body .border-logo .background-logo {
+  background-color: #35818a;                                   
+}
+body #wrapper-menu #menu ul ul a:hover,
+body #wrapper-menu #menu ul ul :hover > a {
+  background-color: #57d2e0;                                          
+}
+body .site-description,
+body .portfolio-headline {
+  background-color: #398a94;                         
+}
+body .read-more-button,
+body .custom-button,
+body input[type="submit"],
+body input[type="reset"] {
+  background-color: #409ba6; 
+  border-color: #2f7078;             
+}
+body #header-logo .border-logo,
+body #header-logo .logo-outer-radius,
+body #menu ul ul {
+  border-color: #2b666e;                               
+}
+body .description-box {
+  border-color: #357f87;                      
+}
+body a {
+  color: #3f99a3;       
+}
+body .post-entry .post-entry-headline a,
+body .about-box-content h3 {
+  color: #2a646b;                                        
+}
+body .sidebar-widget .sidebar-headline,
+body #content .post-data,
+body #content .post-data a {
+  color: #2f7078;                                       
+}
+body #footer .footer-widget .footer-headline {
+  color: #18393d;                                             
+}

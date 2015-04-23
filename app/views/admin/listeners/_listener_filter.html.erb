@@ -1,0 +1,222 @@
+<%if remove_word == "no_words"%>
+<span class="search-filter-item move_left" style="display:none">
+                                            <span class="dropdown">
+                                             <a href="#" onclick="prev_tab()" class ="move-prev" style="display:none"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                                              <a href="#" onclick="next_tab()" class ="move-next" style="display:none"><span class="glyphicon glyphicon-arrow-right"></span> </a>
+                                              </span></span><%end%>
+<span class="search-filter-types">
+                                        <span class="dropdown">
+                                        <a id="source-dropdown" role="button" data-toggle="dropdown" href="#">
+                                          <%if remove_word != "no_words"%><span class="search-filter-item"><%else%><span class="search-filter-item"><%end%>
+                                                <span title="Filter" class="glyphicon glyphicon-road filter-icon"></span>
+                                                <%if remove_word != "no_words"%>All traffic sources<%end%>
+                                                <span title="Filter" class="glyphicon glyphicon-chevron-down filter-icon"></span>
+                                            </span>
+                                        </a>
+                                          <%if remove_word != "no_words"%>
+                                        <ul id="source-dropdown-menu" class="dropdown-menu source-menu" role="menu" aria-labelledby="source-dropdown" style="margin-left: 74px !important;">
+                                          <li role="presentation">
+                                            <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                              <i class="fa fa-delicious"></i>
+                                              <span class="source-label">Delicious</span>
+                                              <input type="checkbox" value="Delicious" id="filter-source-del" class="filter-source_live" checked>
+                                              <i class="fa fa-check source-enabled"></i>
+                                            </a>
+                                          </li>
+                                          <li role="presentation" class="divider"></li>
+                                          <li role="presentation">
+                                            <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                              <i class="fa fa-facebook"></i>
+                                              <span class="source-label">Facebook</span>
+                                              <input type="checkbox" value="Facebook" id="filter-source-fb" class="filter-source_live" checked>
+                                              <i class="fa fa-check source-enabled"></i>
+                                            </a>
+                                          </li>
+                                          <li role="presentation" class="divider"></li>
+                                          <li role="presentation">
+                                            <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                              <i class="fa fa-comments-o"></i>
+                                              <span class="source-label">Forums</span>
+                                              <input type="checkbox" value="Forums" id="filter-source-for" class="filter-source_live" checked>
+                                              <i class="fa fa-check source-enabled"></i>
+                                            </a>
+                                          </li>
+                                          <li role="presentation" class="divider"></li>
+                                          <li role="presentation">
+                                            <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                              <i class="fa fa-google-plus"></i>
+                                              <span class="source-label">Google +</span>
+                                              <input type="checkbox" value="GooglePlus" id="filter-source-gp" class="filter-source_live" checked>
+                                              <i class="fa fa-check source-enabled"></i>
+                                            </a>
+                                          </li>
+                                          <li role="presentation" class="divider"></li>
+                                          <li role="presentation">
+                                            <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                              <i class="fa fa-rss"></i>
+                                              <span class="source-label">Image/Video</span>
+                                              <input type="checkbox" value="Media" id="filter-source-md" class="filter-source_live" checked>
+                                              <i class="fa fa-check source-enabled"></i>
+                                            </a>
+                                          </li>
+                                          <li role="presentation" class="divider"></li>
+                                          <li role="presentation">
+                                            <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                              <i class="fa fa-bullhorn"></i>
+                                              <span class="source-label">News</span>
+                                              <input type="checkbox" value="News" id="filter-source-news" class="filter-source" checked>
+                                              <i class="fa fa-check source-enabled"></i>
+                                            </a>
+                                          </li>
+                                          <li role="presentation" class="divider"></li>
+                                          <li role="presentation">
+                                            <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                              <i class="fa fa-reddit"></i>
+                                              <span class="source-label">Reddit</span>
+                                              <input type="checkbox" value="Reddit" id="filter-source-reddit" class="filter-source" checked>
+                                              <i class="fa fa-check source-enabled"></i>
+                                            </a>
+                                          </li>
+                                          <li role="presentation" class="divider"></li>
+                                          <li role="presentation">
+                                            <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                              <i class="fa fa-twitter"></i>
+                                              <span class="source-label">Twitter</span>
+                                              <input type="checkbox" value="Twitter" id="filter-source-twt" class="filter-source_live" checked>
+                                              <i class="fa fa-check source-enabled"></i>
+                                            </a>
+                                          </li>
+                                          <li role="presentation" class="divider"></li>
+                                          <li role="presentation">
+                                            <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                              <i class="fa fa-recycle"></i>
+                                              <span class="source-label">Reviews</span>
+                                              <input type="checkbox" value="Reviews" id="filter-source-twt" class="filter-source_live" checked>
+                                              <i class="fa fa-check source-enabled"></i>
+                                            </a>
+                                          </li>
+                                          <%if remove_word == "no_words"%>
+                                          <li>
+                                            <span class="source-label"><input type="button" value="Ok" style="height:35px; display:none" class="button medium orange advance_search"></span>
+                                          </li>
+                                              <%end%>
+                                        </ul>
+                                              <%end%>
+                                          <%if remove_word == "no_words"%>
+                                           <ul id="source-dropdown-menu" class="dropdown-menu source-menu" role="menu" aria-labelledby="source-dropdown" style=" margin-left: -34px; ">
+                                             <li role="presentation">
+                                               <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                                 <i class="fa fa-delicious"></i>
+                                                 <span class="source-label">Delicious</span>
+                                                 <input type="checkbox" value="Delicious" id="filter-source-del" class="filter-source" checked>
+                                                 <i class="fa fa-check source-enabled"></i>
+                                               </a>
+                                             </li>
+                                             <li role="presentation" class="divider"></li>
+                                             <li role="presentation">
+                                               <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                                 <i class="fa fa-facebook"></i>
+                                                 <span class="source-label">Facebook</span>
+                                                 <input type="checkbox" value="Facebook" id="filter-source-fb" class="filter-source" checked>
+                                                 <i class="fa fa-check source-enabled"></i>
+                                               </a>
+                                             </li>
+                                             <li role="presentation" class="divider"></li>
+                                             <li role="presentation">
+                                               <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                                 <i class="fa fa-comments-o"></i>
+                                                 <span class="source-label">Forums</span>
+                                                 <input type="checkbox" value="Forums" id="filter-source-for" class="filter-source" checked>
+                                                 <i class="fa fa-check source-enabled"></i>
+                                               </a>
+                                             </li>
+                                             <li role="presentation" class="divider"></li>
+                                             <li role="presentation">
+                                               <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                                 <i class="fa fa-google-plus"></i>
+                                                 <span class="source-label">Google +</span>
+                                                 <input type="checkbox" value="GooglePlus" id="filter-source-gp" class="filter-source" checked>
+                                                 <i class="fa fa-check source-enabled"></i>
+                                               </a>
+                                             </li>
+                                             <li role="presentation" class="divider"></li>
+                                             <li role="presentation">
+                                               <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                                 <i class="fa fa-rss"></i>
+                                                 <span class="source-label">Image/Video</span>
+                                                 <input type="checkbox" value="Media" id="filter-source-md" class="filter-source" checked>
+                                                 <i class="fa fa-check source-enabled"></i>
+                                               </a>
+                                             </li>
+                                             <li role="presentation" class="divider"></li>
+                                             <li role="presentation">
+                                               <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                                 <i class="fa fa-bullhorn"></i>
+                                                 <span class="source-label">News</span>
+                                                 <input type="checkbox" value="News" id="filter-source-news" class="filter-source" checked>
+                                                 <i class="fa fa-check source-enabled"></i>
+                                               </a>
+                                             </li>
+                                             <li role="presentation" class="divider"></li>
+                                             <li role="presentation">
+                                               <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                                 <i class="fa fa-reddit"></i>
+                                                 <span class="source-label">Reddit</span>
+                                                 <input type="checkbox" value="Reddit" id="filter-source-reddit" class="filter-source" checked>
+                                                 <i class="fa fa-check source-enabled"></i>
+                                               </a>
+                                             </li>
+                                             <li role="presentation" class="divider"></li>
+                                             <li role="presentation">
+                                               <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                                 <i class="fa fa-twitter"></i>
+                                                 <span class="source-label">Twitter</span>
+                                                 <input type="checkbox" value="Twitter" id="filter-source-twt" class="filter-source" checked>
+                                                 <i class="fa fa-check source-enabled"></i>
+                                               </a>
+                                             </li>
+                                             <li role="presentation" class="divider"></li>
+                                             <li role="presentation">
+                                               <a role="menuitem"  class="source-menu-item" tabindex="-1" href="javascript:void(0);">
+                                                 <i class="fa fa-recycle"></i>
+                                                 <span class="source-label">Reviews</span>
+                                                 <input type="checkbox" value="Reviews" id="filter-source-twt" class="filter-source" checked>
+                                                 <i class="fa fa-check source-enabled"></i>
+                                               </a>
+                                             </li>
+                                             <%if remove_word == "no_words"%>
+                                                 <li role="presentation" class="divider"></li>
+                                                 <li>
+                                                   <span class="source-label"><input type="button" value="Ok" style="height:31px;min-width: 62px !important; margin-left: 60px;display:none" class="button medium orange advance_search"></span>
+                                                 </li>
+                                             <%end%>
+                                           </ul>
+                                              <%end%>
+
+                                              <!--                                 </span>
+  <%#if remove_word != "no_words"%>
+                                       <span class="search-filter-item">
+                                            <span class="dropdown">
+                                                <a id="filter-type-dropdown" role="button" data-toggle="dropdown" href="#">
+                                                  <span class="glyphicon glyphicon-record filter-icon"></span>
+                                                  <%#if remove_word != "no_words"%>Any match<%#end%>
+                                                  <span class="glyphicon glyphicon-chevron-down filter-icon"></span>
+                                                </a>
+                                                <ul id="filter-type-dropdown-menu" class="dropdown-menu" role="menu" aria-labelledby="filter-type-dropdown">
+                                                  <li role="presentation">
+                                                    <a role="menuitem" class="source-menu-item" tabindex="-1" href="javascript:void(0);" onclick="">
+                                                      <span class="source-label">Any Match</span>
+                                                      <input type="radio"  name="match"  value="all" id="filter-source-all" class="all_filt" >
+
+                                                    </a>
+                                                    <a role="menuitem" class="source-menu-item" tabindex="-1" href="javascript:void(0);" onclick="">
+                                                      <span class="source-label">Exact Match</span>
+                                                      <input type="radio" name="match" value="exact" id="filter-source-all" class="all_filt" checked>
+                                                      </a>
+                                                  </li>
+                                                </ul>
+                                            </span>
+                                        </span>
+  <%#end%>
+                                    </span>
+-->

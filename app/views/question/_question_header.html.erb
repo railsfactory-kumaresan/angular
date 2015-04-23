@@ -1,0 +1,32 @@
+ <% a = controller.action_name %>
+ <% b = controller.controller_name %>
+
+ <div class="col-md-12">
+  <div class="white-box-wrapper">
+    <div class="step-links clearfix">
+      <div class="setp-bar clearfix">
+        <div class="<%= (a == "new" && b == "question")  ? "step one active tal" : "step one over tal"%>">
+          <%if @question.status == "Inactive" %>
+          <%sty = ""%>
+          <%else%>
+          <% sty ="cursor: default;" %>
+          <%end%>
+          <a href="<%= (question_id.present? || params[:question_id].present?) && @question.status == "Inactive" ? "/question/#{params[:question_id].present? ? params[:question_id]  : @question.slug}/edit" : "javascript:void(0);"%>" style ="<%=sty%>" id="compose_qst"><span class="glyphicon glyphicon-new-window"></span></a>
+
+          <span class="step-label">Compose</span>
+        </div>
+        <div class="<%= (a == "preview" && b == "question")  ? "step two active tar" : (a == "show" && b == "share")  ?  "step two over tar" : "step two tar" %>">
+          <a href="<%= (question_id.present? || params[:question_id].present?) ? "/question/#{params[:question_id].present? ? params[:question_id] : @question.slug}/preview" : "javascript:void(0);"%>"><span class="glyphicon glyphicon-th-large"></span></a>
+          <span class="step-label">Preview</span>
+        </div>
+        <div class="<%= (a == "show" && b == "share")  ? "step three active tar" : "step three tar"%>">
+         <%if question_id.present?  %>
+         <%custom_url = (a == "show" || a == "share_question")  ? @custom_url : @short_url%>
+         <%end%>
+         <a href="<%= question_id.present? ? "#{share_path(@question.slug)}" : "javascript:void(0);"%>"><span class="glyphicon glyphicon-share-alt"></span></a>
+         <span class="step-label">Share</span>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>

@@ -1,0 +1,21 @@
+ jQuery(".loading").css('display','none');
+jQuery('.saved-listens').html("<%= escape_javascript(render(:partial => 'saved_listener')) %>");
+traffic_source = JSON.parse("<%= @traffic_source%>".replace(/&quot;/g, '"'));
+results_velocity = JSON.parse("<%= @results_velocity%>".replace(/&quot;/g, '"'));
+new_results = JSON.parse("<%= @new_results%>".replace(/&quot;/g, '"'));
+init_val_tra = JSON.parse("<%= @traffic_source[1]%>".replace(/&quot;/g, '"'));
+init_val_res_vel =  JSON.parse("<%= @results_velocity[1]%>".replace(/&quot;/g, '"'));
+init_val_new_res =  JSON.parse("<%= @new_results[1]%>".replace(/&quot;/g, '"'));
+keywords = JSON.parse("<%= @keywords%>".replace(/&quot;/g, '"'));
+post_per_day = JSON.parse("<%= @post_per_day%>".replace(/&quot;/g, '"'));
+$('#traffic_source').html("");
+$('#new_results').html("");
+$('#results_velocity').html("");
+$('#trends_chart').html("");
+$('#trends_keywords').html("");
+console.log(traffic_source);
+console.log(init_val_tra);
+var chart1 = new DoughnutChart($('#traffic_source'), traffic_source, init_val_tra);
+var chart2 = new DoughnutChart($('#new_results'), new_results, init_val_new_res);
+var chart3 = new DoughnutChart($('#results_velocity'), results_velocity, init_val_res_vel);
+var t = new TrendsChart($('#trends_chart'), $('#trends_keywords'), keywords, post_per_day)

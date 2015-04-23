@@ -1,0 +1,1 @@
+attributes :id, :first_name, :last_name, :company_name, :business_type_id, :email, :role, :exp_date, :is_active

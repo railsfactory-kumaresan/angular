@@ -1,0 +1,34 @@
+<%= javascript_include_tag "responsive/page_loaders/dashboard"%>
+<div class="customer-info">
+  <div class="form-head text-right">
+    <h4>Total Count: <span class="badge"><%=params[:count]%></span></h4>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped inquirly-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email Address</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Mobile No</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%customers.each do |customer|%>
+          <tr>
+            <td class="col-name"><%=customer.name ? customer.name : '-NIL-'%></td>
+            <td class="col-email"><%=customer.email ? customer.email : '-NIL-'%></td>
+            <td><%=customer.age ? customer.age : '-NIL-'%></td>
+            <td><%=customer.gender ? customer.gender : '-NIL-'%></td>
+            <td><%=customer.mobile ? customer.mobile : '-NIL-'%></td>
+            <td><%=customer.country ? customer.country : '-NIL-'%></td>
+          </tr>
+        <%end%>
+      </tbody>
+    </table>
+  </div>
+</div>
+<%#= will_paginate(@customers)%>
+<%= will_paginate customers, renderer: BootstrapPagination::Rails %>

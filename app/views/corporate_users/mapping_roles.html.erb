@@ -1,0 +1,113 @@
+<%= javascript_include_tag 'multitenant', 'data-turbolinks-track' => true %>
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Admin</h2>
+      </div>
+      <div class="wrap-box-cont">
+        <div class="white-box-wrapper">
+          <div class="box-head clearfix">
+            <h3><span class="glyphicon glyphicon-cog"></span>Settings</h3>
+          </div>
+          <div class="white-box">
+            <!-- Nav tabs -->
+            <%= render "admin_menus_header"%>
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div class="tab-pane active" id="account_settings">
+                <div class="tab-wrapper">
+                  <%if @users.present? %>
+                      <%= form_tag("/corporate_users/update_user_roles", :name =>"map_role",  method: "post", :id => "map_role") do %>
+                      <div class="form-horizontal">
+                        <div class="row">
+                          <div class="col-lg-4 lang-type" style="float:left;">
+                            <div class="form-group">
+                              <label for="inputLanguage" class="col-sm-6 text-left control-label">
+                                Select Role
+                              </label>
+                              <div class="col-sm-6">
+                                <%= select_tag "role_id", options_for_select(@roles),:prompt=>"-Select Role-", :required => "required",:class=>"text_field rc_5 form-control input-small"%>
+                              </div>
+                              <p><span class="error" style="width:190px;" id="error_role_id"></span></p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="table-responsive">
+                        <table class="table-bordered table-striped table-condensed cf">
+                          <thead class="cf">
+                          <tr>
+                            <th><input type="checkbox" name="user[id][]" class="user_ids"></th>
+                            <th class="quescol">Email</th>
+                            <th class="text-center">First Name<a href="javascript:void(0);"><span class="glyphicon"></span></a></th>
+                            <th>Last Name<a href="javascript:void(0);"><span class="glyphicon"></span></a></th>
+                            <th>Tenant Name<a href="javascript:void(0);"><span class="glyphicon"></span></a></th>
+                            <th>Role Name<a href="javascript:void(0);"><span class="glyphicon"></span></a></th>
+                            <th>Status<a href="javascript:void(0);"><span class="glyphicon"></span></a></th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <% @users.each do |user| %>
+                              <tr>
+                                <td><input type="checkbox" name="user[ids][]" class="user_id" value="<%= user.id%>"></td>
+                                <td class="quescol">
+                                  <%= user.email %>
+                                </td>
+                                <td class="text-center">
+                                  <span class="glyphicon"></span><%= user.first_name %>
+                                </td>
+                                <td>
+                                  <span class="glyphicon"></span><%= user.last_name %>
+                                </td>
+                                <td>
+                                  <span class="glyphicon"></span><%= user.tenant_name %>
+                                </td>
+                                <td>
+                                   <% if user.role_id.present? %> <span class="glyphicon"> <%= find_role_name(user.role_id)%></span><% end %>
+                                </td>
+                                <td>
+                                  <span class="sts"><%= user.is_active ? "Active" : "Inactive" %></span>
+                                </td>
+                              </tr>
+                          <% end %>
+                          </tbody>
+                        </table>
+                      </div>
+                      <!--//. end question list -->
+                      <div class="row">
+                        <div class="pull-right">
+                          <%#= will_paginate @corporate_users, renderer: BootstrapPagination::Rails %>
+                        </div>
+                      </div>
+											<% if is_permission_view("corporate_users","update_user_roles",current_user,session[:user_permissions]) %>
+                      <div class="btn-wrap text-center btn-update-info">
+                        <input type="submit" id="update_user_roles" class="button medium orange" value="Update" />
+                      </div>
+											<%end%>
+                       <% end %>
+                  <%else%>
+                      <div class="table-responsive">
+                        <table class="table-bordered table-striped table-condensed cf no-data">
+                          <thead class="cf">
+                          <tr>
+                            <th class="quescol"></th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr>
+                            <td>No Users found!</td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                  <%end%>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

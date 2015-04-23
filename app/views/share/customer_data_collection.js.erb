@@ -1,0 +1,10 @@
+var response = <%= parse_table_view(@customers, @share_type) %>;
+var share_type = "<%= @share_type %>";
+if(share_type == "email"){
+    jQuery("#customer-collection-grid-email").html("<%= escape_javascript(render(:partial=>'share/customer_data_pagination', :locals=>{:customers => @customers, :type => @share_type, :filter => @filter}))%>");
+}else if(share_type == "sms"){
+    jQuery("#customer-collection-grid-sms").html("<%= escape_javascript(render(:partial=>'share/customer_data_pagination', :locals=>{:customers => @customers, :type => @share_type, :filter => @filter }))%>");
+}else if(share_type == "voice"){
+    jQuery("#customer-collection-grid-voice").html("<%= escape_javascript(render(:partial=>'share/customer_data_pagination', :locals=>{:customers => @customers, :type => @share_type, :filter => @filter}))%>");
+}
+jsonGridBuild(share_type,response);

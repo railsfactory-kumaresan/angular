@@ -1,0 +1,88 @@
+<%if questions.present? %>
+  <table class="table-bordered table-striped table-condensed cf">
+    <thead class="cf">
+      <tr>
+        <th>
+          <div class="qcatg">
+            <span class="glyphicon glyphicon-question-sign"></span>
+          </div>
+        </th>
+        <th class="quescol">Questions</th>
+        <th>Date<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></th>
+        <th>Views<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></th>
+        <th>Response<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></th>
+        <th>Status<a href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% questions.each do |question| %>
+        <%
+        url = "#{Bitly_url["url"]}/surveys/#{question.slug}"
+        custom_url = bitly.shorten(url)
+      %>
+        <tr>
+          <td class="td-cat">
+            <div class="qcatg">
+              <span class="glyphicon glyphicon-<%= get_category_based_icon(question.category_type_category_name) %>"></span>
+            </div>
+          </td>
+          <td class="quescol"><a href="/question/<%= question.slug %>"><%= truncate(question.question, :length => 70) %></a></td>
+          <td><span class="glyphicon glyphicon-dashboard"></span><%= qustion_created(question.created_at)%></td>
+          <td><span class="glyphicon glyphicon-eye-open"></span><%= view_count(question.id)? view_count(question.id) : 0 %></td>
+          <td><span class="glyphicon glyphicon-envelope"></span><%= question_response_count(question.id)? question_response_count(question.id) : 0 %></td>
+          <td><span class="sts <%= get_question_status_class(question.status) %>"><%= question.status %></span></td>
+          <td>
+            <div class="action-items">
+              <% if question.status == "Closed" %>
+                <a href="/question/<%= question.slug %>" onclick="loading_img();" title="View"><span class="glyphicon glyphicon-search"></span></a>
+              <%else%>
+							<%if question.status != "Active"%>
+								<a href="/question/<%= question.slug%>/edit" onclick="loading_img();" title="Edit"><span class="glyphicon glyphicon-pencil"></span></a>
+							<%else%>
+								<a href="javascript:void(0);" title="Can not Edit" class="disabled" role="button"><span class="glyphicon glyphicon-pencil"></span></a>
+							<%end%>
+                <a href="/question/<%= question.slug %>" title="View" onclick="loading_img();" ><span class="glyphicon glyphicon-search"></span></a>
+                <a href="<%if question.status=="Closed"%>#<%else%>/share/show?custom_url=<%= custom_url.short_url %>&question_id=<%= question.slug%><%end%>" onclick="loading_img();" title="Share"><span class="glyphicon glyphicon-share-alt"></span></a>
+              <%end%>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <!--//. end question list -->
+  <div class="row">
+    <div class="col-lg-12">
+      <ul class="pagination pull-right">
+        <%= will_paginate questions, renderer: BootstrapPagination::Rails %>
+      </ul>
+  <%#= javascript_include_tag "pagination"    --   not working %>
+
+  <%#= will_paginate questions %>
+
+      <script>
+        jQuery(document).ready(function(){
+          jQuery(".next_page").attr("title","Next");
+          jQuery(".previous_page").attr("title","Privious");
+        });
+      </script>
+
+      <!--//. end pagination -->
+    </div>
+  </div>
+
+<%else%>
+  <table class="table-bordered table-striped table-condensed cf">
+    <thead class="cf">
+      <tr>
+        <th class="quescol"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>No Question found!</td>
+      </tr>
+    </tbody>
+  </table>
+<%end%>

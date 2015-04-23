@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html ng-app="InquirlyApp">
+  <head>
+    <link type="css/text" rel="stylesheet" href="assets/ang-styles/bootstrap.css"/>
+    <link type="css/text" rel="stylesheet" href="assets/ang-styles/stylesheet.css"/>
+    <link type="css/text" rel="stylesheet" href="assets/ang-styles/font-awesome.css"/>
+    <link type="css/text" rel="stylesheet" href="assets/ang-styles/font-awesome.min.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="assets/ang-js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/ang-js/bootstrap.min.js"></script>
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>-->
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-route.min.js"></script>-->
+    <script type="text/javascript" src="assets/ang-js/angular.min.js"></script>
+    <script type="text/javascript" src="assets/ang-js/angular-route.min.js"></script>
+    <script src="assets/inquirly-app.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid col-pad"> <!--start of main container fluid-->
+      <div class="row"><!--start of main row-->
+        <div class="col-sm-2 col-md-2 col-lg-2 col-pad txtalign" ng-controller="navController"><!--start of side bar 2column-->
+	  <div class="row logo-ht">
+	    <div class="col-sm-12 col-md-12 col-lg-12">
+	      <a href="#"><img src="assets/Images/jb-logo.jpg" alt="" style="width:100%;"></a>
+	    </div>
+	  </div>
+	  
+	  <div class="row empty-backclr side-barht" ng-class="{active:isActive('/home')}">
+	    <div class="col-sm-12 col-md-12 col-lg-12 margin3">
+	      <a href="#home"><p class="fnt24"><i class="fa fa-magic"></i></p><p class="side-txtclr fnt12">Home</p></a>
+	    </div>
+	  </div>
+	  
+	  <div class="row empty-backclr side-barht" ng-class="{active:isActive('/campaigns')}">
+	    <div class="col-sm-12 col-md-12 col-lg-12 margin3">
+	      <a href="#campaigns"><p class="fnt24"><i class="fa fa-rocket"></i></p><p class="side-txtclr fnt12">Campaigns</p></a>
+	    </div>
+	  </div>
+	  
+	  <div class="row empty-backclr side-barht" ng-class="{active:isActive('/listen')}">
+	    <div class="col-sm-12 col-md-12 col-lg-12  margin3">
+	      <a href="#listen"><p class="fnt24"><i class="fa fa-headphones"></i></p><p class="side-txtclr fnt12">Listen</p></a>
+	    </div>
+	  </div>
+	  
+	  <div class="row empty-backclr side-barht" ng-class="{active:isActive('/configure')}">
+	    <div class="col-sm-12 col-md-12 col-lg-12 margin3">
+	      <a href="#configure"><p class="fnt24"><i class="fa fa-wrench"></i></p><p class="side-txtclr fnt12">Configure</p></a>
+	    </div>
+	  </div>
+	  
+	  <div class="row empty-backclr side-barht" ng-class="{active:isActive('/alerts')}">
+	    <div class="col-sm-12 col-md-12 col-lg-12 margin3">
+	      <a href="#alerts"><p class="fnt24"><i class="fa fa-bell-o"></i></p><p class="side-txtclr fnt12">Alerts</p></a>
+	    </div>
+	  </div>
+	  
+	  <div class="row bdr-top">
+	    <div class="col-sm-12 col-md-12 col-lg-12 margin3">
+	      <a href="#"><p class="side-txtclr fnt12">Powerd by</p><img src="" alt=""></a>
+	    </div>
+	  </div>  
+        </div><!--end of side bar 2 column-->
+        <div class="col-sm-10 col-md-10 col-lg-10 col-pad bdr-lt"><!--start of nav bar 10column-->
+	  <div class="container-fluid col-pad backclr"><!--start of container-fluid col-10-->
+
+	    <div class="row"><!--start of nav bar row-->
+              <nav class="navbar navbar-inverse" style="margin-bottom:0px">
+                <div class="container-fluid">
+              <!-- Brand and toggle get grouped for better mobile display -->
+                  <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                    
+		     <div class="col-sm-10 col-md-10 col-lg-10">
+		       <p class="fnt-gray fnt12">Just Bake, Koramangala, Bengaluru</p>
+		     </div>
+		     <div class="col-sm-2 col-md-2 col-lg-2 mrgn-lt">
+		       <img src="assets/Images/jb-logo.jpg" alt="..." class="img-circle imgstyle">
+		     </div>		
+                  </div>
+                </div>
+              </nav>
+	    </div><!--end of nav bar row-->
+
+	   <div class="row col-pad choco-layout"><!--start of chocolayout row-->
+	     <div class="col-md-2 margin4 col-padrt">
+	       <a href="#" class="txtclr"> &lt Back to Campaings</a>
+	     </div>
+	     <div class="col-md-2 margin3 col-pad fnt24">
+		<span>ChocoGoRound</span>
+	     </div>
+	     <div class="col-md-2 margin4 col-pad">
+	       <a href="#" class="txtclr mrgn-lt35"> #chocoground 
+	       <span style="color:#DADAE2;margin-left:10px"><i class="fa fa-pencil"></i></span></a>
+	     </div>
+	     <div class="col-md-4 margin2 col-pad">
+	      <a href="#" class="txtclr mrgn-lt">
+		<span style="color:#000000;margin-right:10px;font-size:18px">
+		  <i class="fa fa-link"></i>
+		</span>http://www.justbake.in/chocog....
+	      </a>
+	     </div>      
+	     <div class="col-md-2 margin3">
+	       <button type="button" class="btn" style="background-color:#82C7CA;border-radius:9px;">
+	         <span style="color:#FFFFFF">+New Campaign</span>
+	       </button>
+	     </div>
+	   </div><!--end of chocolayout row-->
+
+           <div class="row"><!--start of build layout row-->
+	     <div class="build-layout">
+	       <div class="col-sm-2 col-md-2 col-lg-2 txtalign active-bdr-btn">	     
+		 <p class="margin2">BUILD</p>
+	       </div>
+	       <div class="col-sm-2 col-md-2 col-lg-2 txtalign empty-bdr-btn">	     
+		 <p class="margin2">STATS</p>
+	       </div>
+	       <div class="col-sm-2 col-md-2 col-lg-2 txtalign active-bdr-btn">	     
+		 <p class="margin2"><span class="badge">5</span>
+		 ORDERS</p>
+	       </div>
+	     </div>
+	   </div><!--end of build layout row-->
+
+<!--=====================================start of first div row of main body=======================================================-->
+
+	   <div class="row margin2 backclr"><!--start of first div row of main body-->
+	   <div ng-view=""></div>
+	     <div class="container-fluid col-pad"><!--start of container-fluid of first div row of main body-->
+
+	       <div class="col-sm-8 col-md-8 col-lg-8"><!--start of col-8-->
+		 
+		   <div class="row"><!--start of selecting channel row-->
+	         <div class="container-fluid col-pad title-layout"><!--start of container-fluid of title-layout-->
+
+		   <div class="row"><!--start of title layout row-->
+		     <div class="col-md-6 col-md-6 col-lg-6 title-ht">
+		       <p class="margin2 mrgn-lt">SELECT CHANNELS</p>
+		     </div>
+		     <div class="col-md-6 col-md-6 col-lg-6 col-pad title-ht">
+		       <div class="checkbox margin2">
+    		         <input type="checkbox">This is a 2-way campaign <a href="#" class="txtclr mrgn-lt35">What's This?</a>
+  		       </div>
+		     </div>
+		   </div><!--end of title layout row-->
+	         </div><!--end of container-fluid of title-layout-->
+		 <div class="container-fluid col-pad body-layout"><!--start of container-fluid of body-layout-->
+	           <div class="row"><!--start of body-layout First row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <p class="margin2 mrgn-lt">Where do you want to share this order?</p>
+	       	     </div>  
+		   </div><!-- end of body layout First row-->	
+		   <div class="row margin2 mrgn-lt mrgn-rt mrgn-bt"><!--start of body-layout second row-->
+		     <div class="col-sm-2 col-md-2 col-lg-2">
+		       <img src="assets/Images/jb-logo.jpg" alt="..." class="img-circle imgstyle">
+		     </div>
+		     <div class="col-sm-2 col-md-2 col-lg-2">
+		       <img src="assets/Images/jb-logo.jpg" alt="..." class="img-circle imgstyle">
+		     </div>
+		     <div class="col-sm-2 col-md-2 col-lg-2">
+		       <img src="assets/Images/jb-logo.jpg" alt="..." class="img-circle imgstyle">
+		     </div>
+		   </div><!-- end of body layout second row-->
+		   
+		 </div><!--end of container-fluid of body-layout-->
+		 </div><!--end of selecting channel row-->
+
+<!--**********************start of Describe part*******************************************-->
+		
+		 <div class="row margin2"><!--start of describe row--> 
+		  <div class="container-fluid col-pad title-layout"><!--start of container-fluid of title-layout-->
+		   <div class="row"><!--start of title layout row-->
+		     <div class="col-md-12 col-md-12 col-lg-12">
+		      <p class="margin2 mrgn-lt">DESCRIBE YOUR ITEM</p>
+		     </div>
+		   </div><!--end of title layout row-->
+	         </div><!--end of container-fluid of title-layout-->
+		 <div class="container-fluid col-pad body-layout"><!--start of container-fluid of body-layout-->
+	           <div class="row"><!--start of body-layout First row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <p class="margin2 mrgn-lt">Enter headline</p>
+	       	     </div>  
+		   </div><!-- end of body layout First row-->	
+		   <div class="row mrgn-lt mragin2 mrgn-rt"><!--start of body-layout second row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+			 <textarea class="form-control"  placeholder="Eg. Your text goes here" rows="3"></textarea>
+		     </div>
+		   </div><!-- end of body layout second row-->
+		   <div class="row"><!--start of body-layout third row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <p class="margin2 mrgn-lt">Add an image or video<a href="#" class="txtclr mrgn-lt">Inspire Me!</a></p>		  
+		     </div>
+		   </div><!-- end of body layout third row-->
+		   <div class="row"><!--start of body-layout fourth row-->
+		     <div class="col-sm-6 col-md-6 col-lg-6">
+			 <span class="margin2 mrgn-lt"><img src="assets/Images/cake.jpg"style="height:200px; width:80%;"></span>
+		     </div>
+		   </div><!-- end of body layout fourth row-->
+		   <div class="row"><!--start of body-layout fifth row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <p class="margin2 mrgn-lt mrgn-rt">Specify your call to link<a href="#" class="txtclr mrgn-lt">What's This?</a></p>
+		     </div>
+		   </div><!-- end of body layout fifth row-->
+		   <div class="row mrgn-lt mrgn-rt "><!--start of body-layout six row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <input type="text" class="margin2 form-control" placeholder="Text input">
+		     </div>
+		   </div><!-- end of body layout six row-->
+		   <div class="row "><!--start of body-layout seven row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		          <p class="margin2 mrgn-lt mrgn-rt">Define a footer
+			 <span style="color:#CECECE;" class="mrgn-lt"> Footer is not shown on twitter</span></p>
+		     </div>
+		   </div><!-- end of body layout seven row-->
+		   <div class="row mrgn-lt mrgn-rt"><!--start of body-layout eight row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		          <input type="text" class="margin2 mrgn-bt form-control" placeholder="Text input">
+		     </div>
+		   </div><!-- end of body layout eight row-->
+
+		 </div><!--end of container-fluid of body-layout-->
+		</div><!--end of describe row-->
+
+
+<!--**********************end of Describe part***************************************-->
+
+		
+	       </div><!--end of col-8-->
+
+	       <div class="col-sm-4 col-md-4 col-lg-4 col-padlt"><!--start of col-4 of first row-->
+	         <div class="container-fluid col-pad title-layout"><!--start of container-fluid of title-layout--> 
+		   <div class="row margin2 mrgn-lt"><!--start of title layout row-->
+		     <div class="col-md-8 col-md-8 col-lg-8 col-pad">
+		       <p class="">CAMPAIGN PREVIEW</p>
+		     </div>
+		     <div class="col-md-4 col-md-4 col-lg-4 col-pad">
+			 <a href="#" class="txtclr mrgn-rt">Customise</a>
+		     </div>
+		   </div><!--end of title layout row-->
+	         </div><!--end of container-fluid of title-layout-->
+
+		 <div class="container-fluid col-pad body-layout"><!--start of container-fluid of body-layout-->
+	           <div class="row margin2 mrgn-lt mrgn-rt bdr-bt"><!--start of body-layout First row-->
+		     <div class="col-sm-1 col-md-1 col-lg-1 col-pad">
+		       <img src="assets/Images/jb-logo.jpg" alt="...">
+		     </div>
+		     <div class="col-sm-10 col-md-10 col-lg-10">
+		       <p class="">Just Bake</p>
+		     </div>
+		   </div><!-- end of body layout First row-->	
+		   <div class="row margin2 mrgn-lt mrgn-rt mrgn-bt"><!--start of body-layout second row-->
+		     <div class="col-md-12 col-md-12 col-lg-12 col-pad">
+		       <p class="">Introduction.............your text goes here</p>
+		     </div>
+		   </div><!-- end of body layout second row-->
+		   <div class="row margin2 mrgn-lt mrgn-rt mrgn-bt"><!--start of body-layout third row-->
+		     <div class="col-md-12 col-md-12 col-lg-12 col-pad">
+		       <img src="assets/Images/cake.jpg" alt="...">
+		     </div>
+		   </div><!-- end of body layout third row-->
+		   <div class="row margin2 mrgn-lt mrgn-rt mrgn-bt"><!--start of body-layout third row-->
+		     <div class="col-md-12 col-md-12 col-lg-12 col-pad">
+		       <img src="assets/Images/cake.jpg" alt="...">
+		     </div>
+		   </div><!-- end of body layout third row-->			   
+		 </div><!--end of container-fluid of body-layout--> 
+	       </div><!--end of col-4 of first row-->
+
+	     </div><!--end of container-fluid of first div row of main body-->
+	   </div><!--end of first div row of main body-->
+
+<!--=====================================end of first div row of main body=======================================================-->
+
+<!--=====================================start of second div row of main body=======================================================-->
+	   <div class="row margin2 backclr"><!--start of second div row of main body-->
+	     <div class="container-fluid col-pad"><!--start of container-fluid of second div row of main body-->
+
+	       <div class="col-sm-8 col-md-8 col-lg-8"><!--start of col-8-->
+		 
+	         <div class="container-fluid col-pad title-layout"><!--start of container-fluid of title-layout--> 
+		   <div class="row"><!--start of title layout row-->
+		     <div class="col-md-12 col-md-12 col-lg-12 title-ht">
+		       <p  class="margin2 mrgn-lt">CAPTURE YOUR ORDERS</p>
+		     </div>
+		   </div><!--end of title layout row-->
+	         </div><!--end of container-fluid of title-layout-->
+
+		 <div class="container-fluid col-pad body-layout"><!--start of container-fluid of body-layout-->
+	           <div class="row"><!--start of body-layout First row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <p class="margin2 mrgn-lt">Enter Order text</p>
+	       	     </div>  
+		   </div><!-- end of body layout First row-->	
+		   <div class="row"><!--start of body-layout second row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <div class="margin2 mrgn-lt mrgn-rt">
+		         <input type="text" class="form-control" placeholder="Text input">
+		       </div>
+		     </div>
+		   </div><!-- end of body layout second row-->
+		   <div class="row margin2"><!--start of body-layout 3rd row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12 mrgn-lt">
+		       <div class="checkbox margin2 ">
+    		         <p><input type="checkbox">Ask for name</p>
+  		       </div>
+		     </div>
+		   </div><!-- end of body layout 3rd row-->
+		   <div class="row"><!--start of body-layout 4th row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <div class="checkbox margin2 mrgn-lt">
+    		         <p><input type="checkbox">Ask for phone number</p>
+  		       </div>
+		     </div>
+		   </div><!--end of body-layout 4th row-->
+		   <div class="row"><!--start of body-layout 5th row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <div class="checkbox margin2 mrgn-lt">
+    		         <p><input type="checkbox">Ask for email</p>
+  		       </div>
+		     </div>
+		   </div><!--end of body-layout 5th row-->
+		   <div class="row"><!--start of body-layout 6th row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <div class="checkbox margin2 mrgn-lt">
+    		         <p><input type="checkbox">Ask for order quantity</p>
+  		       </div>  
+		     </div>
+		   </div><!--end of body-layout 6th row-->
+		   <div class="row mrgn-bt"><!--start of body-layout 7th row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <div class="checkbox margin2 mrgn-lt">
+    		          <p><input type="checkbox">Ask for location</p>
+  		        </div> 
+		     </div>
+		   </div><!--end of body-layout 7th row-->
+
+		 </div><!--end of container-fluid of body-layout-->
+	       </div><!--end of col-8-->
+
+	       <div class="col-sm-4 col-md-4 col-lg-4 col-padlt"><!--start of col-4 of first row-->
+	         <div class="container-fluid col-pad title-layout"><!--start of container-fluid of title-layout--> 
+		   <div class="row margin2 mrgn-lt"><!--start of title layout row-->
+		     <div class="col-md-8 col-md-8 col-lg-8 col-pad">
+		       <p class="">CAMPAIGN PREVIEW</p>
+		     </div>
+		     <div class="col-md-4 col-md-4 col-lg-4 col-pad">
+			 <a href="#" class="txtclr mrgn-rt">Customise</a>
+		     </div>
+		   </div><!--end of title layout row-->
+	         </div><!--end of container-fluid of title-layout-->
+
+		 <div class="container-fluid col-pad body-layout"><!--start of container-fluid of body-layout-->
+	           <div class="row"><!--start of body-layout First row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <p class="margin2 mrgn-lt">Where do you want to share this order?</p>
+	       	     </div>  
+		   </div><!-- end of body layout First row-->	
+		   <div class="row margin2 mrgn-lt mrgn-rt mrgn-bt"><!--start of body-layout second row-->
+		     <div class="col-md-2">
+		       <img src="assets/Images/jb-logo.jpg" alt="..." class="img-circle imgstyle">
+		     </div>
+		     <div class="col-md-2">
+		       <img src="assets/Images/jb-logo.jpg" alt="..." class="img-circle imgstyle">
+		     </div>
+		     <div class="col-md-2">
+		       <img src="assets/Images/jb-logo.jpg" alt="..." class="img-circle imgstyle">
+		     </div>
+		   </div><!-- end of body layout second row-->		   
+		 </div><!--end of container-fluid of body-layout--> 
+	       </div><!--end of col-4 of first row-->
+
+	     </div><!--end of container-fluid of second div row of main body-->
+	   </div><!--end of second div row of main body-->
+
+
+<!--=====================================end of second div row of main body=========================================================-->
+
+<!--=====================================start of third div row of main body=======================================================-->
+	   <div class="row margin2 backclr"><!--start of third div row of main body-->
+	     <div class="container-fluid col-pad"><!--start of container-fluid of third div row of main body-->
+
+	       <div class="col-sm-8 col-md-8 col-lg-8"><!--start of col-8-->
+		 
+	         <div class="container-fluid col-pad title-layout"><!--start of container-fluid of title-layout--> 
+		   <div class="row"><!--start of title layout row-->
+		     <div class="col-md-8 col-md-8 col-lg-8 col-padrt">
+		       <p  class="margin2 mrgn-lt">INCENTIVISE</p>
+		     </div>
+		     <div class="col-md-4 col-md-4 col-lg-4 col-pad">
+		       <p class="margin2 mrgn-lt mrgn-rt"><a href="#" class="txtclr">Why should | incentivise?</a></p>
+		     </div>
+		   </div><!--end of title layout row-->
+	         </div><!--end of container-fluid of title-layout-->
+
+		 <div class="container-fluid col-pad body-layout"><!--start of container-fluid of body-layout-->
+	           <div class="row"><!--start of body-layout First row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <p class="margin2 mrgn-lt">How do you want to incentivise?</p>
+	       	     </div>  
+		   </div><!-- end of body layout First row-->	
+		   <div class="row"><!--start of body-layout second row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <div class="margin2 mrgn-lt mrgn-rt">
+		         <div class="btn-group" role="group">
+  			   <button type="button" class="btn btn-default">With An Offer</button>
+  			   <button type="button" class="btn btn-default">By Saying Thank You</button>
+			 </div>
+		       </div>
+		     </div>
+		   </div><!-- end of body layout second row-->
+		   <div class="row margin2"><!--start of body-layout 3rd row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <p class="margin2 mrgn-lt">Enter offer text</p>
+		     </div>
+		   </div><!-- end of body layout 3rd row-->
+		   <div class="row mrgn-bt"><!--start of body-layout 4th row-->
+		     <div class="col-sm-12 col-md-12 col-lg-12">
+		       <div class="margin2 mrgn-lt mrgn-rt">
+			 <textarea class="form-control"  placeholder="Eg. Use Cupon code" rows="3"></textarea>
+			 <p class="mrgn10">Enter offer text</p>
+		       </div>
+		     </div>
+		   </div><!--end of body-layout 4th row-->
+
+		 </div><!--end of container-fluid of body-layout-->
+	       </div><!--end of col-8-->
+
+	       <div class="col-sm-4 col-md-4 col-lg-4 col-padlt"><!--start of col-4 of first row-->
+	         <div class="container-fluid col-pad"><!--start of container-fluid of title-layout-->
+		 </div><!--end of container-fluid of body-layout--> 
+	       </div><!--end of col-4 of first row--> 
+
+		   
+	     </div><!--end of container-fluid of third div row of main body-->
+	   </div><!--end of third div row of main body-->
+
+
+<!--=====================================end of third div row of main body=========================================================-->
+
+<!--=====================================start of fourth div row of main body=======================================================-->
+	   <div class="row margin2 mrgn-bt backclr"><!--start of fourth div row of main body-->
+	     <div class="container-fluid col-pad"><!--start of container-fluid of fourth div row of main body-->
+
+	       <div class="col-sm-8 col-md-8 col-lg-8"><!--start of col-8-->
+		 
+	         <div class="container-fluid col-pad title-layout"><!--start of container-fluid of title-layout--> 
+		   <div class="row"><!--start of title layout row-->
+		     <div class="col-md-12 col-md-12 col-lg-12">
+		       <p class="margin2 mrgn-lt">ALL SET!</p>
+		     </div>
+		   </div><!--end of title layout row-->
+	         </div><!--end of container-fluid of title-layout-->
+
+		 <div class="container-fluid col-pad body-layout"><!--start of container-fluid of body-layout-->
+	           <div class="row mrgn10 mrgn-bt30"><!--start of body-layout First row-->
+		     <div class="col-sm-5 col-md-5 col-lg-5">
+		       <button type="button" class="btn btn-primary btn-lg btn-block margin2 mrgn-lt">SHARE THIS</button>
+	       	     </div>
+		     <div class="col-sm-5 col-md-5 col-lg-5">
+		       <p class="mrgn-lt fnt-blue mrgn-tp35"><a href="#">SCHEDULE FOR LATER</a></p>
+	       	     </div>  
+		     <div class="col-sm-2 col-md-2 col-lg-2 col-pad" style="font-color:red;">
+		       <p class="mrgn-lt mrgn-tp35"><a href="#">CANCEL</a></p>
+	       	     </div>    
+		   </div><!-- end of body layout First row-->	
+
+		 </div><!--end of container-fluid of body-layout-->
+	       </div><!--end of col-8-->
+
+	       <div class="col-sm-4 col-md-4 col-lg-4 col-padlt"><!--start of col-4 of first row-->
+	         <div class="container-fluid col-pad"><!--start of container-fluid of title-layout--> 
+		 </div><!--end of container-fluid of body-layout--> 
+	       </div><!--end of col-4 of first row--> 
+
+		   
+	     </div><!--end of container-fluid of fourth div row of main body-->
+	   </div><!--end of fourth div row of main body-->
+
+
+<!--=====================================end of fourth div row of main body=========================================================-->
+
+
+
+	  
+
+
+	  </div><!--end of container-fluid col-10-->
+        </div><!--end of nav bar 10column-->
+      </div><!--end of main row-->
+    </div><!--end of main container fluid-->
+  </body>
+</html>

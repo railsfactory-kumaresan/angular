@@ -1,0 +1,14 @@
+/* Additional CSS for IE8 and older versions.
+----------------------------------------------- */
+#wrapper .logo-inner-radius,
+#wrapper .logo-outer-radius,
+#wrapper .dark-radius,
+#wrapper .slideshow-radius,
+#wrapper .about-radius,
+#wrapper .portfolio-radius,
+#wrapper .blog-radius {
+  display: none;                        
+}
+.post-entry .attachment-post-thumbnail {
+  width: 100%;                                       
+}

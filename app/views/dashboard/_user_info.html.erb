@@ -1,0 +1,467 @@
+<!--<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">-->
+<%= javascript_include_tag  "responsive/jquery" %>
+<%= javascript_include_tag  "responsive/config" %>
+
+<style type="text/css">
+<%if params[:provider] == "embed"%>
+
+.thankyou-msg .thankmsg
+{
+font-size: 18px;
+margin: 10px;
+}
+.input-sm{
+      height: 20px;
+      font-size: 9px;
+      padding: 2px 10px;
+  }
+  .header small-text h3{
+          font-size: 9px;
+      }
+select.input-sm {
+    height: 20px;
+      font-size: 9px;
+}
+h3{font-size: 11px;
+}
+/*#form_container{
+    height:391px;
+}*/
+p{margin: 0 0 -14px;}
+.error{font-size: 9px;}
+.button.medium
+{
+    padding: 6px 29px 4px 26px;
+}
+.thankmsg{font-size: 20px;}
+
+.modal-content
+{
+  width:275px;
+  top: -25px;
+}
+
+<%end%>
+
+
+</style>
+<div class="question-dialog-box-wrap" >
+  <div class="question-dialog-box" id="success_msg1" style="display: none;">
+    <div class="box-info">
+      <h2 class="thankyou-msg">
+        <span class="glyphicon glyphicon-ok-circle"></span>
+        <span class="thankmsg" id="sucess_new"></span>
+      </h2>
+    </div>
+  </div>
+</div>
+<div class="ques-sug-lb rc_5" id="response_user">
+              <%= form_tag(create_user_info_survey_path(question_id), :remote=>true, :format => :js,:id=>"user_form") do  -%>
+
+     <input type="hidden" value="<%= @cookie_uuid %>" name="cookie_token_value"/>
+      <h3 class="header small-text">Please provide the following details</h3>
+      <div class="form-group">
+        <input type="text" class="form-control input-sm" name="name" id="name" placeholder="Please Enter Your Name"  >
+        <p class="error" id="error_fname" style="display:none;"></p>
+        <input type="hidden" value="<%= question_id %>" name="question_id" id="question_id">
+        <input type="hidden" value="<%=params[:provider]%>" name="provider">
+        <input type="hidden" value="<%= email %>" name="email">
+        <input type="hidden" value="<%= answer_id %>" name="answer_id">
+        <input type="hidden" value="" name="is_geo_location_active" id="is_geo_location_active">
+      </div>
+
+      <div class="form-group">
+        <input type="text" class="form-control input-sm" name="mobile" id="mobile" placeholder="Please enter your mobile number" >
+        <span style="display: block;margin: 4px 0 0;">*Add mobile number without country code</span>
+        <p class="error" id="error_mobile" style="display:none;"></p>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control input-sm" name="age" id="date_of_birth" placeholder="Please enter your age" >
+        <p class="error" id="error_age" style="display:none;">Please fill the age.</p>
+      </div>
+      <div class="form-group">
+        <div class="answers-options">
+          <div class="radio">
+            <label>
+              <input class="fl" id="optionsRadios1 gender_Male" name="gender" type="radio" value="Male">
+              Male
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input class="fl" id="optionsRadios1 gender_Female" name="gender" type="radio" value="Female">
+              Female
+            </label>
+          </div>
+        </div>
+        <p class="error" style="display:none;"></p>
+      </div>
+
+
+
+      <div class="form-group" id="countries">
+        <%= select_tag "country", options_for_select(countries, (params[:country] ? params[:country] : ["India", "IN"])),:prompt=>"-Select Country-", :class => "form-control input-sm" %>
+        <!--<input type="text" id="text_country" name="text_country" value="" class="form-control input-sm" readonly>
+        <input type="hidden" value="" name="country_id" id="country_id">-->
+        <p class="error" id="error_country" style="display:none;"></p>
+      </div>
+
+      <div class="form-group">
+        <%= select_tag "states", options_for_select(' '),:prompt=>"Select states", :class => "form-control input-sm" %>
+        <!-- <input type="text" id="text_state" name="text_state" value="" class="form-control input-sm" readonly>-->
+        <p class="error" id="error_state" style="display:none;"></p>
+        <p  class="error" id="no_state_text" style="display:none;">No State/Region for the selected country.</p>
+      </div>
+
+      <div class="form-group" id="city_drop">
+        <input type="text"  id="text_city" name="text_city" value="" class="form-control input-sm">
+        <p class="error" id="error_city" style="display:none;"></p>
+      </div>
+
+      <div class="form-group">
+        <input type="text" class="form-control input-sm" name="area" id="area" placeholder="Please enter your area" >
+        <p class="error" id="error_area" style="display:none;"></p>
+      </div>
+
+      <div class="form-group submit-btn">
+        <input id="submit_form" name="commit" value="Submit" data-disable-with="Submiting...." class="button medium orange"  onClick="check_user_info();return false;" />
+      </div>
+
+  <% end %>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+
+
+         var geo = $("#is_geo_location_active");
+        jQuery("#country").change(function(){
+            jQuery.ajax({
+                url: "/surveys/states?keywords="+ jQuery("#country").val()+"",
+                type: 'GET',
+                success: function(data){
+                    if ( $("#states option").length < 2)
+                    {
+                        jQuery('#states').prop('disabled', 'disabled');
+                        jQuery("#no_state_text").show();
+                    }
+                    else
+                    {
+                        jQuery('#states').prop('disabled', false);
+                        jQuery("#no_state_text").hide();
+                    }
+                }
+            });
+        });
+        country_names = "<%= request.remote_ip == "127.0.0.1" ? "India" : "#{geo_location.country_name}" %>";
+        country_ids = "<%= request.remote_ip == "127.0.0.1" ? "IN" : "#{geo_location.country_code2}" %>";
+        state_name = "<%= request.remote_ip == "127.0.0.1" ? "Karnataka" : "#{geo_location.real_region_name}" %>";
+        city_name = "<%= request.remote_ip == "127.0.0.1" ? "Bengalore" : "#{geo_location.city_name}" %>";
+        if ($("#country option[value="+country_ids+"]").length > 0)
+        {
+            $("#country").val(country_ids);
+        }
+        else
+        {
+            $("#country").val("");
+        }
+        jQuery.get("/surveys/states?keywords=" + country_ids);
+        setTimeout(function() {
+            $('#name').focus();
+            $("#states").val(state_name);
+        },700);
+        if(country_names == "" || state_name == "" || city_name == "")
+        {
+            jQuery("#country").change(function(){
+                city_list();
+                jQuery.ajax({
+                    url: "/surveys/states?keywords="+ jQuery("#country").val()+"",
+                    type: 'GET',
+                    success: function(data){
+                        city_list();
+                    }
+                });
+            });
+            $("#text_city").val("");
+            $("#is_geo_location_active").val("false");
+        }
+        else
+        {
+            $("#text_city").val(city_name);
+            $("#is_geo_location_active").val("true");
+        }
+
+        jQuery('#response_email_modal').on('shown.bs.modal', function () {
+            jQuery(":input").each(function (i) {
+                jQuery(this).attr('tabindex', i + 1); });
+        });
+
+        var availableTags = ["Chennai","Mumbai","Kolkatha","Bangalore","Delhi","Others"];
+
+        jQuery("#city").change(function(){
+            if(jQuery("#city").val() =="others")
+            {
+                str= "<div id='city_cls'><input type='text' class='form-control input-sm' id='city_txt' name='city_txt' placeholder='Please enter city' onfocus='clsFunction()' onblur='valFunction()'>";
+                jQuery("#city_drop").append(str);
+            }
+        });
+
+        jQuery("body").delegate("#mobile,#date_of_birth","keypress",function(e) {
+            var a = [8,46,0];
+            var k = e.which;
+            for (i = 48; i < 58; i++)
+                a.push(i);
+            if (!(a.indexOf(k)>=0))
+                e.preventDefault();
+        });
+        jQuery("body").delegate("#name","focus",function() {
+            var obj = jQuery(this);
+            if(obj.val() == 'Please enter your Name'){
+                obj.val('');
+            }
+        });
+        jQuery("body").delegate("#name","blur",function() {
+            var obj = jQuery(this);
+            if(obj.val() == ''){
+                obj.val('');
+            }
+        });
+
+        jQuery("body").delegate("#mobile","focus",function() {
+            var obj = jQuery(this);
+            if(obj.val() == 'Please enter your Mobile Number'){
+                obj.val('');
+            }
+        });
+        jQuery("body").delegate("#mobile","blur",function() {
+            var obj = jQuery(this);
+            if(obj.val() == ''){
+                obj.val('Please enter your Mobile Number');
+            }
+        });
+        jQuery("body").delegate("#city","blur",function() {
+            var obj = jQuery(this);
+            if(obj.val() == ''){
+                obj.val('Please enter your City');
+            }
+        });
+        jQuery("body").delegate("#area","focus",function() {
+            var obj = jQuery(this);
+            if(obj.val() == 'Please enter your Area'){
+                obj.val('');
+            }
+        });
+        jQuery("body").delegate("#city","focus",function() {
+            var obj = jQuery(this);
+            if(obj.val() == 'Please enter your City'){
+                obj.val('');
+            }
+        });
+        jQuery("body").delegate("#area","blur",function() {
+            var obj = jQuery(this);
+            if(obj.val() == ''){
+                obj.val('');
+            }
+        });
+    });
+
+    function city_list()
+    {
+        var selected_county = $('#countries :selected').text();
+        if (selected_county == "India")
+        {
+            jQuery("#city").remove();
+            str= "<select name='city' class='form-control input-sm' id='city'><option value=0>select city</option>";
+            var cities = new Array("Chennai","Delhi","Mumbai","Kolkatha","Bangalore","Pune","Others");
+            for(var hi=0; hi<cities.length; hi++)
+                str+="<option value=\""+cities[hi]+"\">"+cities[hi]+"</option>";
+            str+="</select>";
+            jQuery("#city_drop").append(str);
+        }
+        else
+        {
+            jQuery("#city").remove();
+            str= "<input type='text' class='form-control input-sm' id='city' name='city' placeholder='Please enter city'>";
+            jQuery("#city_drop").append(str);
+        }
+    }
+
+    //~ jQuery(function() {
+    //~ jQuery.get("/surveys/states?keywords=" + "IN");
+    //~ });
+
+
+
+        function check_user_info()
+        {
+        var return_status = true;
+
+        var gender_status = jQuery("input[name='gender']").is(":checked");
+        if (jQuery('#name').val() === ""){
+            jQuery('#name').next().text("Please enter the name.");
+            jQuery('#name').next().show();
+            return_status = false;
+        }
+        else if (jQuery('#name').val().length <2 || jQuery('#name').val().length >50)
+        {
+            jQuery('#name').next().text("Name field should have minimum 2 and maximum 20 letters.");
+            jQuery('#name').next().show();
+            return_status = false;
+        }
+        else if ($('#name').val().match(/\d+/))//$.isNumeric($('#name').val())
+        {
+            jQuery('#name').next().text("Name field should have only alphabets.");
+            jQuery('#name').next().show();
+            return_status = false;
+        }
+        else if ($('#name').val().match(/[^a-zA-Z\. ]/))
+        {
+            jQuery('#name').next().text("Name field should have only alphabets, blank space and dot(.) symbol.");
+            jQuery('#name').next().show();
+            return_status = false;
+        }
+        else { jQuery('#name').next().hide(); }
+
+        if (jQuery('#mobile').val() === ""){
+            jQuery('#mobile').next().text("Please enter the mobile number.");
+            jQuery('#mobile').next().show();
+            return_status = false;
+        }
+        else if (jQuery('#mobile').val().length <8 || jQuery('#mobile').val().length >15){
+            jQuery('#mobile').next().text("Mobile number should be minimum 8 and maximum 15 numbers.");
+            jQuery('#mobile').next().show();
+            return_status = false;
+        }
+        else { jQuery('#mobile').next().hide(); }
+
+        if (jQuery("#date_of_birth").val() === ""){
+            jQuery('#date_of_birth').next().text("Please enter the age.");
+            jQuery('#date_of_birth').next().show();
+            return_status = false;
+        }
+        else  if (jQuery("#date_of_birth").val().length >2){
+            jQuery('#date_of_birth').next().text("Age should be a 2 digit number.");
+            jQuery('#date_of_birth').next().show();
+            return_status = false;
+        }
+        else { jQuery('#date_of_birth').next().hide(); }
+        if(!gender_status){
+            jQuery(".answers-options").parent().children("p").text("Please enter the gender.");
+            jQuery(".answers-options").parent().children("p").show();
+            return_status = false;
+        }else { jQuery(".answers-options").parent().children("p").hide(); }
+
+        if (jQuery('#country').val() === "")
+        {
+            jQuery('#country').next().text("Please select your Country.");
+            jQuery('#country').next().show();
+            return_status = false;
+        }else { jQuery('#country').next().hide(); }
+
+        if (jQuery('#states').val() === "" && 	jQuery("#states option").length > 1)
+        {
+            jQuery('#states').next().text("Please select your State.");
+            jQuery('#states').next().show();
+            return_status = false;
+        }else { jQuery('#states').next().hide(); }
+
+        if (jQuery('#text_city').val() === "")
+        {
+            jQuery('#text_city').next().text("Please enter your City.");
+            jQuery('#text_city').next().show();
+            return_status = false;
+        }
+        else if (jQuery('#text_city').val().length > 20 ){
+            jQuery('#text_city').next().text("City length not more that 20 character");
+            jQuery('#text_city').next().show();
+            return_status = false;
+        }
+        else if ($('#text_city').val().match(/[^a-zA-Z\ ]/))
+        {
+            jQuery('#text_city').next().text("Invalid City name.");
+            jQuery('#text_city').next().show();
+            return_status = false;
+        }
+        else { jQuery('#text_city').next().hide(); }
+
+
+        if ($('#area').val() === "")
+        {
+            jQuery('#area').next().text("Please enter your area.");
+            jQuery('#area').next().show();
+            return_status = false;
+        }
+        else if (jQuery('#area').val().length > 20 ){
+            jQuery('#area').next().text("Area length not more that 20 character");
+            jQuery('#area').next().show();
+            return_status = false;
+        }
+        else if ($('#area').val().match(/[^a-zA-Z\ ]/))
+        {
+            jQuery('#area').next().text("Invalid area name.");
+            jQuery('#area').next().show();
+            return_status = false;
+        }
+        else {
+            jQuery('#area').next().hide();
+             }
+
+        // alert(return_status)
+
+          if (return_status == true)
+          {
+           save_user_info(return_status);
+          }
+        // if (jQuery('#states').val() === "")
+        // {
+        //   console.log("state false");
+        //   jQuery('#states').next().text("Please select a state.");
+        //   jQuery('#states').next().show();
+        //   return_status = false;
+        // }else { jQuery('#states').next().hide(); }
+
+        // if ($('#city').val() === "")
+        // {
+        //   console.log("city false");
+        //   jQuery('#city').next().text("Please select a city.");
+        //   jQuery('#city').next().show();
+        //   return_status = false;
+        // }else { jQuery('#city').next().hide(); }
+
+        // if (($('#city').val().match(/[^a-zA-Z\ ]/)) || ($('#city').val() ===""))
+        // {
+        //   console.log("city false");
+        //   jQuery('#city').next().text("Invalid city name.");
+        //   jQuery('#city').next().show();
+        //   return_status = false;
+        // }else { jQuery('#city').next().hide(); }
+
+    }
+
+    // function clsFunction()
+    // {
+    //   jQuery("#city_txt").val('');
+    // }
+    // function valFunction()
+    // {
+    //   if(jQuery("#city_txt").val()=="")
+    //     jQuery("#city_txt").val('Please enter your City');
+    // }
+
+function save_user_info(return_status)
+{
+    if(return_status == true)
+    {
+   jQuery("#submit_form").val('Please wait...');
+   jQuery("#submit_form").prop('disabled', true).css("cursor","not-allowed");
+   var qid = jQuery("#question_id").val();
+       var embed_data = $('#user_form').serialize();
+jQuery.ajax({
+    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', jQuery('meta[name="csrf-token"]').attr('content'))},
+    url: "/surveys/"+qid+"/create_user_info",
+    type: 'post',
+    data: embed_data
+     });
+     }
+  return false;
+}
+</script>

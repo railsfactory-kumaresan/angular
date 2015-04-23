@@ -1,0 +1,39 @@
+<div class="white-box-wrapper">
+  <div class="box-head clearfix">
+    <h3><span class="glyphicon glyphicon-refresh"></span>Recent Activity</h3>
+  </div>
+  <div class="white-box" id="horizontalTab">
+		<div class="link-downgrade">
+			<div class="btn-wrap">
+				<a href="/question/new" class="button medium orange" onclick="loading_img();">Create New Question</a>
+			</div>
+		</div>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs main-tabs resp-tabs-list" id="myTabs">
+	    <% from_date = params["from_date"].present? ?  params["from_date"] : nil %>
+	    <% to_date = params["to_date"].present? ? params["to_date"] : nil %>
+      <%(params["request"] == "Filter" ? @category_types : @question_categories).each do |category|%>
+				<li onClick="recent_activity_ajax ('<%= category.id %>','<%= from_date %>','<%= to_date %>','Filter')" id="<%= category.category_name%>">
+          <a href="#recent_display_<%= category.category_name %>" data-toggle="tab" tabindex="1">
+            <span class="<%= dynamic_icon_category(category.category_name)%>"></span>
+            <%= category.category_name %>
+          </a>
+        </li>
+      <%end%>
+    </ul>
+    <!-- Tab panes -->
+    <%#= category_name = @category_types.collect { |x| x.category_name } %>
+    <div class="tab-content recent-activity resp-tabs-container" id="recent_display">
+      <% @category_types.each do |category|%>
+      <%recent_activity.each_with_index do |key,i|%>
+        <div class="tab-pane active" style='<%= (category.category_name).include?(key.first[0].split('_').last) ? "display: block;" : "display: none;"%>'  id= "<%= category.category_name %>">
+          <%if (category.category_name).include?(key.first[0].split('_').last)%>
+           <%= render :partial => "dashboard/recent_question_list", :locals => { :recent_activity_value => key }%>
+          <% end %>
+        </div>
+       <%end%>
+       <%end%>
+      </div>
+  </div>
+</div>
+<!--//. recent activity -->

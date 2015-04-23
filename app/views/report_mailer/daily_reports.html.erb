@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Inquirly Reports</title>
+    </head>
+    <body>
+        <p>
+            Hey <%= @email %>,
+        </p>
+        <h5>Inquirly Daily reports status</h5>
+        <h1>Today created questions:</h1>
+        <% if @questions.present? %>
+        <% @questions.each do |q| %>
+        <h2><%= q.id %></h2>
+        <% end %>
+        <% else %>
+        <h2>No Questions are created.</h2>
+        <% end %>
+        <% if @todays_sign_ins.present? %>
+        <h1>Todays signins:</h1>
+        <% @todays_sign_ins.each do |s| %>
+        <h2><%= s.id %></h2>
+        <% end %>
+        <% else %>
+        <h2>No Signings are not done.</h2>
+        <% end %>
+        <h1>Todays signups:</h1>
+        <% if @users_sign_ups.present? %>
+        <% @users_sign_ups.each do |s| %>
+        <h2><%= s.id %></h2>
+        <% end %>
+        <% else %>
+        <h2>No Signups are not done.</h2>
+        <% end %>
+        <h1> Todays Active questions:</h1>
+        <% if @active_questions.present? %>
+        <% @active_questions.each do |s| %>
+        <h2><%= s.id %></h2>
+        <% end %>
+        <% else %>
+        <h2>No Questions are not Activated.</h2>
+        <% end %>
+
+        <h1>Todays Transactions:</h1>
+        <% if @active_questions.present? %>
+        <% @active_questions.each do |s| %>
+        <h2><%= s.id %></h2>
+        <% end %>
+        <% else %>
+        <h2>No Transactions are happend</h2>
+        <% end %>
+    </body>
+</html>

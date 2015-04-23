@@ -1,0 +1,118 @@
+<% content_for :page_specific_head_content do%>
+  <%= javascript_include_tag "responsive/page_loaders/dashboard"%>
+<%end%>
+<div class="main-content">
+  <div class="container">
+    <div class="wrap-box">
+      <div class="wrap-box-head clearfix">
+        <h2>Questions List</h2>
+      </div>
+      <div class="wrap-box-cont">
+        <div class="filter-form-head">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div class="btn-wrap">
+                <!--<button class="button medium orange" type="submit">Create New Question</button>-->
+                <a href="/question/new" class="button orange medium" tabindex="1">Create New Question</a>
+              </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+              <div class="filterby text-right">
+                <div class="hoz-form form-inline">
+                  <% if current_user.parent_id != nil %>
+                  <div class="form-group">
+                    <%if @tenants.count > 0 && @tenants.first.first != "Own Question" %>
+                        <%= select_tag "tenant_question_list", options_for_select(@tenants), :prompt => "All Questions", :class => "form-control input-small", :tabindex => "2" %>
+                    <% end %>
+                  </div>
+                  <% end %>
+                  <div class="form-group">
+                   <%if @categories.count > 1%>
+                      <%= select_tag "category_question_list", options_from_collection_for_select(@categories, "id", "category_name"), :prompt => "All Categories", :class => "form-control input-small", :tabindex => "2" %>
+                    <%else%>
+                      <%= select_tag "category_question_list", options_from_collection_for_select(@categories, "id", "category_name"), :class => "form-control input-small", :tabindex => "2",:disabled => true %>
+                    <%end%>
+                  </div>
+                  <div class="form-group">
+                    <select class="form-control input-small" id="question_status_list" tabindex="3">
+                      <option value="All Status">All Status</option>
+                      <option value="Active">Active</option>
+                      <option value="Closed">Closed</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  </div>
+                  <button class="button medium orange" id="question_list_filter" type="submit" tabindex="4">Search</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--//. filter form -->
+        <div class="question-table" id="flip-scroll">
+  				  <% benchmark '##Render Question list form in question index' do %>
+            <%= render :partial => "question/question_list", :locals => {:questions => @questions, :bitly => @bitly}%>
+            <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="myvideo" aria-hidden="true">
+    <div class="modal-dialog signup">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&nbsp;</button>
+          <h4 class="modal-title">Sachin's farewell speech</h4>
+        </div>
+        <div class="modal-body question-suggestion-lb">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<!-- rails4_image_tag_impact -->
+			        <%= image_tag("responsive/sachin-farwell.png", class: "img-responsive") %>
+              <!--<img src="assets/responsive/sachin-farwell.png" alt="" class="img-responsive">-->
+            </div>
+           </div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+</div>
+  <script>
+    $(function () {
+      $('#recent_activity a:first').tab('show')
+    })
+  </script>
+  <script type="text/javascript">
+    var timer;
+    var timerCurrent;
+    var timerFinish;
+    var timerSeconds;
+    function drawTimer(percent) {
+      $('div.timer').html('<div class="percent"></div><div id="slice"' + (percent > 50 ? ' class="gt50"' : '') + '><div class="pie"></div>' + (percent > 50 ? '<div class="pie fill"></div>' : '') + '</div>');
+      var deg = 360 / 100 * percent;
+      $('#slice .pie').css({
+        '-moz-transform' : 'rotate(' + deg + 'deg)',
+        '-webkit-transform' : 'rotate(' + deg + 'deg)',
+        '-o-transform' : 'rotate(' + deg + 'deg)',
+        'transform' : 'rotate(' + deg + 'deg)'
+      });
+      $('.percent').html(Math.round(percent));
+    }
+
+    //~ jQuery("body").delegate("#category_question_list","change", function(){
+    //~ var category_id = jQuery(this).val();
+    //~ jQuery.ajax({
+    //~ type: 'GET',
+    //~ url: '/question_list',
+    //~ data: {category_type_id: category_id, ajax: true},
+    //~ success: function(data){
+    //~ }
+    //~ });
+    //~ })
+
+
+
+    $(document).ready(function() {
+    drawTimer($('input[type=text]#percent').val());
+   });
+  </script>

@@ -1,0 +1,293 @@
+/* Reset */
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	/*vertical-align: baseline;*/
+}
+.login-wrap{
+	max-width:1002px;
+	margin:0 auto;
+}
+.login-head-bg{
+	min-height:40px;
+	background-color:#ff4800;
+	border-bottom:1px solid #97360f;
+}
+.header.navbar-inverse{
+	background:#212121;
+	border:none;
+}
+.navbar-header{
+	padding:25px 0 49px 0;
+}
+.login-menu-wrap{
+	margin:64px 0 0 0;
+}
+#main-navigation.login-menu-wrap li a {
+    color: #FFFFFF;
+    display: block;
+    font-size: 14px;
+    padding: 0 30px 0 0px;
+	font-family: 'museo_for_dellregular';
+}
+#main-navigation.login-menu-wrap li a:hover {
+   background:none;
+   /*border-bottom:2px solid #B40508;*/
+	font-family: 'museo_for_dellregular';
+}
+
+.menu-active{
+	border-bottom:2px solid #B40508;
+}
+.active-span {
+    border: 1px solid #FF4800;
+    display: block;
+    float: none;
+    height: 1px;
+    margin: 5px 0 0;
+    width: 25px;
+}
+/*----------------------------Sign IN ----------------*/
+
+.sign-page{
+	margin:0 auto;
+	background:#FFFFFF;
+}
+.sign-form-wrap{
+	margin:54px 0 54px 10px;
+	min-height: 400px;
+}
+.sign-form-wrap, placeholder{color:#474a4d!important; font-family: 'museo_for_dellregular'; }
+.login-btn{
+	background:#ff4800;
+	padding:10px 30px;
+	border:1px solid #ffaa88;
+	font-family: 'museo_for_dellregular';
+}
+.sign-form-wrap input{ border:1px solid #c7c7c7; display: inline-block; min-height:42px; padding:10px; margin:10px 0 0 0;}
+.login-btn:hover{
+	background:#ff4800;
+	padding:10px 30px;
+	border:1px solid #ffaa88;
+}
+.login-title{
+	font-size:38px;
+	font-family: 'museo_for_dellregular';
+	color:#212121;
+	margin:0 0 42px 0;
+}
+.pwd-wrap{
+	margin:0px;
+}
+.pwd-btn{
+	float:left;
+	margin:15px 10px 0 0;
+}
+.forgot-pwd{
+	color:#ff4800;
+	padding:30px 0 0 0;
+}
+.forgot-pwd a{
+	color:#ff4800;
+	text-decoration: underline;
+}
+.che-box{
+	float:left;
+	display: inline-block;
+}
+.radio-sp{min-height: 0px!important;}
+.chb-label{
+	float:left;
+	padding:0px 0;
+	font-family: 'museo_for_dellregular';
+	font-size:14px;
+	line-height: 38px;
+}
+.che-box input{
+	padding:0px;
+	margin:0px;
+}
+.radio-wrap{
+	margin: 0px;
+	padding: 0px;
+
+}
+.radio-btn{
+	float:left;
+	line-height: 0px;
+	padding: 0 5px 0 0;
+	display: inline-block;
+}
+.radio-label{
+
+	padding:0px 20px 0 0;
+	font-family: 'museo_for_dellregular';
+	font-size:14px;
+	line-height:0px;
+	display: inline-block;
+
+}
+
+.sign-form-wrap input[type="checkbox"] {
+	float:left;
+	display: inline-block;
+	}
+
+.redio-sp{
+	min-height: 0px!important;
+	float: left;
+	display: inline-block;
+	margin: 0 5px 0 0!important;
+}
+.login-social-icon{
+	text-align: center;
+}
+.chech-remember{margin: 0 5px 20px 0!important; padding: 0!important; display:block;}
+.login-social-icon,.face-book, .google-plus, .linked-in, .twitter {
+	background: asset-url("login/social-iocns.png",image) no-repeat;
+	min-width:53px;
+	height:53px;
+	margin:25px 62px 0 0;
+	float:left;
+	display:inline-block;
+	font-family: 'museo_for_dellregular';
+	font-size:14px;
+	color:#212121;
+	padding:62px 0;
+}
+.face-book{
+	background-position: 0 0;
+}
+.google-plus{
+	background-position: -113px 0;
+}
+.linked-in{
+	background-position: -219px 0;
+}
+.twitter{
+	background-position: -336px 0;
+}
+.not-member{
+	margin:0px 0 39px 0;
+	color:#212121;
+}
+.not-member a{
+	margin:0px;
+	font-size:14px;
+	color:#212121;
+}
+.not-member a span{
+	color:#ff4800;
+	text-decoration:underline;
+}
+.hr-line{
+	border-bottom:2px solid #e1e1e1;
+	margin:57px 0 0 0;
+}
+.price-plan{
+	font-family: 'museo_for_dellregular';
+	font-size:21px;
+	color:#212121;
+	margin:26px 0;
+}
+.individual-box{
+	margin:0px 18px 50px 0;
+	width:100px;
+	height:92px;
+	float:left;
+	border-radius:6px;
+}
+.blue-box{
+	background:#15aac3;
+}
+.green-box{
+	background:#8ecc4f;
+}
+.red-box{
+	background:#f24366;
+}
+.user-prite-img, .blue-user, .green-user, .red-user{
+	background: asset-url("login/user-sprit-icons.png",image) no-repeat;
+	width:30px;
+	height:20px;
+	display:inline-block;
+}
+.blue-user{
+	background-position:-5px 0;
+	margin:12px 40px 10px 40px;
+}
+.green-user{
+	background-position:-46px 0;
+	margin:12px 40px 0px 35px;
+}
+.red-user{
+	background-position:-91px 0;
+	margin:12px 40px 10px 40px;
+}
+.indiviual-txt{
+	color:#FFFFFF;
+	text-transform:capitalize;
+	padding:0px 0 7px 0;
+	font-size:12px;
+	text-align:center;
+}
+.blue-user1{
+	color:#0b5c6a;
+	text-align:center;
+	font-size:10px;
+}
+.green-user1{
+	color:#608639;
+	text-align:center;
+	font-size:10px;
+}
+.space{
+	height:253px;
+}
+.login-active{
+	width:15px;
+	background:#C80407;
+}
+@media all and (max-width: 1023px) {
+.login-wrap{
+	max-width:1002px;
+}
+.individual-box{
+	 margin: 0 15px 50px 0;
+}
+.login-social-icon, .face-book, .google-plus, .linked-in, .twitter{
+	margin: 20px 56px 0 0;
+}
+.navbar-toggle{
+		 margin-left:56px;
+		 margin-top:27px;
+}
+}
+@media all and (max-width: 599px){
+	.navbar-toggle{
+		 margin-left: 63px;
+		 margin-top:27px;
+	}
+}
+/*-----------------Font Us ______________*/
+@font-face {
+	font-family: 'museo_for_dellregular';
+	src:asset-url("fonts/museoforinquirly-regular-webfont.eot",font);
+	src:asset-url("fonts/museoforinquirly-regular-webfont.eot?#iefix",font) format('embedded-opentype'),
+        asset-url('fonts/museoforinquirly-regular-webfont.woff', font) format('woff'),
+        asset-url('fonts/museoforinquirly-regular-webfont.ttf', font) format('truetype'),
+        asset-url('fonts/museoforinquirly-regular-webfont.svg#metroicon', font) format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+ .login-social-icon.twitter{
+	 margin-right: 0;
+ }
+
+.terms-privacy{
+	padding-top: 60px;
+}
